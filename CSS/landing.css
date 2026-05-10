@@ -188,8 +188,7 @@ ul {
 
 /* ================= Hero Section ================= */
 .hero {
-    /* Path Background Diperbarui (Mengarah ke folder Assets di luar CSS) */
-    background: linear-gradient(to right, rgba(10, 25, 47, 0.95) 0%, rgba(10, 25, 47, 0.7) 100%), url('../Assets/mataram.webp') center/cover no-repeat;
+    background: linear-gradient(to right, rgba(10, 25, 47, 0.95) 0%, rgba(10, 25, 47, 0.7) 100%), url('../Assets/images/mataram.webp') center/cover no-repeat;
     min-height: 100vh;
     display: flex;
     align-items: center;

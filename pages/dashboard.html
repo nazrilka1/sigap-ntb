@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Provinsi NTB</title>
+    
+    <link rel="stylesheet" href="../css/dashboard.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin<br>Panel</h2>
+                <p>Provinsi NTB</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="dashboard.html" class="nav-link">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pengaduan.html" class="nav-link">
+                            <i class="far fa-file-alt"></i>
+                            <span>Kelola Laporan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link">
+                            <i class="far fa-user-circle"></i>
+                            <span>Update Profil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>Manajemen User</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="login.html" class="nav-link logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="header-title">
+                    <button class="mobile-toggle" id="mobileToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div>
+                        <h1>Ringkasan Pengaduan</h1>
+                        <p>Pantau dan kelola laporan masyarakat Nusa Tenggara Barat.</p>
+                    </div>
+                </div>
+                <div class="header-profile">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img">
+                    <div class="profile-info">
+                        <span class="profile-name">Administrator Utama</span>
+                        <span class="profile-role">Pemerintah Provinsi NTB</span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="summary-cards">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-inbox"></i></div>
+                    <div class="card-label">TOTAL LAPORAN</div>
+                    <div class="card-value">1,284</div>
+                    <div class="card-status status-up">
+                        <i class="fas fa-arrow-up"></i> +12% dari bulan lalu
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon icon-yellow"><i class="fas fa-clipboard-list"></i></div>
+                    <div class="card-label">MENUNGGU VERIFIKASI</div>
+                    <div class="card-value">42</div>
+                    <div class="card-status status-alert">
+                        <i class="fas fa-exclamation"></i> Perlu tindakan segera
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon icon-green"><i class="far fa-check-circle"></i></div>
+                    <div class="card-label">SELESAI DIPROSES</div>
+                    <div class="card-value">912</div>
+                    <div class="card-status status-good">
+                        <i class="fas fa-check"></i> Tingkat penyelesaian 71%
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon icon-blue"><i class="fas fa-chart-line"></i></div>
+                    <div class="card-label">WAKTU RESPONS RATA-RATA</div>
+                    <div class="card-value">2.4 <span class="value-text">Hari</span></div>
+                    <div class="card-status status-good">
+                        <i class="fas fa-bolt"></i> Lebih cepat dari target
+                    </div>
+                </div>
+            </section>
+
+            <section class="table-section">
+                <div class="table-header">
+                    <h2>Daftar Laporan Terkini</h2>
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Cari laporan...">
+                        </div>
+                        <button class="btn-filter" id="filterBtn">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-slider-viewport">
+                    <div class="table-slider-track" id="sliderTrack">
+                        
+                        <div class="table-slide">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NAMA PELAPOR</th>
+                                        <th>JENIS LAPORAN</th>
+                                        <th>TANGGAL</th>
+                                        <th>STATUS</th>
+                                        <th class="text-right">AKSI</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody1">
+                                    <tr class="table-row">
+                                        <td><strong>#NTB-001</strong></td>
+                                        <td>Ahmad Hidayat</td>
+                                        <td><span class="badge badge-green">INFRASTRUKTUR</span></td>
+                                        <td>24 Okt 2023</td>
+                                        <td><span class="badge badge-yellow-light">DIPROSES</span></td>
+                                        <td class="action-cells">
+                                            <button class="action-btn"><i class="fas fa-pen"></i></button>
+                                            <button class="action-btn action-green"><i class="fas fa-share"></i></button>
+                                            <button class="action-btn action-yellow"><i class="fas fa-history"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td><strong>#NTB-002</strong></td>
+                                        <td>Siti Aminah</td>
+                                        <td><span class="badge badge-blue">KESEHATAN</span></td>
+                                        <td>23 Okt 2023</td>
+                                        <td><span class="badge badge-gray">DIVERIFIKASI</span></td>
+                                        <td class="action-cells">
+                                            <button class="action-btn"><i class="fas fa-pen"></i></button>
+                                            <button class="action-btn action-green"><i class="fas fa-share"></i></button>
+                                            <button class="action-btn action-yellow"><i class="fas fa-history"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td><strong>#NTB-003</strong></td>
+                                        <td>Budi Santoso</td>
+                                        <td><span class="badge badge-red">KAMTIBMAS</span></td>
+                                        <td>22 Okt 2023</td>
+                                        <td><span class="badge badge-green-light">DISETUJUI</span></td>
+                                        <td class="action-cells">
+                                            <button class="action-btn"><i class="fas fa-pen"></i></button>
+                                            <button class="action-btn action-green"><i class="fas fa-share"></i></button>
+                                            <button class="action-btn action-yellow"><i class="fas fa-history"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td><strong>#NTB-004</strong></td>
+                                        <td>Lalu Hamzan</td>
+                                        <td><span class="badge badge-orange">LINGKUNGAN</span></td>
+                                        <td>21 Okt 2023</td>
+                                        <td><span class="badge badge-gray">DIVERIFIKASI</span></td>
+                                        <td class="action-cells">
+                                            <button class="action-btn"><i class="fas fa-pen"></i></button>
+                                            <button class="action-btn action-green"><i class="fas fa-share"></i></button>
+                                            <button class="action-btn action-yellow"><i class="fas fa-history"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-slide">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NAMA PELAPOR</th>
+                                        <th>JENIS LAPORAN</th>
+                                        <th>TANGGAL</th>
+                                        <th>STATUS</th>
+                                        <th class="text-right">AKSI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-row">
+                                        <td><strong>#NTB-005</strong></td>
+                                        <td>Aisyah</td>
+                                        <td><span class="badge badge-blue">KESEHATAN</span></td>
+                                        <td>20 Okt 2023</td>
+                                        <td><span class="badge badge-green-light">DISETUJUI</span></td>
+                                        <td class="action-cells">
+                                            <button class="action-btn"><i class="fas fa-pen"></i></button>
+                                            <button class="action-btn action-green"><i class="fas fa-share"></i></button>
+                                            <button class="action-btn action-yellow"><i class="fas fa-history"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="table-footer">
+                    <span class="table-info" id="tableInfo">Menampilkan 1-4 dari 1,284 laporan</span>
+                    
+                    <div class="pagination">
+                        <button class="page-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="page-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="bottom-actions">
+                <div class="action-box">
+                    <h3 class="action-title"><i class="fas fa-network-wired"></i> Teruskan ke OPD Terkait</h3>
+                    <div class="action-buttons">
+                        <button class="btn-opd">
+                            <i class="far fa-building"></i>
+                            <span>Tingkat Provinsi</span>
+                        </button>
+                        <button class="btn-opd">
+                            <i class="fas fa-building"></i>
+                            <span>Tingkat Kabupaten</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="action-box">
+                    <h3 class="action-title"><i class="fas fa-history"></i> Ubah Status Laporan</h3>
+                    <div class="status-buttons">
+                        <button class="btn-status btn-status-gray">Diverifikasi</button>
+                        <button class="btn-status btn-status-green">Disetujui</button>
+                        <button class="btn-status btn-status-yellow">Diproses</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
