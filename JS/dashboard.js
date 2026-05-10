@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. Sidebar Logic ---
+
+    // =========================================
+    // 1. SIDEBAR LOGIC (MOBILE)
+    // =========================================
     const mobileToggle = document.getElementById('mobileToggle');
     const sidebar = document.getElementById('sidebar');
 
@@ -9,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Menutup sidebar jika mengklik area di luar sidebar pada mobile
     document.addEventListener('click', (e) => {
         if (window.innerWidth <= 768 && sidebar && mobileToggle) {
             if (!sidebar.contains(e.target) && !mobileToggle.contains(e.target) && sidebar.classList.contains('active')) {
@@ -17,94 +21,101 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 2. Table Slider & Pagination (Updated) ---
-    const sliderTrack = document.getElementById('sliderTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const tableInfo = document.getElementById('tableInfo');
-    
-    let currentSlideIndex = 0;
-    // Hitung jumlah slide secara dinamis
-    const tableSlides = document.querySelectorAll('.table-slide');
-    const totalSlides = tableSlides.length;
 
-    // Fungsi untuk memperbarui status tombol (disabled/enabled)
-    function updateArrowStatus() {
-        if (!prevBtn || !nextBtn) return;
+    // =========================================
+    // 2. FILTER MULTI-LAYER & LIVE SEARCH
+    // =========================================
+    const searchInput = document.getElementById('searchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const kategoriFilter = document.getElementById('kategoriFilter');
+    const dateFilter = document.getElementById('dateFilter');
 
-        // Jika di slide pertama, disable tombol prev
-        if (currentSlideIndex === 0) {
-            prevBtn.classList.add('disabled');
-            prevBtn.setAttribute('disabled', 'true');
-        } else {
-            prevBtn.classList.remove('disabled');
-            prevBtn.removeAttribute('disabled');
-        }
+    function applyFilters() {
+        const searchVal = searchInput ? searchInput.value.toLowerCase() : '';
+        const statusVal = statusFilter ? statusFilter.value.toLowerCase() : '';
+        const kategoriVal = kategoriFilter ? kategoriFilter.value.toLowerCase() : '';
+        const dateVal = dateFilter ? dateFilter.value : '';
 
-        // Jika di slide terakhir, disable tombol next
-        if (currentSlideIndex === totalSlides - 1) {
-            nextBtn.classList.add('disabled');
-            nextBtn.setAttribute('disabled', 'true');
-        } else {
-            nextBtn.classList.remove('disabled');
-            nextBtn.removeAttribute('disabled');
-        }
+        const tableRows = document.querySelectorAll('.table-row');
+
+        tableRows.forEach(row => {
+            const rowText = row.textContent.toLowerCase();
+            const rowStatus = row.getAttribute('data-status') ? row.getAttribute('data-status').toLowerCase() : '';
+            const rowKategori = row.getAttribute('data-kategori') ? row.getAttribute('data-kategori').toLowerCase() : '';
+            
+            const rowDateEl = row.querySelector('.row-date');
+            const rowDate = rowDateEl ? rowDateEl.textContent.trim() : '';
+
+            const matchSearch = rowText.includes(searchVal);
+            const matchStatus = statusVal === '' || rowStatus === statusVal;
+            const matchKategori = kategoriVal === '' || rowKategori === kategoriVal;
+            const matchDate = dateVal === '' || rowDate.includes(dateVal);
+
+            if (matchSearch && matchStatus && matchKategori && matchDate) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
     }
 
-    window.goToSlide = function(index) {
-        // Validasi index
-        if (index < 0 || index >= totalSlides || !sliderTrack) return;
-        
-        // Gerakkan slider
-        sliderTrack.style.transform = `translateX(-${index * 100}%)`;
-        currentSlideIndex = index;
-        
-        // Perbarui status tombol kiri/kanan
-        updateArrowStatus();
+    if (searchInput) searchInput.addEventListener('keyup', applyFilters);
+    if (statusFilter) statusFilter.addEventListener('change', applyFilters);
+    if (kategoriFilter) kategoriFilter.addEventListener('change', applyFilters);
+    if (dateFilter) dateFilter.addEventListener('change', applyFilters);
 
-        // Perbarui text info (opsional, sesuaikan logika item per slide jika perlu)
-        const itemsPerSlide = 4; // Asumsi item per slide
-        const startItem = (index * itemsPerSlide) + 1;
-        // Ini hanya dummy info, sesuaikan dengan total data asli jika ada backend
-        const dummyTotalData = 1284; 
-        const endItem = Math.min((index + 1) * itemsPerSlide, dummyTotalData);
-        
-        if(tableInfo) tableInfo.textContent = `Menampilkan ${startItem}-${endItem} dari ${dummyTotalData.toLocaleString('id-ID')} laporan`;
+
+    // =========================================
+    // 3. MODAL POPUP DETAIL LAPORAN
+    // =========================================
+    const detailModal = document.getElementById('detailModal');
+    const modalReportId = document.getElementById('modalReportId');
+
+    window.openModal = function(reportId) {
+        if (modalReportId) modalReportId.textContent = '#' + reportId;
+        if (detailModal) {
+            detailModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
     };
 
-    // Event Listeners tombol kiri/kanan
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (!prevBtn.classList.contains('disabled')) {
-                goToSlide(currentSlideIndex - 1);
+    window.closeModal = function() {
+        if (detailModal) {
+            detailModal.classList.remove('active');
+            document.body.style.overflow = 'auto'; 
+        }
+        
+        // Reset preview gambar dokumentasi saat modal ditutup
+        const previews = document.querySelectorAll('.upload-preview');
+        previews.forEach(img => { 
+            img.src = ''; 
+            img.style.opacity = '0'; 
+        });
+    };
+
+    if (detailModal) {
+        detailModal.addEventListener('click', (e) => {
+            if (e.target === detailModal) {
+                closeModal();
             }
         });
     }
 
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (!nextBtn.classList.contains('disabled')) {
-                goToSlide(currentSlideIndex + 1);
+    // =========================================
+    // 4. IMAGE UPLOAD PREVIEW
+    // =========================================
+    window.previewImage = function(input, imgId) {
+        const previewEl = document.getElementById(imgId);
+        if (input.files && input.files[0] && previewEl) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                previewEl.src = e.target.result;
+                previewEl.style.opacity = '1';
             }
-        });
-    }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
 
-    // Inisialisasi status tombol saat pertama kali dimuat
-    updateArrowStatus();
-
-    // --- 3. Live Search ---
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('keyup', function() {
-            const filterValue = this.value.toLowerCase();
-            const tableRows = document.querySelectorAll('.table-row');
-            tableRows.forEach(row => {
-                row.textContent.toLowerCase().includes(filterValue) ? row.style.display = '' : row.style.display = 'none';
-            });
-            // Reset ke slide 0 jika search kosong
-            if (filterValue === '') goToSlide(0);
-        });
-    }
-
-    console.log("Dashboard Admin NTB Loaded with fixed navigation.");
 });
