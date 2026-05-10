@@ -1,55 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sigap NTB</title>
-    <link rel="stylesheet" href="CSS/css1.css">
+    <title>Pemerintah NTB - Layanan Pengaduan Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
-    <header>
-        <div class="bar"> 
-            <div></div>
-            <div></div>
-            <div></div>
-        </div> 
 
-        <nav class="navbar">
-            <ul >
-                <li><a href="#home">Home</a></li>
-                <li><a href="#profile">Profile</a></li>
-                <li><a href="#pengaduan">Pengaduan</a></li>
-                <li><a href="#tracker">Tracker Pengaduan</a></li>
-                <li><a href="#dokumentasi">Dokumentasi</a></li>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="Assets/logo-ntb.png" alt="Logo NTB" class="logo-img">
+                <p><span class="logo-text">PEMERINTAH NUSA TENGGARA BARAT</span><br>SIGAP NUSA TENGGARA BARAT</p>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#" class="active">Beranda</a></li>
+                <li><a href="#">Pengaduan</a></li>
+                <li><a href="#">Status Pengaduan</a></li>
+                <li><a href="#">Riwayat Pengaduan</a></li>
             </ul>
-        </nav>
 
-        <div class="title">
-            <p class="atas">PEMERINTAH PROVINSI NTB</p>
-            <p class="bawah">SIGAP NUSA TENGGARA BARAT</p>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-login">Login</a>
+                <button class="menu-toggle" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
+    </nav>
 
-        <div class="logo">
-            <img src="Image-Source/logo-ntb.png" alt="Logo NTB">
+    <header class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="badge">LAYANAN PENGADUAN DIGITAL</span>
+                <h1>NTB Gemilang: Melayani Warga Lebih Baik.</h1>
+                <p>Sampaikan keluhan, aspirasi, atau pengajuan perbaikan fasilitas umum langsung ke pemerintah provinsi NTB. Kami berkomitmen untuk transparansi dan kecepatan respon demi kemajuan bersama.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i> Buat Pengaduan</a>
+                    <a href="#" class="btn btn-outline">Cek Status Laporan</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-icon bg-light-blue">
+                        <i class="fas fa-file-alt text-blue"></i>
+                    </div>
+                    <h2>12k+</h2>
+                    <p><b>Laporan Masuk</b></p>
+                </div>
+                <div class="stat-card stat-card-offset">
+                    <div class="stat-icon bg-light-green">
+                        <i class="fas fa-check-circle text-green"></i>
+                    </div>
+                    <h2>94%</h2>
+                    <p><b>Terselesaikan</b></p>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main>
-        <section id="home" class="home">
-            <div class="kota">
-                <img src="Image-Source/kota.png" alt="Kabupaten//Kota">
-                <p>Memiliki 8 Kabupaten dan 2 Kota</p>
+    <section class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Layanan Cepat</h2>
             </div>
-            <div class="kecamatan">
-                <img src="Image-Source/kecamatan.png" alt="Kecamatan">
-                <p>Memiliki 116 Kecamatan</p>
+            <div class="services-wrapper">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <h3>Jalan & Jembatan</h3>
+                    <p>Laporkan kerusakan infrastruktur jalan atau jembatan di wilayah NTB.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Lampu Jalan</h3>
+                    <p>Pengaduan mengenai penerangan jalan umum yang mati atau rusak.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Lingkungan</h3>
+                    <p>Laporan terkait sampah, polusi, atau masalah kebersihan lingkungan lainnya.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Layanan Publik</h3>
+                    <p>Aspirasi atau keluhan terhadap pelayanan di kantor dinas pemerintahan.</p>
+                </div>
             </div>
-            <div class="desa">
-                <img src="Image-Source/desa.png" alt="Desa">
-                <p>Memiliki 1160+ Desa/Kelurahan</p>
+        </div>
+    </section>
+
+    <section class="process">
+        <div class="container process-container">
+            <div class="process-left">
+                <h2>Bagaimana Kami Menangani Laporan Anda?</h2>
+                <p class="process-desc">Setiap laporan yang masuk akan diverifikasi dalam waktu maksimal 24 jam dan langsung diteruskan ke OPD (Organisasi Perangkat Daerah) terkait.</p>
+                
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            <h4>Verifikasi Data</h4>
+                            <p>Tim admin mengecek kelengkapan data dan foto bukti pengaduan.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            <h4>Koordinasi Instansi</h4>
+                            <p>Laporan dikirim ke dinas teknis yang bertanggung jawab di lapangan.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-text">
+                            <h4>Tindak Lanjut & Selesai</h4>
+                            <p>Update status pengerjaan dapat dipantau secara real-time di dashboard anda.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-    </main>
+
+            <div class="process-right">
+                <div class="info-card dark-blue-card">
+                    <div class="info-content">
+                        <h4>Keamanan Data Terjamin</h4>
+                        <p>Identitas pelapor dilindungi sepenuhnya oleh sistem enkripsi tingkat tinggi kami.</p>
+                        <a href="#" class="btn-link">Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="info-card brown-card">
+                    <div class="info-content">
+                        <h4>Dukungan 24/7</h4>
+                        <p>Tim kami siap siaga membantu melalui kanal bantuan yang tersedia kapan saja.</p>
+                        <div class="contact-icons">
+                            <a href="#" class="icon-btn"><i class="fas fa-phone"></i></a>
+                            <a href="#" class="icon-btn"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+              <img src="Assets/logo-ntb.png" alt="Logo NTB" class="logo-img">
+              <div>
+                <h3>PEMERINTAH NUSA TENGGARA BARAT</h3>
+                <p>&copy;2026 SIGAP NUSA TENGGARA BARAT.</p>
+              </div>
+            </div>
+            <div class="footer-links">
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">FAQ</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="JS/js1.js"></script>
 </body>

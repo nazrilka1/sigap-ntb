@@ -1,20 +1,39 @@
-// Mengambil elemen tombol bar dan menu navigasi
-const bar = document.querySelector('.bar');
-const navbar = document.querySelector('.navbar');
-
-// Menambahkan event listener klik
-bar.addEventListener('click', function() {
-    // Menambah/menghapus class 'active' pada navbar
-    navbar.classList.toggle('active');
+// Menunggu DOM selesai dimuat
+document.addEventListener('DOMContentLoaded', () => {
     
-    // Menambah/menghapus class 'toggle' pada tombol bar (animasi X)
-    bar.classList.toggle('toggle');
-});
+    const navbar = document.querySelector('.navbar');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
 
-// Menutup sidebar jika pengguna mengklik di luar sidebar
-document.addEventListener('click', function(e) {
-    if (!bar.contains(e.target) && !navbar.contains(e.target)) {
-        navbar.classList.remove('active');
-        bar.classList.remove('toggle');
+    // 1. Efek Navbar Sticky (Tetap saat discroll)
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled'); // Tambah background biru saat turun
+        } else {
+            navbar.classList.remove('scrolled'); // Hapus background saat di paling atas
+        }
+    });
+
+    // 2. Toggle Mobile Menu
+    if(mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            const icon = mobileMenuBtn.querySelector('i');
+            if(navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                // Paksa navbar menjadi solid saat menu mobile terbuka agar tidak transparan
+                navbar.classList.add('scrolled'); 
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                // Kembalikan ke transparan jika scroll masih di atas
+                if(window.scrollY <= 50) {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+        });
     }
+
 });
