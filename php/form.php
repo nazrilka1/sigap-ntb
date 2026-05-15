@@ -1,31 +1,3 @@
-<?php
-// koneksi database
-$conn = mysqli_connect("localhost", "root", "", "sigap");
-
-// simpan data
-if(isset($_POST['submit'])){
-    // Gunakan real_escape_string agar lebih aman dari karakter aneh
-    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
-    $nik = mysqli_real_escape_string($conn, $_POST['nik']);
-    $ttl = mysqli_real_escape_string($conn, $_POST['ttl']);
-    $jenis = mysqli_real_escape_string($conn, $_POST['jenis']);
-    $alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
-    $deskripsi = mysqli_real_escape_string($conn, $_POST['deskripsi']);
-    $lat = mysqli_real_escape_string($conn, $_POST['lat']);
-    $lng = mysqli_real_escape_string($conn, $_POST['lng']);
-
-    $query = mysqli_query($conn, "INSERT INTO laporan 
-    (nama, nik, ttl, jenis, alamat, deskripsi, latitude, longitude)
-    VALUES ('$nama','$nik','$ttl','$jenis','$alamat','$deskripsi','$lat','$lng')");
-
-    if($query){
-        echo "<script>alert('Laporan SIGAP berhasil terkirim!'); window.location='index.php';</script>";
-    } else {
-        echo "<script>alert('Gagal mengirim: " . mysqli_error($conn) . "');</script>";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -42,28 +14,28 @@ if(isset($_POST['submit'])){
 
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
-                <p><span class="logo-text">PEMERINTAH NUSA TENGGARA BARAT</span><br>SIGAP NUSA TENGGARA BARAT</p>
-            </div>
-            
-            <ul class="nav-links">
-                <li><a href="#" class="active">Beranda</a></li>
-                <li><a href="php/form.php">Pengaduan</a></li>
-                <li><a href="#">Status Pengaduan</a></li>
-                <li><a href="#">Riwayat Pengaduan</a></li>
-            </ul>
-
-            <div class="nav-actions">
-                <a href="pages/login.html" class="btn btn-login">Login</a>
-                <button class="menu-toggle" id="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <img src="../Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
+            <div class="logo-text-wrapper">
+                <span class="logo-text">PEMERINTAH NUSA TENGGARA BARAT</span>
+                <span class="nama-app">SIGAP NUSA TENGGARA BARAT</span>
             </div>
         </div>
-    </nav>
+        
+        <ul class="nav-links">
+            <li><a href="../index.html">Beranda</a></li>
+            <li><a href="php/form.php" class="active">Pengaduan</a></li>
+            <li><a href="#">Status Pengaduan</a></li>
+            <li><a href="#">Riwayat Pengaduan</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="pages/login.html" class="btn-login">Login</a>
+        </div>
+    </div>
+</nav>
 
 <div class="container">
     <h1>Formulir Pengaduan</h1>
