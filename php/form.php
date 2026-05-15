@@ -1,0 +1,177 @@
+<?php
+// koneksi database
+$conn = mysqli_connect("localhost", "root", "", "sigap");
+
+// simpan data
+if(isset($_POST['submit'])){
+    // Gunakan real_escape_string agar lebih aman dari karakter aneh
+    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
+    $nik = mysqli_real_escape_string($conn, $_POST['nik']);
+    $ttl = mysqli_real_escape_string($conn, $_POST['ttl']);
+    $jenis = mysqli_real_escape_string($conn, $_POST['jenis']);
+    $alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
+    $deskripsi = mysqli_real_escape_string($conn, $_POST['deskripsi']);
+    $lat = mysqli_real_escape_string($conn, $_POST['lat']);
+    $lng = mysqli_real_escape_string($conn, $_POST['lng']);
+
+    $query = mysqli_query($conn, "INSERT INTO laporan 
+    (nama, nik, ttl, jenis, alamat, deskripsi, latitude, longitude)
+    VALUES ('$nama','$nik','$ttl','$jenis','$alamat','$deskripsi','$lat','$lng')");
+
+    if($query){
+        echo "<script>alert('Laporan SIGAP berhasil terkirim!'); window.location='index.php';</script>";
+    } else {
+        echo "<script>alert('Gagal mengirim: " . mysqli_error($conn) . "');</script>";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGAP NTB - Sistem Pengaduan</title>
+
+    <link rel="stylesheet" href="../CSS/form.css">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
+                <p><span class="logo-text">PEMERINTAH NUSA TENGGARA BARAT</span><br>SIGAP NUSA TENGGARA BARAT</p>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#" class="active">Beranda</a></li>
+                <li><a href="php/form.php">Pengaduan</a></li>
+                <li><a href="#">Status Pengaduan</a></li>
+                <li><a href="#">Riwayat Pengaduan</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="pages/login.html" class="btn btn-login">Login</a>
+                <button class="menu-toggle" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+<div class="container">
+    <h1>Formulir Pengaduan</h1>
+    <p class="subtitle">Suarakan aspirasi dan laporkan kendala di wilayah NTB.</p>
+
+    <div class="main-grid">
+        <div class="form-box">
+            <form method="POST">
+                <div class="row">
+                    <div class="input-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" name="nama" required placeholder="Masukkan nama sesuai KTP">
+                    </div>
+
+                    <div class="input-group">
+                        <label>NIK</label>
+                        <input type="text" name="nik" required placeholder="16 digit NIK">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-group">
+                        <label>Tempat Tanggal Lahir</label>
+                        <input type="text" name="ttl" placeholder="Contoh: Mataram, 01-01-2000">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Jenis Laporan</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="jenis" value="pengaduan" checked> Pengaduan</label>
+                            <label><input type="radio" name="jenis" value="pengajuan"> Pengajuan</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Alamat Kejadian</label>
+                    <textarea name="alamat" placeholder="Detail alamat lokasi..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Deskripsi Laporan</label>
+                    <textarea name="deskripsi" rows="4" placeholder="Ceritakan detail kendala yang dialami..."></textarea>
+                </div>
+
+                <label>📍 Tandai Lokasi di Peta (Geser Pin)</label>
+                <div id="map"></div>
+                
+                <input type="hidden" name="lat" id="lat">
+                <input type="hidden" name="lng" id="lng">
+
+                <div class="form-footer" style="margin-top: 20px;">
+                    <span style="font-size: 12px; color: #666;">Pastikan data sudah benar sebelum mengirim.</span>
+                    <button type="submit" name="submit" class="submit-btn">Kirim Laporan</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="side-box">
+            <div class="info-box">
+                <h3>📍 Petunjuk Lokasi</h3>
+                <p>Klik dan geser marker biru pada peta untuk menentukan koordinat lokasi pengaduan secara akurat.</p>
+            </div>
+
+            <div class="security-box">
+                <h4>🔒 Keamanan Data</h4>
+                <p>Data pribadi Anda dilindungi dan hanya digunakan untuk keperluan tindak lanjut laporan oleh instansi terkait.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // Koordinat pusat (Mataram, NTB)
+    const centerNTB = [-8.5833, 116.1167];
+
+    // 1. Inisialisasi Peta
+    const map = L.map('map').setView(centerNTB, 13);
+
+    // 2. Tambahkan Layer Tile (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // 3. Tambahkan Marker yang bisa di-drag
+    const marker = L.marker(centerNTB, {
+        draggable: true
+    }).addTo(map);
+
+    // Set nilai awal input hidden
+    document.getElementById("lat").value = centerNTB[0];
+    document.getElementById("lng").value = centerNTB[1];
+
+    // 4. Event saat marker digeser
+    marker.on('dragend', function (e) {
+        const position = marker.getLatLng();
+        document.getElementById("lat").value = position.lat;
+        document.getElementById("lng").value = position.lng;
+    });
+
+    // 5. Klik pada peta untuk pindahkan marker
+    map.on('click', function(e) {
+        marker.setLatLng(e.latlng);
+        document.getElementById("lat").value = e.latlng.lat;
+        document.getElementById("lng").value = e.latlng.lng;
+    });
+</script>
+
+</body>
+</html>
