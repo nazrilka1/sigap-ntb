@@ -1,0 +1,509 @@
+/* =========================================
+   1. BASE RESET & VARIABLES
+========================================= */
+
+:root {
+    --bg-main: #f8f9fc;
+    --bg-sidebar: #f2f5f9;
+    --color-primary: #0a2647;
+    --color-secondary: #0d3b66;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+
+    --badge-green-bg: #86efac;
+    --badge-green-text: #166534;
+
+    --badge-blue-bg: #bfdbfe;
+    --badge-blue-text: #1e40af;
+
+    --badge-red-bg: #fecaca;
+    --badge-red-text: #991b1b;
+
+    --badge-orange-bg: #fed7aa;
+    --badge-orange-text: #9a3412;
+
+    --badge-gray-bg: #e2e8f0;
+    --badge-gray-text: #334155;
+
+    --badge-yellow-bg: #fde047;
+    --badge-yellow-text: #854d0e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Container utama untuk Sidebar + Main Content */
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 35px 45px;
+    overflow-x: hidden;
+}
+
+
+/* =========================================
+   2. DASHBOARD SPECIFIC (BOTTOM ACTIONS)
+========================================= */
+
+.bottom-actions {
+    display: flex;
+    gap: 25px;
+}
+
+.action-box {
+    flex: 1;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.action-title {
+    font-size: 16px;
+    color: var(--text-dark);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.action-title i {
+    color: #d97706;
+}
+
+.action-buttons,
+.status-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-opd {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.btn-opd i {
+    font-size: 28px;
+    color: var(--color-primary);
+}
+
+.btn-opd:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+
+.btn-status {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.btn-status:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.btn-status-gray {
+    background: var(--badge-gray-bg);
+    color: var(--badge-gray-text);
+}
+
+.btn-status-green {
+    background: #86efac;
+    color: #166534;
+}
+
+.btn-status-yellow {
+    background: #fde047;
+    color: #854d0e;
+}
+
+
+/* =========================================
+   3. UPDATE PROFIL PAGE STYLES
+========================================= */
+
+.profile-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.profile-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    min-width: 300px;
+    max-width: 350px;
+}
+
+.profile-right {
+    flex: 2.5;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Card Foto Profil */
+
+.profile-pic-card {
+    padding: 40px 25px;
+}
+
+.profile-pic-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-pic-preview {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--bg-main);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.profile-fullname {
+    font-size: 18px;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.profile-badge {
+    margin-bottom: 8px;
+}
+
+.profile-id {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.btn-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Card Info Akun */
+
+.card-title {
+    font-size: 16px;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.account-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.account-info-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 10px;
+}
+
+.account-info-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.info-label {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.info-value {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+/* Form Update Profil */
+
+.form-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-full {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--bg-main);
+    color: var(--text-dark);
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(10, 38, 71, 0.05);
+    background: #fff;
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Input Password Toggle */
+
+.input-icon-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.input-icon-wrap input {
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.toggle-password:hover {
+    color: var(--color-primary);
+}
+
+/* Validasi Form */
+
+.error-text {
+    color: #dc2626;
+    font-size: 11px;
+    margin-top: 4px;
+    display: none;
+}
+
+.form-control.is-invalid {
+    border-color: #dc2626;
+    background: #fef2f2;
+}
+
+/* Action Buttons Profil */
+
+.profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.profile-actions .btn-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* =========================================
+   4. MANAJEMEN USER PAGE STYLES
+========================================= */
+
+.user-info-td {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.table-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    background: #fff;
+}
+
+.user-fullname {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+/* Sticky Header Table Vertical Scroll */
+
+.table-scroll-vertical {
+    max-height: 550px;
+    overflow-y: auto;
+    border-radius: 0 0 12px 12px;
+}
+
+.table-scroll-vertical thead th {
+    position: sticky;
+    top: 0;
+    background-color: #fcfcfd;
+    z-index: 10;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+
+/* =========================================
+   5. RESPONSIVE LAYOUT (Page Specific)
+========================================= */
+
+@media (max-width: 1024px) {
+
+    /* Dashboard specific */
+
+    .bottom-actions {
+        flex-direction: column;
+    }
+
+    /* Update Profil specific */
+
+    .profile-wrapper {
+        flex-direction: column;
+    }
+
+    .profile-left {
+        max-width: 100%;
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .profile-pic-card,
+    .account-info-card {
+        flex: 1;
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Layout Utama */
+
+    .main-content {
+        padding: 20px;
+    }
+
+    /* Dashboard specific */
+
+    .btn-opd {
+        padding: 15px;
+    }
+
+    .btn-opd i {
+        font-size: 24px;
+    }
+
+    /* Update Profil specific */
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-left {
+        flex-direction: column;
+    }
+
+    .profile-actions {
+        justify-content: space-between;
+        flex-direction: column-reverse;
+    }
+
+    .profile-actions .btn-action {
+        width: 100%;
+        justify-content: center;
+    }
+}

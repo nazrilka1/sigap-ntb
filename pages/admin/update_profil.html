@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profil - Admin Panel NTB</title>
+    
+    <link rel="stylesheet" href="../../CSS/admin.css">
+    <link rel="stylesheet" href="../../CSS/components.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin<br>Panel</h2>
+                <p>Provinsi NTB</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="kelola_laporan.html" class="nav-link">
+                            <i class="far fa-file-alt"></i>
+                            <span>Kelola Laporan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="update_profil.html" class="nav-link">
+                            <i class="far fa-user-circle"></i>
+                            <span>Update Profil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="manajemen_user.html" class="nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>Manajemen User</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="login.html" class="nav-link logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="header-title">
+                    <button class="mobile-toggle" id="mobileToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div>
+                        <h1>Update Profil</h1>
+                        <p>Kelola informasi akun dan pengaturan keamanan Anda.</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="far fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+                    <div class="header-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img" id="headerProfilePic">
+                        <div class="profile-info">
+                            <span class="profile-name">Administrator Utama</span>
+                            <span class="profile-role">Pemprov NTB</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <form id="formUpdateProfil" class="profile-wrapper">
+                <!-- Kiri: Foto & Info Singkat -->
+                <div class="profile-left">
+                    <div class="card profile-pic-card">
+                        <div class="profile-pic-container">
+                            <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Profile" class="profile-pic-preview" id="profilePicPreview">
+                            <h3 class="profile-fullname">Administrator Utama</h3>
+                            <p class="profile-badge"><span class="badge badge-blue">Super Admin</span></p>
+                            <p class="profile-id">ID: ADM-NTB-001</p>
+                            
+                            <label for="uploadFoto" class="btn-action btn-outline btn-upload">
+                                <i class="fas fa-camera"></i> Ganti Foto
+                            </label>
+                            <input type="file" id="uploadFoto" hidden accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="card account-info-card">
+                        <h3 class="card-title"><i class="fas fa-info-circle"></i> Informasi Akun</h3>
+                        <ul class="account-info-list">
+                            <li>
+                                <span class="info-label">Role Akun</span>
+                                <span class="info-value">Administrator</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Tgl Dibuat</span>
+                                <span class="info-value">12 Jan 2023</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Login Terakhir</span>
+                                <span class="info-value">Hari ini, 08:45 WITA</span>
+                            </li>
+                            <li>
+                                <span class="info-label">Status</span>
+                                <span class="badge badge-green-light">AKTIF</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Kanan: Form Data & Password -->
+                <div class="profile-right">
+                    <div class="card">
+                        <h3 class="card-title"><i class="far fa-id-card"></i> Data Diri</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="namaLengkap">Nama Lengkap</label>
+                                <input type="text" id="namaLengkap" class="form-control" value="Administrator Utama" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" class="form-control" value="admin_ntb" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control" value="admin@ntbprov.go.id" required>
+                                <small class="error-text" id="emailError">Format email tidak valid.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="noTelp">Nomor Telepon</label>
+                                <input type="tel" id="noTelp" class="form-control" value="081234567890">
+                            </div>
+                            <div class="form-group form-full">
+                                <label for="alamat">Alamat Kantor (Opsional)</label>
+                                <textarea id="alamat" class="form-control textarea" rows="3">Jl. Pejanggik No.12, Kota Mataram, Nusa Tenggara Barat</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title"><i class="fas fa-lock"></i> Ubah Password</h3>
+                        <p class="form-subtitle">Biarkan kosong jika tidak ingin mengubah password.</p>
+                        <div class="form-grid">
+                            <div class="form-group form-full">
+                                <label for="oldPassword">Password Lama</label>
+                                <div class="input-icon-wrap">
+                                    <input type="password" id="oldPassword" class="form-control">
+                                    <i class="far fa-eye toggle-password" data-target="oldPassword"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">Password Baru</label>
+                                <div class="input-icon-wrap">
+                                    <input type="password" id="newPassword" class="form-control">
+                                    <i class="far fa-eye toggle-password" data-target="newPassword"></i>
+                                </div>
+                                <small class="error-text" id="passLengthError">Minimal 8 karakter.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Konfirmasi Password</label>
+                                <div class="input-icon-wrap">
+                                    <input type="password" id="confirmPassword" class="form-control">
+                                    <i class="far fa-eye toggle-password" data-target="confirmPassword"></i>
+                                </div>
+                                <small class="error-text" id="passMatchError">Password tidak sama.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button type="reset" class="btn-action btn-outline">Reset Form</button>
+                        <button type="submit" class="btn-action btn-green"><i class="fas fa-save"></i> Simpan Perubahan</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Notifikasi Toast -->
+            <div class="toast-notification" id="toastNotif">
+                <i class="fas fa-check-circle"></i>
+                <span>Profil berhasil diperbarui!</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- ... kode lainnya ... -->
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/components/utils.js"></script>
+    <script src="../../js/components/modal.js"></script>
+    
+    <!-- Panggil Laporan JS -->
+    <script src="../../js/pages/profil.js"></script>
+</body>
+</html>
