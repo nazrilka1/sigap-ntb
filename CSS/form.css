@@ -246,7 +246,7 @@ input:focus, textarea:focus {
 
 .submit-btn {
     background: var(--success-green);
-    color: white;
+    color: red;
     border: none;
     padding: 15px 40px;
     border-radius: 10px;
