@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGAP NTB - Sistem Pengaduan</title>
+
+    <link rel="stylesheet" href="../CSS/global.css">
+
+    <link rel="stylesheet" href="../CSS/pengaduan.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+
+<body>
+
+    <!-- ================= Navbar ================= -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
+
+                <div>
+                    <span class="logo-text">PEMERINTAH NUSA TENGGARA BARAT</span>
+                    <p>SIGAP NUSA TENGGARA BARAT</p>
+                </div>
+            </a>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="form.php" class="active">Pengaduan</a></li>
+                <li><a href="#">Status Pengaduan</a></li>
+                <li><a href="#">Riwayat Pengaduan</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="../pages/login.html" class="btn btn-login">Login</a>
+
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">
+                    ☰
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= Main Content ================= -->
+    <main class="form-page-container">
+        <h1>Formulir Pengaduan</h1>
+        <p class="subtitle">Suarakan aspirasi dan laporkan kendala di wilayah NTB.</p>
+
+        <div class="main-grid">
+            <section class="form-box">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="input-group">
+                            <label for="nama">Nama Lengkap</label>
+                            <input 
+                                type="text" 
+                                id="nama" 
+                                name="nama" 
+                                required 
+                                placeholder="Masukkan nama sesuai KTP"
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="nik">NIK</label>
+                            <input 
+                                type="text" 
+                                id="nik" 
+                                name="nik" 
+                                required 
+                                placeholder="16 digit NIK"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group">
+                            <label for="ttl">Tempat Tanggal Lahir</label>
+                            <input 
+                                type="text" 
+                                id="ttl" 
+                                name="ttl" 
+                                placeholder="Contoh: Mataram, 01-01-2000"
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label>Jenis Laporan</label>
+
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="jenis" value="pengaduan" checked>
+                                    Pengaduan
+                                </label>
+
+                                <label>
+                                    <input type="radio" name="jenis" value="pengajuan">
+                                    Pengajuan
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="alamat">Alamat Kejadian</label>
+                        <textarea 
+                            id="alamat" 
+                            name="alamat" 
+                            placeholder="Detail alamat lokasi..."
+                        ></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="deskripsi">Deskripsi Laporan</label>
+                        <textarea 
+                            id="deskripsi" 
+                            name="deskripsi" 
+                            rows="4" 
+                            placeholder="Ceritakan detail kendala yang dialami..."
+                        ></textarea>
+                    </div>
+
+                    <div class="input-group">
+    <label for="foto_bukti">Upload Foto Bukti</label>
+
+    <input 
+        type="file" 
+        id="foto_bukti" 
+        name="foto_bukti" 
+        class="file-upload"
+        accept="image/png, image/jpeg, image/jpg, image/webp"
+    >
+
+    <small class="upload-note">
+        Format: JPG, JPEG, PNG, WEBP. Maksimal 2MB.
+    </small>
+</div>
+
+
+                    <div class="input-group">
+                        <label>📍 Tandai Lokasi di Peta</label>
+                        <p class="map-helper">
+                            Klik peta atau geser marker biru untuk menentukan lokasi pengaduan secara akurat.
+                        </p>
+
+                        <div id="map"></div>
+
+                        <input type="hidden" name="lat" id="lat">
+                        <input type="hidden" name="lng" id="lng">
+                    </div>
+
+                    <div class="form-footer">
+                        <span>Pastikan data sudah benar sebelum mengirim.</span>
+
+                        <button type="submit" name="submit" class="submit-btn">
+                            Kirim Laporan
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <aside class="side-box">
+                <div class="info-box">
+                    <h3>📍 Petunjuk Lokasi</h3>
+                    <p>
+                        Klik dan geser marker biru pada peta untuk menentukan koordinat lokasi pengaduan secara akurat.
+                    </p>
+                </div>
+
+                <div class="security-box">
+                    <h4>🔒 Keamanan Data</h4>
+                    <p>
+                        Data pribadi Anda dilindungi dan hanya digunakan untuk keperluan tindak lanjut laporan oleh instansi terkait.
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- ================= Footer ================= -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <img src="../Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
+
+                <div>
+                    <h3>PEMERINTAH NUSA TENGGARA BARAT</h3>
+                    <p>Sistem Pengaduan Masyarakat Nusa Tenggara Barat</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // ================= Navbar Mobile Toggle =================
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', function () {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // ================= Navbar Scroll Effect =================
+        const navbar = document.querySelector('.navbar');
+
+        if (navbar) {
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // ================= Leaflet Map =================
+
+        // Koordinat pusat Mataram, NTB
+        const centerNTB = [-8.5833, 116.1167];
+
+        // Inisialisasi peta
+        const map = L.map('map').setView(centerNTB, 13);
+
+        // Layer OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Marker draggable
+        const marker = L.marker(centerNTB, {
+            draggable: true
+        }).addTo(map);
+
+        // Set nilai awal input hidden
+        document.getElementById("lat").value = centerNTB[0];
+        document.getElementById("lng").value = centerNTB[1];
+
+        // Saat marker digeser
+        marker.on('dragend', function () {
+            const position = marker.getLatLng();
+
+            document.getElementById("lat").value = position.lat;
+            document.getElementById("lng").value = position.lng;
+        });
+
+        // Klik peta untuk pindahkan marker
+        map.on('click', function (e) {
+            marker.setLatLng(e.latlng);
+
+            document.getElementById("lat").value = e.latlng.lat;
+            document.getElementById("lng").value = e.latlng.lng;
+        });
+    </script>
+
+</body>
+</html>
