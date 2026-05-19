@@ -112,7 +112,6 @@
 .data-table th,
 .data-table td {
     padding: 18px 30px;
-    text-align: left;
     border-bottom: 1px solid var(--border-color);
     font-size: 14px;
 }
@@ -124,10 +123,12 @@
     font-size: 12px;
     letter-spacing: 0.5px;
     background-color: #fcfcfd;
+    text-align: center;
 }
 
 .data-table td {
     color: var(--text-dark);
+    text-align: left;
 }
 
 .table-row {
@@ -136,10 +137,6 @@
 
 .table-row:hover {
     background-color: var(--bg-sidebar);
-}
-
-.text-right {
-    text-align: right !important;
 }
 
 /* Badges */

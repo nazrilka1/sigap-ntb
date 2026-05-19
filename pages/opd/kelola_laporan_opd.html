@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Laporan - Admin Panel NTB</title>
+    <title>Kelola Laporan OPD</title>
     
     <link rel="stylesheet" href="../../CSS/admin.css">
-    <link rel="stylesheet" href="../../CSS/components.css">
+    <link rel="stylesheet" href="../../CSS/components/sidebar.css">
+    <link rel="stylesheet" href="../../CSS/components/topbar.css">
+    <link rel="stylesheet" href="../../CSS/components/card.css">
+    <link rel="stylesheet" href="../../CSS/components/table.css">
+    <link rel="stylesheet" href="../../CSS/components/modal.css">
+    <link rel="stylesheet" href="../../CSS/components/button.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,34 +21,28 @@
     <div class="app-container">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2>Admin<br>Panel</h2>
+                <h2>OPD<br>Panel</h2>
                 <p>Provinsi NTB</p>
             </div>
             
             <nav class="sidebar-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="dashboard.html" class="nav-link">
+                        <a href="dashboard_opd.html" class="nav-link">
                             <i class="fas fa-th-large"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a href="kelola_laporan.html" class="nav-link">
+                        <a href="kelola_laporan_opd.html" class="nav-link">
                             <i class="far fa-file-alt"></i>
                             <span>Kelola Laporan</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="update_profil.html" class="nav-link">
+                        <a href="pengaturan_opd.html" class="nav-link">
                             <i class="far fa-user-circle"></i>
-                            <span>Update Profil</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="manajemen_user.html" class="nav-link">
-                            <i class="fas fa-users"></i>
-                            <span>Manajemen User</span>
+                            <span>Pengaturan</span>
                         </a>
                     </li>
                 </ul>
@@ -336,11 +335,13 @@
     </div>
 
     <!-- ... kode lainnya ... -->
-    <script src="../../js/components/sidebar.js"></script>
-    <script src="../../js/components/utils.js"></script>
-    <script src="../../js/components/modal.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/components/utils.js"></script>
+    <script src="../js/components/modal.js"></script>
     
     <!-- Panggil Laporan JS -->
-    <script src="../../js/pages/laporan.js"></script>
+    <script src="../js/pages/laporan.js"></script>
+</body>
+</html>
 </body>
 </html>

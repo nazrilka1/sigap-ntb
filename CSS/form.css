@@ -245,7 +245,7 @@ input:focus, textarea:focus {
 }
 
 .submit-btn {
-    background: var(--success-green);
+    background: var(--secondary-blue);
     color: white;
     border: none;
     padding: 15px 40px;
@@ -302,6 +302,7 @@ input:focus, textarea:focus {
     opacity: 0.8;
     margin: 0;
 }
+
 
 /* --- RESPONSIVE DESIGN --- */
 @media (max-width: 992px) {
