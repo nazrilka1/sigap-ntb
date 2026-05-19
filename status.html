@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Status Laporan - SIGAP NTB</title>
+
+    <!-- CSS Global: Navbar + Footer -->
+    <link rel="stylesheet" href="../CSS/global.css">
+
+    <!-- CSS Khusus Halaman Cek Status -->
+    <link rel="stylesheet" href="../CSS/status.css">
+
+    <!-- Font sesuai global.css -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ================= Navbar ================= -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
+
+                <div>
+                    <span class="logo-text">PEMERINTAH NUSA TENGGARA BARAT</span>
+                    <p>SIGAP NUSA TENGGARA BARAT</p>
+                </div>
+            </a>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="form.php">Pengaduan</a></li>
+                <li><a href="cek_status.php" class="active">Status Pengaduan</a></li>
+                <li><a href="riwayat.php">Riwayat Pengaduan</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="../pages/login.html" class="btn btn-login">Login</a>
+
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">
+                    ☰
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= Main Content ================= -->
+    <main class="status-page">
+
+        <!-- Hero -->
+        <section class="status-hero">
+            <div class="container">
+                <div class="status-hero-content">
+                    <span class="status-badge">Transparansi Laporan</span>
+
+                    <h1>Cek Status Laporan</h1>
+
+                    <p>
+                        Pantau perkembangan aduan Anda secara real-time. Kami berkomitmen untuk transparansi dan kecepatan
+                        dalam menanggapi setiap laporan warga demi NTB yang Gemilang.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search -->
+        <section class="status-search-section">
+            <div class="container">
+                <form class="status-search-card" method="GET">
+                    <div class="status-form-group">
+                        <label for="kode_laporan">Kode Laporan</label>
+
+                        <div class="status-input-icon">
+                            <span class="material-symbols-outlined">search</span>
+                            <input 
+                                type="text" 
+                                id="kode_laporan" 
+                                name="kode_laporan" 
+                                placeholder="Contoh: NTB-2024-XXXX"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="status-form-group">
+                        <label for="wilayah">Wilayah / Kabupaten</label>
+
+                        <select id="wilayah" name="wilayah">
+                            <option value="">Semua Wilayah</option>
+                            <option value="mataram">Kota Mataram</option>
+                            <option value="lombok-barat">Kab. Lombok Barat</option>
+                            <option value="lombok-tengah">Kab. Lombok Tengah</option>
+                            <option value="lombok-timur">Kab. Lombok Timur</option>
+                            <option value="lombok-utara">Kab. Lombok Utara</option>
+                            <option value="sumbawa">Kab. Sumbawa</option>
+                            <option value="sumbawa-barat">Kab. Sumbawa Barat</option>
+                            <option value="dompu">Kab. Dompu</option>
+                            <option value="bima">Kab. Bima</option>
+                            <option value="kota-bima">Kota Bima</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="status-search-btn">
+                        Cari Laporan
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Content -->
+        <section class="status-content">
+            <div class="container">
+                <div class="status-section-header">
+                    <div>
+                        <span class="status-section-label">Data Laporan</span>
+                        <h2>Daftar Laporan Terbaru</h2>
+                        <p>Menampilkan laporan publik terkini di wilayah Nusa Tenggara Barat.</p>
+                    </div>
+                </div>
+
+                <div class="status-table-card">
+                    <div class="status-table-responsive">
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>Kode Laporan</th>
+                                    <th>Jenis Laporan</th>
+                                    <th>Wilayah</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td class="report-code">#NTB-2024-001</td>
+                                    <td>Infrastruktur</td>
+                                    <td>Lombok Barat</td>
+                                    <td class="text-muted">15 Jan 2024</td>
+                                    <td>
+                                        <span class="status-pill status-process">
+                                            Diproses
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="detail-link">
+                                            Lihat Detail
+                                            <span class="material-symbols-outlined">arrow_forward</span>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="report-code">#NTB-2024-002</td>
+                                    <td>Kesehatan</td>
+                                    <td>Kota Mataram</td>
+                                    <td class="text-muted">14 Jan 2024</td>
+                                    <td>
+                                        <span class="status-pill status-done">
+                                            Selesai
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="detail-link">
+                                            Lihat Detail
+                                            <span class="material-symbols-outlined">arrow_forward</span>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="report-code">#NTB-2024-003</td>
+                                    <td>Pendidikan</td>
+                                    <td>Lombok Tengah</td>
+                                    <td class="text-muted">13 Jan 2024</td>
+                                    <td>
+                                        <span class="status-pill status-pending">
+                                            Menunggu
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="detail-link">
+                                            Lihat Detail
+                                            <span class="material-symbols-outlined">arrow_forward</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="status-pagination">
+                    <button type="button" class="status-load-btn">
+                        Tampilkan Lebih Banyak
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+
+    <!-- ================= Footer ================= -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <img src="../Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
+
+                <div>
+                    <h3>PEMERINTAH NUSA TENGGARA BARAT</h3>
+                    <p>Sistem Pengaduan Masyarakat Nusa Tenggara Barat</p>
+                </div>
+            </div>
+
+                        <div class="footer-links">
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">FAQ</a>
+            </div>
+            
+        </div>
+    </footer>
+
+    <script>
+        // Toggle menu mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', function () {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+
+        if (navbar) {
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
