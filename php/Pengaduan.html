@@ -6,18 +6,13 @@
     <title>SIGAP NTB - Sistem Pengaduan</title>
 
     <link rel="stylesheet" href="../CSS/global.css">
-
     <link rel="stylesheet" href="../CSS/pengaduan.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 
 <body>
 
-    <!-- ================= Navbar ================= -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-logo">
@@ -46,7 +41,6 @@
         </div>
     </nav>
 
-    <!-- ================= Main Content ================= -->
     <main class="form-page-container">
         <h1>Formulir Pengaduan</h1>
         <p class="subtitle">Suarakan aspirasi dan laporkan kendala di wilayah NTB.</p>
@@ -182,7 +176,6 @@
         </div>
     </main>
 
-    <!-- ================= Footer ================= -->
     <footer class="footer">
         <div class="container footer-container">
             <div class="footer-brand">
@@ -202,11 +195,9 @@
         </div>
     </footer>
 
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        // ================= Navbar Mobile Toggle =================
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
 
@@ -216,7 +207,6 @@
             });
         }
 
-        // ================= Navbar Scroll Effect =================
         const navbar = document.querySelector('.navbar');
 
         if (navbar) {
@@ -229,37 +219,27 @@
             });
         }
 
-        // ================= Leaflet Map =================
-
         // Koordinat pusat Mataram, NTB
         const centerNTB = [-8.5833, 116.1167];
 
-        // Inisialisasi peta
         const map = L.map('map').setView(centerNTB, 13);
-
-        // Layer OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Marker draggable
         const marker = L.marker(centerNTB, {
             draggable: true
         }).addTo(map);
 
-        // Set nilai awal input hidden
         document.getElementById("lat").value = centerNTB[0];
         document.getElementById("lng").value = centerNTB[1];
 
-        // Saat marker digeser
         marker.on('dragend', function () {
             const position = marker.getLatLng();
 
             document.getElementById("lat").value = position.lat;
             document.getElementById("lng").value = position.lng;
         });
-
-        // Klik peta untuk pindahkan marker
         map.on('click', function (e) {
             marker.setLatLng(e.latlng);
 

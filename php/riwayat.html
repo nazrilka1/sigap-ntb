@@ -5,22 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Pengaduan - SIGAP NTB</title>
 
-    <!-- CSS Global: Navbar + Footer -->
     <link rel="stylesheet" href="../CSS/global.css">
-
-    <!-- CSS Khusus Halaman Riwayat -->
     <link rel="stylesheet" href="../CSS/riwayat.css">
-
-    <!-- Font sesuai global.css -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- ================= Navbar ================= -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-logo">
@@ -49,11 +41,9 @@
         </div>
     </nav>
 
-    <!-- ================= Main Content ================= -->
     <main class="main-content">
         <div class="container">
 
-            <!-- Page Header -->
             <header class="page-header">
                 <h1>Riwayat Pengaduan Saya</h1>
                 <p>
@@ -62,7 +52,6 @@
                 </p>
             </header>
 
-            <!-- Filter -->
             <section class="filter-card">
                 <div class="filter-grid">
                     <div class="filter-item flex-grow">
@@ -102,10 +91,8 @@
                 </div>
             </section>
 
-            <!-- Reports List -->
             <section class="reports-list">
 
-                <!-- Report Card 1 -->
                 <article class="report-card">
                     <div class="card-body">
                         <div class="card-main">
@@ -147,7 +134,6 @@
                     </div>
                 </article>
 
-                <!-- Report Card 2 -->
                 <article class="report-card">
                     <div class="card-body">
                         <div class="card-main">
@@ -188,7 +174,7 @@
 
             </section>
 
-            <!-- Pagination -->
+
             <div class="pagination">
                 <button type="button" class="page-nav" aria-label="Halaman sebelumnya">
                     <span class="material-symbols-outlined">chevron_left</span>
@@ -205,7 +191,7 @@
         </div>
     </main>
 
-    <!-- ================= Footer ================= -->
+
     <footer class="footer">
         <div class="container footer-container">
             <div class="footer-brand">
@@ -227,7 +213,7 @@
     </footer>
 
     <script>
-        // ================= Navbar Mobile Toggle =================
+
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
 
@@ -237,7 +223,6 @@
             });
         }
 
-        // ================= Navbar Scroll Effect =================
         const navbar = document.querySelector('.navbar');
 
         if (navbar) {
