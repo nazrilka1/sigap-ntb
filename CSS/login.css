@@ -1,0 +1,162 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-image:
+    linear-gradient(
+        rgba(0,0,0,0.8),
+        rgba(0,0,0,0.8)
+    ),
+    url("https://2.bp.blogspot.com/-R22N4tB7xKE/TkAUPdS3oHI/AAAAAAAAAC0/Y09OEewAV8k/s1600/peta_ntb.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body h2{
+    color: white;
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.container{
+    width: 400px;
+
+    padding: 35px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.logo img{
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+}
+
+.logo h3{
+    color: white;
+    margin-top: 10px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label{
+    color: white;
+    font-weight: bold;
+}
+
+.input-box{
+    display: flex;
+    align-items: center;
+
+    background-color: white;
+
+    border-radius: 10px;
+
+    padding: 0 10px;
+}
+
+.input-box i{
+    color: gray;
+    
+
+}
+
+.text-input{
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    outline: none;
+
+    border-radius: 10px;
+}
+
+select{
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    outline: none;
+}
+
+button{
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+#btn-login{
+    background-color: blue;
+    color: white;
+}
+
+#btn-login:hover{
+    background-color: darkblue;
+    transform: scale(1.02);
+}
+
+.google-btn{
+    background-color: white;
+    color: black;
+}
+
+.google-btn:hover{
+    background-color: #e2e2e2;
+}
+
+@media(max-width: 500px){
+
+    .container{
+        width: 90%;
+    }
+
+    body h2{
+        font-size: 24px;
+    }
+
+}
