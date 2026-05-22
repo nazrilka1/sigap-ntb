@@ -1,3 +1,20 @@
+<?php
+
+session_start();
+include "../../php/koneksi.php";
+
+if(!isset($_SESSION['username'])){
+    header('location: ../../login.php');
+    exit();
+}
+
+if($_SESSION['role'] != 'opd'){
+    header('location: ../../login.php');
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -48,7 +65,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <a href="../login.html" class="nav-link logout-btn">
+                <a href="../../php/logout.php" class="nav-link logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -65,7 +82,19 @@
                     
                     <div class="opd-title-area">
                         <span class="opd-subtitle">DASHBOARD EKSEKUSI</span>
-                        <h1 class="opd-title">Dinas Perhubungan NTB</h1>
+                        <?php
+                        $query = mysqli_query($conn,"SELECT * FROM operator
+                                                    WHERE role = '".$_SESSION['role']."' ");
+
+                        $data = mysqli_fetch_assoc($query);
+                        if($data['username']=='dispupr'){
+                           echo'<h1 class="opd-title">Dinas PUPR NTB</h1>';
+                        }else{
+                            
+                            echo'<h1 class="opd-title">Dinas Perhubungan NTB</h1>';
+                        }
+
+                        ?>
                         <p class="opd-desc">Fokus pada penyelesaian laporan masyarakat secara cepat, transparan, dan akuntabel untuk NTB yang Gemilang.</p>
                     </div>
                 </div>
