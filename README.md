@@ -14,12 +14,9 @@ SIGAP NTB adalah sebuah platform digital berbasis web yang berfungsi sebagai sis
 
 | Nama | NIM | Role | Responsibilities |
 |------|------|------|------|
-| Nazril Hidayat | F1D02410007 | Fullstack Developer | Frontend: Membuat UI Form Pengaduan Masyarakat, Halaman Cek Status Laporan, dan Halaman Riwayat Laporan.
-Backend: Membuat logika insert data laporan baru ke database (beserta upload foto) dan query pencarian data untuk menampilkan status/riwayat ke publik. |
-| Irlan Hadi | F1D02410058 | Fullstack Developer | Frontend: Membuat desain UI Form Login.
-Backend (Dominan): Mengembangkan sistem Autentikasi (Sesi login, enkripsi password, logout), Otorisasi Hak Akses (membedakan view Admin dan OPD), logika utama perubahan status laporan (Verifikasi Admin & Update Progres OPD), serta bertindak sebagai Arsitek Database (merancang struktur dan relasi tabel keseluruhan). |
-| Muhammad Ravi Rayvansyah | F1D02410078 | Fullstack Developer | Frontend: Membangun antarmuka Dashboard Admin, Dashboard OPD, dan tabel interaktif untuk manajemen laporan.
-Backend: Membuat query untuk menampilkan statistik data di dashboard (jumlah laporan masuk, selesai, dll), serta logika untuk menampilkan daftar laporan berdasarkan OPD terkait. |
+| Nazril Hidayat | F1D02410007 | Fullstack Developer | Frontend: Membuat UI Form Pengaduan Masyarakat, Halaman Cek Status Laporan, dan Halaman Riwayat Laporan.Backend: Membuat logika insert data laporan baru ke database (beserta upload foto) dan query pencarian data untuk menampilkan status/riwayat ke publik. |
+| Irlan Hadi | F1D02410058 | Fullstack Developer | Frontend: Membuat desain UI Form Login. Backend (Dominan): Mengembangkan sistem Autentikasi (Sesi login, enkripsi password, logout), Otorisasi Hak Akses (membedakan view Admin dan OPD), logika utama perubahan status laporan (Verifikasi Admin & Update Progres OPD), serta bertindak sebagai Arsitek Database (merancang struktur dan relasi tabel keseluruhan). |
+| Muhammad Ravi Rayvansyah | F1D02410078 | Fullstack Developer | Frontend: Membangun antarmuka Dashboard Admin, Dashboard OPD, dan tabel interaktif untuk manajemen laporan.Backend: Membuat query untuk menampilkan statistik data di dashboard (jumlah laporan masuk, selesai, dll), serta logika untuk menampilkan daftar laporan berdasarkan OPD terkait. |
 
 ---
 
