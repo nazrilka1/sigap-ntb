@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pengaduan - SIGAP NTB</title>
+
+    <link rel="stylesheet" href="../CSS/global.css">
+    <link rel="stylesheet" href="../CSS/riwayat.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
+
+                <div>
+                    <span class="logo-text">PEMERINTAH NUSA TENGGARA BARAT</span>
+                    <p>SIGAP NUSA TENGGARA BARAT</p>
+                </div>
+            </a>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="pengaduan.html" >Pengaduan</a></li>
+                <li><a href="status.html" >Status Pengaduan</a></li>
+                <li><a href="riwayat.html" class="active">Riwayat Pengaduan</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="../pages/login.php" class="btn btn-login">Login</a>
+
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">
+                    ☰
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+
+            <header class="page-header">
+                <h1>Riwayat Pengaduan Saya</h1>
+                <p>
+                    Pantau seluruh status laporan dan pengaduan Anda. Kami berkomitmen untuk transparansi 
+                    dan penyelesaian yang cepat demi NTB Gemilang.
+                </p>
+            </header>
+
+            <section class="filter-card">
+                <div class="filter-grid">
+                    <div class="filter-item flex-grow">
+                        <label for="search_laporan">Cari Laporan</label>
+
+                        <div class="search-input">
+                            <span class="material-symbols-outlined">search</span>
+                            <input 
+                                type="text" 
+                                id="search_laporan"
+                                name="search_laporan"
+                                placeholder="Cari ID Laporan atau kata kunci..."
+                            >
+                        </div>
+                    </div>
+
+                    <div class="filter-item">
+                        <label for="filter_status">Status</label>
+
+                        <select id="filter_status" name="filter_status">
+                            <option value="">Semua Status</option>
+                            <option value="diproses">Diproses</option>
+                            <option value="selesai">Selesai</option>
+                            <option value="ditolak">Ditolak</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label for="filter_tanggal">Tanggal</label>
+                        <input type="date" id="filter_tanggal" name="filter_tanggal">
+                    </div>
+
+                    <button type="button" class="btn-reset">
+                        <span class="material-symbols-outlined">filter_alt_off</span>
+                        Reset
+                    </button>
+                </div>
+            </section>
+
+            <section class="reports-list">
+
+                <article class="report-card">
+                    <div class="card-body">
+                        <div class="card-main">
+                            <div class="card-meta">
+                                <span class="badge badge-rejected">Ditolak</span>
+                                <span class="separator">|</span>
+                                <span class="report-id">#NTB-2024-082</span>
+                            </div>
+
+                            <h3 class="report-title">Kerusakan Jalan Raya Lingkar Mataram</h3>
+
+                            <div class="report-info">
+                                <div class="info-item">
+                                    <span class="material-symbols-outlined">category</span>
+                                    <span>Infrastruktur</span>
+                                </div>
+
+                                <div class="info-item">
+                                    <span class="material-symbols-outlined">calendar_today</span>
+                                    <span>15 Okt 2024</span>
+                                </div>
+                            </div>
+
+                            <div class="alert-box alert-error">
+                                <p class="alert-label">Alasan Penolakan:</p>
+                                <p class="alert-text">
+                                    "Foto bukti pendukung kurang jelas dan tidak menunjukkan lokasi spesifik. 
+                                    Harap unggah ulang dengan koordinat GPS."
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card-side">
+                            <button type="button" class="btn-view" data-id="1">
+                                <span class="material-symbols-outlined">visibility</span>
+                                Lihat Detail
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="report-card">
+                    <div class="card-body">
+                        <div class="card-main">
+                            <div class="card-meta">
+                                <span class="badge badge-success">Selesai</span>
+                                <span class="separator">|</span>
+                                <span class="report-id">#NTB-2024-065</span>
+                            </div>
+
+                            <h3 class="report-title">Penerangan Jalan Mati di Jalur Bypass</h3>
+
+                            <div class="report-info">
+                                <div class="info-item">
+                                    <span class="material-symbols-outlined">bolt</span>
+                                    <span>Energi & Fasilitas Umum</span>
+                                </div>
+
+                                <div class="info-item">
+                                    <span class="material-symbols-outlined">calendar_today</span>
+                                    <span>05 Sep 2024</span>
+                                </div>
+                            </div>
+
+                            <div class="success-msg">
+                                <span class="material-symbols-outlined fill-icon">check_circle</span>
+                                <span>Telah ditindaklanjuti oleh Dinas Perhubungan.</span>
+                            </div>
+                        </div>
+
+                        <div class="card-side">
+                            <button type="button" class="btn-view" data-id="2">
+                                <span class="material-symbols-outlined">visibility</span>
+                                Lihat Detail
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </section>
+
+
+            <div class="pagination">
+                <button type="button" class="page-nav" aria-label="Halaman sebelumnya">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+
+                <button type="button" class="page-num active">1</button>
+                <button type="button" class="page-num">2</button>
+                <button type="button" class="page-num">3</button>
+
+                <button type="button" class="page-nav" aria-label="Halaman berikutnya">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <img src="../Assets/images/logo-ntb.png" alt="Logo NTB" class="logo-img">
+
+                <div>
+                    <h3>PEMERINTAH NUSA TENGGARA BARAT</h3>
+                    <p>Sistem Pengaduan Masyarakat Nusa Tenggara Barat</p>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', function () {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        const navbar = document.querySelector('.navbar');
+
+        if (navbar) {
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

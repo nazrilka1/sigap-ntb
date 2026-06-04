@@ -1,0 +1,85 @@
+/* =========================================
+   BUTTON COMPONENT
+========================================= */
+
+/* Base Button */
+.btn-action { 
+    padding: 12px 24px; 
+    border-radius: 8px; 
+    font-size: 14px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+    border: none; 
+    color: #fff; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-action:hover { 
+    opacity: 0.9; 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+}
+
+/* Varian Warna Utama */
+.btn-green { 
+    background-color: #16a34a; 
+}
+
+.btn-red { 
+    background-color: #dc2626; 
+}
+
+.btn-yellow { 
+    background-color: #d97706; 
+}
+
+.btn-blue {
+    background-color: #2563eb;
+}
+
+/* Varian Outline (Transparan dengan garis) */
+.btn-outline { 
+    background-color: transparent; 
+    border: 2px solid var(--color-primary); 
+    color: var(--color-primary); 
+}
+
+.btn-outline:hover { 
+    background-color: var(--color-primary); 
+    color: #fff; 
+}
+
+/* Varian Outline Border Tipis (dipakai di panel OPD) */
+.btn-outline-border { 
+    background-color: transparent; 
+    border: 1px solid #cbd5e1; 
+    color: var(--text-dark); 
+}
+
+.btn-outline-border:hover { 
+    background-color: #e2e8f0; 
+}
+
+/* Tombol Aksi Kecil di dalam Tabel */
+.action-btn { 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    font-size: 16px; 
+    color: var(--text-muted); 
+    transition: color 0.2s, transform 0.2s; 
+    padding: 5px; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.action-btn:hover { transform: scale(1.1); color: var(--color-primary); }
+.action-green:hover { color: #16a34a; } 
+.action-yellow:hover { color: #d97706; } 
+.action-red:hover { color: #dc2626; } 
+.action-blue:hover { color: #2563eb; }

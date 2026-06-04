@@ -1,0 +1,100 @@
+/* =========================================
+   SUMMARY CARDS COMPONENT
+========================================= */
+
+.summary-cards {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.card {
+    flex: 1;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+.card-icon {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.icon-blue {
+    color: #2563eb;
+}
+
+.icon-red {
+    color: #dc2626;
+}
+
+.icon-yellow {
+    color: #d97706;
+}
+
+.icon-green {
+    color: #16a34a;
+}
+
+.card-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.card-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.value-text {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.card-status {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-up,
+.status-good {
+    color: #16a34a;
+}
+
+.status-alert {
+    color: #dc2626;
+}
+
+@media (max-width: 1024px) {
+    .summary-cards {
+        flex-wrap: wrap;
+    }
+
+    .card {
+        flex: 1 1 calc(50% - 25px);
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        flex: 1 1 100%;
+    }
+}

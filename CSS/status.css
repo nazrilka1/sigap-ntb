@@ -1,0 +1,404 @@
+/* ================= Status Page ================= */
+.status-page {
+    padding-top: 100px;
+}
+
+/* ================= Hero ================= */
+.status-hero {
+    background:
+        linear-gradient(to right, rgba(10, 25, 47, 0.97), rgba(10, 25, 47, 0.82)),
+        url('../Assets/images/mataram.webp') center/cover no-repeat;
+    color: var(--text-white);
+    padding: 80px 0 100px;
+}
+
+.status-hero-content {
+    max-width: 760px;
+}
+
+.status-badge {
+    display: inline-block;
+    margin-bottom: 16px;
+    color: var(--yellow-accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.status-hero h1 {
+    font-size: 3rem;
+    line-height: 1.2;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.status-hero p {
+    max-width: 680px;
+    color: var(--text-gray);
+    font-size: 1.08rem;
+    line-height: 1.7;
+}
+
+/* ================= Search Section ================= */
+.status-search-section {
+    position: relative;
+    z-index: 2;
+    margin-top: -48px;
+}
+
+.status-search-card {
+    background-color: var(--text-white);
+    padding: 28px;
+    border-radius: 14px;
+    border: 1px solid var(--card-border);
+    box-shadow: 0 14px 35px rgba(10, 25, 47, 0.12);
+
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) 280px auto;
+    gap: 22px;
+    align-items: end;
+}
+
+.status-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.status-form-group label {
+    color: var(--primary-blue);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.status-input-icon {
+    position: relative;
+}
+
+.status-input-icon .material-symbols-outlined {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7a8494;
+    font-size: 22px;
+}
+
+.status-input-icon input,
+.status-form-group select {
+    width: 100%;
+    height: 54px;
+    border: 1.5px solid #dbe1ea;
+    background-color: #f8fafc;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.98rem;
+    color: #333;
+    outline: none;
+    transition: var(--transition);
+}
+
+.status-input-icon input {
+    padding: 0 16px 0 48px;
+}
+
+.status-form-group select {
+    padding: 0 16px;
+    cursor: pointer;
+}
+
+.status-input-icon input:focus,
+.status-form-group select:focus {
+    background-color: var(--text-white);
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 4px rgba(20, 128, 60, 0.10);
+}
+
+.status-search-btn {
+    height: 54px;
+    padding: 0 34px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--primary-green);
+    color: var(--text-white);
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+
+.status-search-btn:hover {
+    background-color: var(--hover-green);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(20, 128, 60, 0.25);
+}
+
+/* ================= Content ================= */
+.status-content {
+    padding: 70px 0 90px;
+}
+
+.status-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.status-section-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--primary-green);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-section-header h2 {
+    color: var(--primary-blue);
+    font-size: 2rem;
+    line-height: 1.3;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.status-section-header p {
+    color: #666;
+    font-size: 0.98rem;
+}
+
+/* ================= Table ================= */
+.status-table-card {
+    background-color: var(--text-white);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(10, 25, 47, 0.06);
+    overflow: hidden;
+}
+
+.status-table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+.report-table thead {
+    background-color: #f8fafc;
+}
+
+.report-table th {
+    padding: 18px 20px;
+    text-align: left;
+    color: #64748b;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    border-bottom: 1px solid var(--card-border);
+    white-space: nowrap;
+}
+
+.report-table td {
+    padding: 18px 20px;
+    color: #334155;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #eef2f7;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.report-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.report-table tbody tr {
+    transition: var(--transition);
+}
+
+.report-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.report-code {
+    color: var(--primary-blue);
+    font-weight: 800;
+}
+
+.text-muted {
+    color: #7a8494 !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+/* ================= Status Pills ================= */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 92px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.status-process {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+.status-done {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-pending {
+    background-color: #fff6df;
+    color: #a86200;
+}
+
+/* ================= Detail Link ================= */
+.detail-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--primary-green);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.detail-link:hover {
+    color: var(--hover-green);
+    gap: 10px;
+}
+
+.detail-link .material-symbols-outlined {
+    font-size: 18px;
+}
+
+/* ================= Pagination ================= */
+.status-pagination {
+    margin-top: 32px;
+    text-align: center;
+}
+
+.status-load-btn {
+    padding: 12px 30px;
+    border-radius: 10px;
+    border: 1.5px solid var(--card-border);
+    background-color: var(--text-white);
+    color: var(--primary-blue);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.status-load-btn:hover {
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(10, 25, 47, 0.08);
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 992px) {
+    .status-search-card {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .status-search-btn {
+        grid-column: span 2;
+        width: 100%;
+    }
+
+    .status-hero h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .status-page {
+        padding-top: 80px;
+    }
+
+    .status-hero {
+        padding: 60px 0 90px;
+    }
+
+    .status-hero h1 {
+        font-size: 2.1rem;
+    }
+
+    .status-hero p {
+        font-size: 1rem;
+    }
+
+    .status-search-card {
+        grid-template-columns: 1fr;
+        padding: 22px;
+        gap: 18px;
+    }
+
+    .status-search-btn {
+        grid-column: auto;
+    }
+
+    .status-content {
+        padding: 55px 0 70px;
+    }
+
+    .status-section-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .report-table th,
+    .report-table td {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .status-hero {
+        padding: 50px 0 80px;
+    }
+
+    .status-hero h1 {
+        font-size: 1.85rem;
+    }
+
+    .status-search-card {
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    .status-input-icon input,
+    .status-form-group select,
+    .status-search-btn {
+        height: 52px;
+    }
+
+    .status-table-card {
+        border-radius: 12px;
+    }
+}
+
+

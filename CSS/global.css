@@ -1,0 +1,277 @@
+/* ================= Base & Variables ================= */
+:root {
+    --primary-blue: #0A192F;
+    --secondary-blue: #112240;
+    --primary-green: #14803C;
+    --hover-green: #10632e;
+    --text-white: #ffffff;
+    --text-gray: #a8b2c1;
+    --bg-light: #f4f6f8;
+    --card-border: #e2e8f0;
+    --yellow-accent: #f5b041;
+    --brown-card: #5c4b24;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background-color: var(--bg-light);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ================= Buttons ================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition);
+    gap: 8px;
+    border: none;
+}
+
+.btn-login {
+    background-color: var(--primary-green);
+    color: var(--text-white);
+}
+
+.btn-login:hover {
+    background-color: var(--hover-green);
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    color: var(--text-white);
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-green);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--text-white);
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ================= Navbar ================= */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    z-index: 999;
+    transition: all 0.3s ease;
+    background-color: var(--primary-blue);
+}
+
+.navbar.scrolled {
+    background-color: var(--primary-blue);
+    padding: 15px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+}
+
+.logo-text {
+    color: var(--yellow-accent);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.nav-logo p {
+    color: var(--text-white);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.nav-links a:hover {
+    color: var(--text-white);
+}
+
+.nav-links a.active {
+    color: var(--text-white);
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-white);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* ================= Footer ================= */
+.footer {
+    background-color: var(--primary-blue);
+    padding: 30px 0;
+    color: var(--text-white);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}   
+
+.footer-brand {
+    display: flex;
+}
+
+.footer-brand h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px; 
+}
+
+.footer-brand p {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+}
+
+.footer-links a:hover {
+    color: var(--text-white);
+    text-decoration: underline;
+}
+
+/* ================= Media Queries ================= */
+@media (max-width: 992px) {
+    .footer-brand {
+        flex-direction: column;
+    }
+
+    .footer-brand .logo-img {
+        width: auto;
+        height: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: flex;
+        width: 50%;
+        height: calc(100vh - 70px);
+        flex-direction: column;
+        background-color: var(--primary-blue);
+        position: fixed;
+        top: 70px;
+        right: -50%;
+        padding: 30px 0;
+        text-align: center;
+        transition: right 0.3s ease;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-actions .btn-login {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-links {
+        justify-content: center;
+    }
+}

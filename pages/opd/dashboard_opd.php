@@ -1,0 +1,279 @@
+<?php
+
+session_start();
+include "../../php/koneksi.php";
+
+if(!isset($_SESSION['username'])){
+    header('location: ../../login.php');
+    exit();
+}
+
+if($_SESSION['role'] != 'opd'){
+    header('location: ../../login.php');
+    exit();
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard OPD</title>
+    
+    <link rel="stylesheet" href="../../CSS/admin.css">
+    <link rel="stylesheet" href="../../CSS/components/sidebar.css">
+    <link rel="stylesheet" href="../../CSS/components/topbar.css">
+    <link rel="stylesheet" href="../../CSS/components/opd_panel.css">
+    <link rel="stylesheet" href="../../CSS/components/toast.css">
+    <link rel="stylesheet" href="../../CSS/components/button.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>OPD<br>Panel</h2>
+                <p>Provinsi NTB</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="dashboard_opd.html" class="nav-link">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="kelola_laporan_opd.html" class="nav-link">
+                            <i class="far fa-file-alt"></i>
+                            <span>Kelola Laporan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pengaturan_opd.html" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Pengaturan</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../php/logout.php" class="nav-link logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content opd-main">
+            <div class="opd-header-wrap">
+                
+                <div class="opd-title-wrapper">
+                    <button class="mobile-toggle" id="mobileToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <div class="opd-title-area">
+                        <span class="opd-subtitle">DASHBOARD EKSEKUSI</span>
+                        <?php
+                        $query = mysqli_query($conn,"SELECT * FROM operator
+                                                    WHERE role = '".$_SESSION['role']."' ");
+
+                        $data = mysqli_fetch_assoc($query);
+                        if($data['username']=='dispupr'){
+                           echo'<h1 class="opd-title">Dinas PUPR NTB</h1>';
+                        }else{
+                            
+                            echo'<h1 class="opd-title">Dinas Perhubungan NTB</h1>';
+                        }
+
+                        ?>
+                        <p class="opd-desc">Fokus pada penyelesaian laporan masyarakat secara cepat, transparan, dan akuntabel untuk NTB yang Gemilang.</p>
+                    </div>
+                </div>
+
+                <div class="opd-stats-area">
+                    <div class="stat-badge stat-blue">
+                        <div class="stat-icon-wrap"><i class="far fa-calendar-alt"></i></div>
+                        <div class="stat-text-wrap">
+                            <span class="stat-label">MENUNGGU</span>
+                            <span class="stat-number">12</span>
+                        </div>
+                    </div>
+                    <div class="stat-badge stat-green">
+                        <div class="stat-icon-wrap"><i class="far fa-check-circle"></i></div>
+                        <div class="stat-text-wrap">
+                            <span class="stat-label">SELESAI</span>
+                            <span class="stat-number">48</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-heading-row">
+                <h2>Laporan Masuk</h2>
+                <div class="sort-action">
+                    <i class="fas fa-sort-amount-down"></i> Urutkan: Terbaru
+                </div>
+            </div>
+
+            <div class="opd-report-list">
+                
+                <div class="opd-report-card card-hover-effect">
+                    <div class="report-content-left">
+                        <div class="report-tags">
+                            <span class="badge badge-red">URGENT</span>
+                            <span class="report-id">ID: #NTB-8821</span>
+                            <span class="report-time">• 2 Jam yang lalu</span>
+                        </div>
+                        <h3 class="report-heading">Kerusakan Lampu Jalan di Jalur Bypass BIL</h3>
+                        <p class="report-paragraph">Lampu jalan sepanjang 200 meter mati total di sekitar KM 12. Sangat membahayakan pengendara di malam hari karena minim penerangan tambahan.</p>
+                        <div class="report-meta">
+                            <span><i class="far fa-map"></i> Lombok Tengah</span>
+                            <span><i class="far fa-user"></i> M. Ikhsan</span>
+                        </div>
+                    </div>
+                    <div class="report-action-right">
+                        <div class="form-group-light">
+                            <label>GANTI STATUS</label>
+                            <select class="form-control form-light">
+                                <option>Sedang Dikerjakan</option>
+                                <option>Menunggu Konfirmasi</option>
+                                <option>Selesai</option>
+                            </select>
+                        </div>
+                        <div class="form-group-light">
+                            <label>KETERANGAN PROGRESS</label>
+                            <textarea class="form-control form-light" rows="3" placeholder="Masukkan update penanganan..."></textarea>
+                        </div>
+                        <button class="btn-action btn-green w-100 btn-update" onclick="window.showToast()">Update Progress</button>
+                    </div>
+                </div>
+
+                <div class="opd-report-card card-hover-effect">
+                    <div class="report-content-left">
+                        <div class="report-tags">
+                            <span class="badge badge-green">NORMAL</span>
+                            <span class="report-id">ID: #NTB-8795</span>
+                            <span class="report-time">• 5 Jam yang lalu</span>
+                        </div>
+                        <h3 class="report-heading">Usulan Marka Jalan di Simpang Empat Pagutan</h3>
+                        <p class="report-paragraph">Marka jalan sudah mulai pudar sehingga pengendara seringkali tidak tertib saat berhenti di lampu merah. Mohon dilakukan pengecatan ulang.</p>
+                        <div class="report-meta">
+                            <span><i class="far fa-map"></i> Kota Mataram</span>
+                            <span><i class="far fa-user"></i> Siti Aminah</span>
+                        </div>
+                    </div>
+                    <div class="report-action-right">
+                        <div class="form-group-light">
+                            <label>GANTI STATUS</label>
+                            <select class="form-control form-light">
+                                <option>Menunggu Konfirmasi</option>
+                                <option>Sedang Dikerjakan</option>
+                                <option>Selesai</option>
+                            </select>
+                        </div>
+                        <div class="form-group-light">
+                            <label>KETERANGAN PROGRESS</label>
+                            <textarea class="form-control form-light" rows="3" placeholder="Masukkan update penanganan..."></textarea>
+                        </div>
+                        <button class="btn-action btn-green w-100 btn-update" onclick="window.showToast()">Update Progress</button>
+                    </div>
+                </div>
+
+                <div class="opd-report-card card-hover-effect">
+                    <div class="report-content-left">
+                        <div class="report-tags">
+                            <span class="badge badge-darkblue">INFO</span>
+                            <span class="report-id">ID: #NTB-8750</span>
+                            <span class="report-time">• 1 Hari yang lalu</span>
+                        </div>
+                        <h3 class="report-heading">Penertiban Parkir Liar di Area Senggigi</h3>
+                        <p class="report-paragraph">Banyak kendaraan parkir di bahu jalan utama Senggigi yang menghambat arus lalu lintas wisatawan saat akhir pekan.</p>
+                        <div class="report-meta">
+                            <span><i class="far fa-map"></i> Lombok Barat</span>
+                            <span><i class="far fa-user"></i> Budiman</span>
+                        </div>
+                    </div>
+                    <div class="report-action-right">
+                        <div class="form-group-light">
+                            <label>GANTI STATUS</label>
+                            <select class="form-control form-light">
+                                <option>Sedang Dikerjakan</option>
+                                <option>Selesai</option>
+                            </select>
+                        </div>
+                        <div class="form-group-light">
+                            <label>KETERANGAN PROGRESS</label>
+                            <textarea class="form-control form-light" rows="3">Tim patroli sudah diturunkan untuk memberikan himbauan dan penertiban berkala.</textarea>
+                        </div>
+                        <button class="btn-action btn-green w-100 btn-update" onclick="window.showToast()">Update Progress</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="opd-bottom-grid">
+                <div class="opd-map-card card-hover-effect">
+                    <div class="map-text">
+                        <h3>Visualisasi Lokasi Laporan</h3>
+                        <p>Peta sebaran laporan masuk untuk wilayah kerja Dinas Perhubungan NTB bulan ini.</p>
+                        <button class="btn-action btn-yellow-solid">Buka Peta Interaktif</button>
+                    </div>
+                    <div class="map-image-placeholder">
+                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=400&q=80" alt="Map Illustration">
+                    </div>
+                </div>
+
+                <div class="opd-activity-card card-hover-effect">
+                    <h3>Aktivitas Tim</h3>
+                    <ul class="activity-timeline">
+                        <li>
+                            <div class="activity-icon icon-success"><i class="fas fa-check"></i></div>
+                            <div class="activity-detail">
+                                <p><strong>Bpk. Suryono</strong> menyelesaikan peninjauan Marka Pagutan.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="activity-icon icon-neutral"><i class="fas fa-list-ul"></i></div>
+                            <div class="activity-detail">
+                                <p><strong>Admin</strong> mengubah status laporan #NTB-8821 ke "Dikerjakan".</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn-outline-border w-100">Lihat Semua Log</button>
+                </div>
+            </div>
+            
+            <div class="toast-notification" id="toastNotif">
+                <i class="fas fa-check-circle"></i>
+                <span>Status berhasil diperbarui!</span>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="opd-footer">
+        <div class="footer-left">
+            <h2>Pemerintah NTB</h2>
+            <p>© 2026 Pemerintah Provinsi Nusa Tenggara Barat. Melayani dengan Gemilang.</p>
+        </div>
+        <div class="footer-right">
+            <a href="#">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">FAQ</a>
+        </div>
+    </footer>
+
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/components/utils.js"></script>
+</body>
+</html>
