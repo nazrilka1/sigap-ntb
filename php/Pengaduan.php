@@ -32,7 +32,7 @@
             </ul>
 
             <div class="nav-actions">
-                <a href="../pages/login.php" class="btn btn-login">Login</a>
+                <a href="../pages/login.html" class="btn btn-login">Login</a>
 
                 <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">
                     ☰
@@ -47,7 +47,7 @@
 
         <div class="main-grid">
             <section class="form-box">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" action="aksi_masyarakat.php">
                     <div class="row">
                         <div class="input-group">
                             <label for="nama">Nama Lengkap</label>
@@ -74,12 +74,12 @@
 
                     <div class="row">
                         <div class="input-group">
-                            <label for="ttl">Tempat Tanggal Lahir</label>
+                            <label for="ttl">Alamat</label>
                             <input 
                                 type="text" 
                                 id="ttl" 
-                                name="ttl" 
-                                placeholder="Contoh: Mataram, 01-01-2000"
+                                name="alamat" 
+                                placeholder="Contoh: Mataram"
                             >
                         </div>
 
@@ -104,7 +104,7 @@
                         <label for="alamat">Alamat Kejadian</label>
                         <textarea 
                             id="alamat" 
-                            name="alamat" 
+                            name="alamat_kejadian" 
                             placeholder="Detail alamat lokasi..."
                         ></textarea>
                     </div>
