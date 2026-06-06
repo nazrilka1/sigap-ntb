@@ -1,4 +1,26 @@
+<?php
+include "../../php/koneksi.php";
+
+session_start();
+
+if(!isset($_SESSION['username'])){
+    header('location: ../../pages/login.php');
+    exit();
+}
+
+if($_SESSION['role'] != 'admin'){
+    header('location: ../../pages/login.php');
+    exit();
+}
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -34,7 +56,7 @@
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a href="kelola_laporan_admin.html" class="nav-link">
+                        <a href="/kelola_laporan_admin.php" class="nav-link">
                             <i class="far fa-file-alt"></i>
                             <span>Kelola Laporan</span>
                         </a>
@@ -49,7 +71,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <a href="login.html" class="nav-link logout-btn">
+                <a href="../../php/logout.php" class="nav-link logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -149,75 +171,164 @@
                                 <th class="text-right">AKSI</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            <tr class="table-row" data-status="diproses" data-kategori="infrastruktur">
-                                <td><strong>#NTB-001</strong></td>
-                                <td>Ahmad Hidayat</td>
-                                <td>Jalan Berlubang Parah</td>
-                                <td><span class="badge badge-blue">INFRASTRUKTUR</span></td>
-                                <td>Mataram</td>
-                                <td class="row-date">2023-10-24</td>
-                                <td><span class="badge badge-yellow-light">DIPROSES</span></td>
+
+                        <?php
+                        $tampilkan = mysqli_query($conn,"
+                            SELECT
+                            id_pengaduan,
+                            nama_pelapor,
+                            deskripsi_laporan,
+                            jenis_laporan,
+                            alamat_kejadian,
+                            tanggal_laporan,
+                            status
+                            FROM pengaduan
+                            ORDER BY id_pengaduan ASC
+                        ");
+
+                        while($data = mysqli_fetch_assoc($tampilkan)){
+                        ?>
+
+                            <tr>
+                                <td><?= $data['id_pengaduan'] ?></td>
+                                <td><?= $data['nama_pelapor'] ?></td>
+                                <td><?= $data['deskripsi_laporan'] ?></td>
+
+                                <td>
+                                    <span class="badge badge-blue">
+                                        <?= $data['jenis_laporan'] ?>
+                                    </span>
+                                </td>
+
+                                <td><?= $data['alamat_kejadian'] ?></td>
+
+                                <td><?= $data['tanggal_laporan'] ?></td>
+
+                                <td>
+                                    <span class="badge badge-yellow-light">
+                                        <?= $data['status'] ?>
+                                    </span>
+                                </td>
+
                                 <td class="text-right">
                                     <div class="action-flex">
-                                        <button class="action-btn action-blue" title="Detail" onclick="openModal('NTB-001')"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="action-btn action-red" title="Hapus"><i class="fas fa-trash"></i></button>
-                                        <button class="action-btn action-green" title="Teruskan"><i class="fas fa-share"></i></button>
+
+                                        <button class="action-btn action-blue">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="action-btn"
+                                            onclick="openModal('edit<?= $data['id_pengaduan'] ?>')">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+
+                                        <a href="../../php/aksi_admin.php?hapus=<?= $data['id_pengaduan'] ?>"
+                                        onclick="return confirm('Yakin hapus data?')">
+                                         <i class="fas fa-trash"></i>
+                                        </a>
+                                       
+
+                                        <button class="action-btn action-green">
+                                            <i class="fas fa-share"></i>
+                                        </button>
+
                                     </div>
                                 </td>
                             </tr>
-                            <tr class="table-row" data-status="pending" data-kategori="lingkungan">
-                                <td><strong>#NTB-002</strong></td>
-                                <td>Siti Aminah</td>
-                                <td>Tumpukan Sampah Liar</td>
-                                <td><span class="badge badge-orange">LINGKUNGAN</span></td>
-                                <td>Lombok Barat</td>
-                                <td class="row-date">2023-10-23</td>
-                                <td><span class="badge badge-red">PENDING</span></td>
-                                <td class="text-right">
-                                    <div class="action-flex">
-                                        <button class="action-btn action-blue" title="Detail" onclick="openModal('NTB-002')"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="action-btn action-red" title="Hapus"><i class="fas fa-trash"></i></button>
-                                        <button class="action-btn action-green" title="Teruskan"><i class="fas fa-share"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table-row" data-status="selesai" data-kategori="kamtibmas">
-                                <td><strong>#NTB-003</strong></td>
-                                <td>Budi Santoso</td>
-                                <td>Lampu Jalan Mati</td>
-                                <td><span class="badge badge-gray">KAMTIBMAS</span></td>
-                                <td>Sumbawa</td>
-                                <td class="row-date">2023-10-22</td>
-                                <td><span class="badge badge-green-light">SELESAI</span></td>
-                                <td class="text-right">
-                                    <div class="action-flex">
-                                        <button class="action-btn action-blue" title="Detail" onclick="openModal('NTB-003')"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="action-btn action-red" title="Hapus"><i class="fas fa-trash"></i></button>
-                                        <button class="action-btn action-green" title="Teruskan"><i class="fas fa-share"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table-row" data-status="ditolak" data-kategori="kesehatan">
-                                <td><strong>#NTB-004</strong></td>
-                                <td>Aisyah</td>
-                                <td>Fasilitas Posyandu Rusak</td>
-                                <td><span class="badge badge-blue">KESEHATAN</span></td>
-                                <td>Dompu</td>
-                                <td class="row-date">2023-10-20</td>
-                                <td><span class="badge badge-gray">DITOLAK</span></td>
-                                <td class="text-right">
-                                    <div class="action-flex">
-                                        <button class="action-btn action-blue" title="Detail" onclick="openModal('NTB-004')"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="action-btn action-red" title="Hapus"><i class="fas fa-trash"></i></button>
-                                        <button class="action-btn action-green" title="Teruskan"><i class="fas fa-share"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+
+                            <div class="modal" id="edit<?= $data['id_pengaduan'] ?>">
+                                <div class="modal-content">
+
+                                    <span
+                                        class="close"
+                                        onclick="closeModal('edit<?= $data['id_pengaduan'] ?>')">
+                                        &times;
+                                    </span>
+
+                                    <h3>Edit Data Laporan</h3>
+
+                                    <form action="../../php/aksi_admin.php" method="post">
+
+                                        <input
+                                            type="hidden"
+                                            name="uid"
+                                            value="<?= $data['id_pengaduan'] ?>">
+
+                                        <div class="form-group">
+                                            <label>Nama Pelapor</label>
+
+                                            <input
+                                                type="text"
+                                                name="unama"
+                                                value="<?= htmlspecialchars($data['nama_pelapor']) ?>"
+                                                required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Deskripsi Laporan</label>
+
+                                            <textarea
+                                                name="ujudul"
+                                                rows="4"
+                                                required><?= htmlspecialchars($data['deskripsi_laporan']) ?></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Jenis Laporan</label>
+
+                                            <input
+                                                type="text"
+                                                name="ukategori"
+                                                value="<?= htmlspecialchars($data['jenis_laporan']) ?>"
+                                                required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Status</label>
+
+                                            <select name="ustatus">
+
+                                                <option value="menunggu"
+                                                <?= $data['status']=="menunggu" ? "selected" : "" ?>>
+                                                Menunggu
+                                                </option>
+
+                                                <option value="diproses"
+                                                <?= $data['status']=="diproses" ? "selected" : "" ?>>
+                                                Diproses
+                                                </option>
+
+                                                <option value="selesai"
+                                                <?= $data['status']=="selesai" ? "selected" : "" ?>>
+                                                Selesai
+                                                </option>
+
+                                                <option value="ditolak"
+                                                <?= $data['status']=="ditolak" ? "selected" : "" ?>>
+                                                Ditolak
+                                                </option>
+
+                                            </select>
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            name="bupdate"
+                                            class="btn btn-primary">
+                                            Update Data
+                                        </button>
+
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        <?php } ?>
+
                         </tbody>
                     </table>
                 </div>
@@ -345,6 +456,15 @@
     
     <!-- Panggil Laporan JS -->
     <script src="../js/pages/laporan.js"></script>
+    <script>
+        function openModal(id){
+            document.getElementById(id).classList.add('show');
+        }
+
+        function closeModal(id){
+            document.getElementById(id).classList.remove('show');
+        }
+    </script>
 </body>
 </html>
 </body>
