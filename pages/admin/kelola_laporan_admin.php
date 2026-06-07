@@ -50,13 +50,13 @@ if($_SESSION['role'] != 'admin'){
             <nav class="sidebar-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="dashboard_admin.html" class="nav-link">
+                        <a href="dashboard_admin.php" class="nav-link">
                             <i class="fas fa-th-large"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a href="/kelola_laporan_admin.php" class="nav-link">
+                        <a href="kelola_laporan_admin.php" class="nav-link">
                             <i class="far fa-file-alt"></i>
                             <span>Kelola Laporan</span>
                         </a>
@@ -133,30 +133,51 @@ if($_SESSION['role'] != 'admin'){
                     <div class="table-header-top">
                         <h2>Daftar Semua Laporan</h2>
                     </div>
-                    
+                <form method="POST">
                     <div class="filter-bar">
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="searchInput" placeholder="Cari ID, Judul, atau Nama...">
+                            <input
+                                type="text"
+                                placeholder="Cari Nama Pelapor..."
+                                name="fnama"
+                                value="<?= isset($_POST['fnama']) ? $_POST['fnama'] : '' ?>">
                         </div>
-                        <select class="filter-select" id="statusFilter">
+
+                        <select class="filter-select" name="fstatus">
                             <option value="">Semua Status</option>
-                            <option value="pending">Pending</option>
+                            <option value="menunggu">Menunggu</option>
                             <option value="diproses">Diproses</option>
                             <option value="selesai">Selesai</option>
                             <option value="ditolak">Ditolak</option>
                         </select>
-                        <select class="filter-select" id="kategoriFilter">
+
+                        <select class="filter-select" name="fkategori">
                             <option value="">Semua Kategori</option>
                             <option value="infrastruktur">Infrastruktur</option>
                             <option value="kesehatan">Kesehatan</option>
                             <option value="kamtibmas">Kamtibmas</option>
                             <option value="lingkungan">Lingkungan</option>
                         </select>
-                        <input type="date" class="filter-date" id="dateFilter">
-                    </div>
-                </div>
 
+                        <input
+                            type="date"
+                            class="filter-date"
+                            name="ftanggal">
+
+                        <button
+                            type="submit"
+                            name="fupdate"
+                            class="btn btn-primary">
+                            Filter Pencarian
+                        </button>
+
+                        <a href="kelola_laporan_admin.php" class="btn btn-secondary">
+                            Reset
+                        </a>
+                    </div>
+                </form>
+                 </div>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
@@ -175,18 +196,35 @@ if($_SESSION['role'] != 'admin'){
                         <tbody>
 
                         <?php
-                        $tampilkan = mysqli_query($conn,"
-                            SELECT
-                            id_pengaduan,
-                            nama_pelapor,
-                            deskripsi_laporan,
-                            jenis_laporan,
-                            alamat_kejadian,
-                            tanggal_laporan,
-                            status
-                            FROM pengaduan
-                            ORDER BY id_pengaduan ASC
-                        ");
+                        
+
+                            $nama     = isset($_POST['fnama']) ? mysqli_real_escape_string($conn, $_POST['fnama']) : '';
+                            $status   = isset($_POST['fstatus']) ? mysqli_real_escape_string($conn, $_POST['fstatus']) : '';
+                            $kategori = isset($_POST['fkategori']) ? mysqli_real_escape_string($conn, $_POST['fkategori']) : '';
+                            $tanggal  = isset($_POST['ftanggal']) ? mysqli_real_escape_string($conn, $_POST['ftanggal']) : '';
+
+                            $tampilkan = mysqli_query($conn,"
+                                SELECT
+                                    id_pengaduan,
+                                    nama_pelapor,
+                                    deskripsi_laporan,
+                                    jenis_laporan,
+                                    alamat_kejadian,
+                                    tanggal_laporan,
+                                    status
+                                FROM pengaduan
+                                WHERE
+                                    ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
+                                AND
+                                    ('$status' = '' OR status = '$status')
+                                AND
+                                    ('$kategori' = '' OR jenis_laporan = '$kategori')
+                                AND
+                                    ('$tanggal' = '' OR tanggal_laporan = '$tanggal')
+                                ORDER BY id_pengaduan ASC
+                            ");
+
+
 
                         while($data = mysqli_fetch_assoc($tampilkan)){
                         ?>
@@ -232,8 +270,13 @@ if($_SESSION['role'] != 'admin'){
                                         </a>
                                        
 
-                                        <button class="action-btn action-green">
+                                       <button
+                                            type="button"
+                                            class="action-btn action-green"
+                                            onclick="openModal('teruskan<?= $data['id_pengaduan'] ?>')">
+
                                             <i class="fas fa-share"></i>
+
                                         </button>
 
                                     </div>
@@ -326,6 +369,58 @@ if($_SESSION['role'] != 'admin'){
 
                                 </div>
                             </div>
+                            <div class="modal" id="teruskan<?= $data['id_pengaduan'] ?>">
+                            <div class="modal-content">
+
+                                <span
+                                    class="close"
+                                    onclick="closeModal('teruskan<?= $data['id_pengaduan'] ?>')">
+                                    &times;
+                                </span>
+
+                                <h3>Teruskan Laporan ke OPD</h3>
+
+                                <form action="../../php/aksi_admin.php" method="POST">
+
+                                    <input
+                                        type="hidden"
+                                        name="id_pengaduan"
+                                        value="<?= $data['id_pengaduan'] ?>">
+
+                                    <div class="form-group">
+                                        <label>Pilih OPD</label>
+
+                                        <select name="id_opd" required>
+
+                                            <?php
+                                            $opd = mysqli_query(
+                                                $conn,
+                                                "SELECT * FROM opd ORDER BY nama_opd ASC"
+                                            );
+
+                                            while($o = mysqli_fetch_assoc($opd)){
+                                            ?>
+
+                                            <option value="<?= $o['id_opd'] ?>">
+                                                <?= $o['nama_opd'] ?>
+                                            </option>
+
+                                            <?php } ?>
+
+                                        </select>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary"
+                                        name="bteruskan">
+                                        Teruskan
+                                    </button>
+
+                                </form>
+
+                            </div>
+                        </div>
 
                         <?php } ?>
 
@@ -337,117 +432,7 @@ if($_SESSION['role'] != 'admin'){
         </main>
     </div>
 
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h2>Detail Laporan <span id="modalReportId">#NTB-001</span></h2>
-                <button class="btn-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-            </div>
-            
-            <div class="modal-body">
-                <div class="modal-left">
-                    <div class="report-image-box">
-                        <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80" alt="Bukti Laporan" class="report-main-img">
-                    </div>
-                    
-                    <div class="report-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Pelapor:</span>
-                            <span class="meta-value">Ahmad Hidayat</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Lokasi:</span>
-                            <span class="meta-value">Jl. Majapahit, Mataram</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Tanggal:</span>
-                            <span class="meta-value">24 Okt 2023, 14:30 WITA</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Status:</span>
-                            <span class="badge badge-yellow-light">DIPROSES</span>
-                        </div>
-                    </div>
-
-                    <div class="report-desc">
-                        <h3>Isi Laporan:</h3>
-                        <p>Terdapat lubang besar di tengah jalan Majapahit dekat perempatan. Sangat membahayakan pengendara motor terutama saat malam hari karena minim penerangan. Mohon segera diperbaiki.</p>
-                    </div>
-
-                    <div class="report-desc">
-                        <h3>Catatan Admin:</h3>
-                        <textarea class="admin-note" placeholder="Tambahkan catatan internal..."></textarea>
-                    </div>
-                </div>
-
-                <div class="modal-right">
-                    
-                    <div class="timeline-container">
-                        <h3>Progress Laporan</h3>
-                        <div class="timeline">
-                            <div class="timeline-item done">
-                                <div class="timeline-dot"><i class="fas fa-check"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Laporan Masuk</h4>
-                                    <p>24 Okt 2023, 14:30</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item done">
-                                <div class="timeline-dot"><i class="fas fa-check"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Diverifikasi</h4>
-                                    <p>24 Okt 2023, 15:00</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item active">
-                                <div class="timeline-dot"><i class="fas fa-spinner"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Diproses OPD</h4>
-                                    <p>Dinas PUPR - Sedang dikerjakan</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>Selesai</h4>
-                                    <p>Menunggu penyelesaian</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="docs-container">
-                        <h3>Dokumentasi Penanganan</h3>
-                        <div class="upload-grid">
-                            <label class="upload-zone" id="dropZoneBefore">
-                                <input type="file" hidden accept="image/*" onchange="previewImage(this, 'previewBefore')">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <span>Foto Sebelum</span>
-                                <img id="previewBefore" class="upload-preview">
-                            </label>
-                            
-                            <label class="upload-zone" id="dropZoneAfter">
-                                <input type="file" hidden accept="image/*" onchange="previewImage(this, 'previewAfter')">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <span>Foto Sesudah</span>
-                                <img id="previewAfter" class="upload-preview">
-                            </label>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn-action btn-red" onclick="closeModal()">Tolak</button>
-                <div class="footer-right">
-                    <button class="btn-action btn-outline">Terima Laporan</button>
-                    <button class="btn-action btn-yellow">Proses</button>
-                    <button class="btn-action btn-green">Selesaikan</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- ... kode lainnya ... -->
     <script src="../js/components/sidebar.js"></script>
