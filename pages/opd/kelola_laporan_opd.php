@@ -1,3 +1,25 @@
+
+<?php
+include "../../php/koneksi.php";
+
+session_start();
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
+if(!isset($_SESSION['username'])){
+    header("location: ../../pages/login.php");
+    exit();
+}
+
+if($_SESSION['role'] != 'opd'){
+    header("location: ../../pages/login.php");
+    exit();
+}
+
+$id_opd = $_SESSION['id_opd'];
+
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -28,13 +50,13 @@
             <nav class="sidebar-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="dashboard_opd.html" class="nav-link">
+                        <a href="dashboard_opd.php" class="nav-link">
                             <i class="fas fa-th-large"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a href="kelola_laporan_opd.html" class="nav-link">
+                        <a href="kelola_laporan_opd.php" class="nav-link">
                             <i class="far fa-file-alt"></i>
                             <span>Kelola Laporan</span>
                         </a>
@@ -150,70 +172,166 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table-row" data-status="diproses" data-kategori="infrastruktur">
-                                <td><strong>#NTB-001</strong></td>
-                                <td>Ahmad Hidayat</td>
-                                <td>Jalan Berlubang Parah</td>
-                                <td><span class="badge badge-blue">INFRASTRUKTUR</span></td>
-                                <td>Mataram</td>
-                                <td class="row-date">2023-10-24</td>
-                                <td><span class="badge badge-yellow-light">DIPROSES</span></td>
-                                <td class="text-right">
-                                    <div class="action-flex">
-                                        <button class="action-btn action-blue" title="Detail" onclick="openModal('NTB-001')"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="action-btn action-red" title="Hapus"><i class="fas fa-trash"></i></button>
-                                    </div>
+
+                            <?php
+
+                            $tampilkan = mysqli_query(
+                                $conn,
+                                "SELECT *
+                                FROM pengaduan
+                                WHERE id_opd='$id_opd'
+                                ORDER BY id_pengaduan DESC"
+                            );
+
+                            while($data = mysqli_fetch_assoc($tampilkan)){
+                            ?>
+
+                            <tr>
+
+                                <td>
+                                    <?= $data['id_pengaduan'] ?>
                                 </td>
-                            </tr>
-                            <tr class="table-row" data-status="pending" data-kategori="lingkungan">
-                                <td><strong>#NTB-002</strong></td>
-                                <td>Siti Aminah</td>
-                                <td>Tumpukan Sampah Liar</td>
-                                <td><span class="badge badge-orange">LINGKUNGAN</span></td>
-                                <td>Lombok Barat</td>
-                                <td class="row-date">2023-10-23</td>
-                                <td><span class="badge badge-red">PENDING</span></td>
-                                <td class="text-right">
-                                    <div class="action-flex">
-                                        <button class="action-btn action-blue" title="Detail" onclick="openModal('NTB-002')"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="action-btn action-red" title="Hapus"><i class="fas fa-trash"></i></button>
-                                    </div>
+
+                                <td>
+                                    <?= $data['nama_pelapor'] ?>
                                 </td>
-                            </tr>
-                            <tr class="table-row" data-status="selesai" data-kategori="kamtibmas">
-                                <td><strong>#NTB-003</strong></td>
-                                <td>Budi Santoso</td>
-                                <td>Lampu Jalan Mati</td>
-                                <td><span class="badge badge-gray">KAMTIBMAS</span></td>
-                                <td>Sumbawa</td>
-                                <td class="row-date">2023-10-22</td>
-                                <td><span class="badge badge-green-light">SELESAI</span></td>
-                                <td class="text-right">
-                                    <div class="action-flex">
-                                        <button class="action-btn action-blue" title="Detail" onclick="openModal('NTB-003')"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="action-btn action-red" title="Hapus"><i class="fas fa-trash"></i></button>
-                                    </div>
+
+                                <td>
+                                    <?= $data['deskripsi_laporan'] ?>
                                 </td>
-                            </tr>
-                            <tr class="table-row" data-status="ditolak" data-kategori="kesehatan">
-                                <td><strong>#NTB-004</strong></td>
-                                <td>Aisyah</td>
-                                <td>Fasilitas Posyandu Rusak</td>
-                                <td><span class="badge badge-blue">KESEHATAN</span></td>
-                                <td>Dompu</td>
-                                <td class="row-date">2023-10-20</td>
-                                <td><span class="badge badge-gray">DITOLAK</span></td>
-                                <td class="text-right">
-                                    <div class="action-flex">
-                                        <button class="action-btn action-blue" title="Detail" onclick="openModal('NTB-004')"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn" title="Edit"><i class="fas fa-pen"></i></button>
-                                        <button class="action-btn action-red" title="Hapus"><i class="fas fa-trash"></i></button>
-                                    </div>
+
+                                <td>
+                                    <span class="badge badge-blue">
+                                        <?= $data['jenis_laporan'] ?>
+                                    </span>
                                 </td>
+
+                                <td>
+                                    <?= $data['alamat_kejadian'] ?>
+                                </td>
+
+                                <td>
+                                    <?= $data['tanggal_laporan'] ?>
+                                </td>
+
+                                <td>
+                                    <span class="badge badge-yellow-light">
+                                        <?= $data['progress_opd'] ?>
+                                    </span>
+                                </td>
+
+                                <td class="text-right">
+
+                                    <div class="action-flex">
+
+                                        <button
+                                            class="action-btn action-blue"
+                                            onclick="openModal('detail<?= $data['id_pengaduan'] ?>')">
+
+                                            <i class="fas fa-eye"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
                             </tr>
+
+                            <div class="modal"
+                            id="detail<?= $data['id_pengaduan'] ?>">
+
+                            <div class="modal-content">
+
+                            <span class="close" onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
+
+                            &times;
+
+                            </span>
+
+                            <h3>Detail Laporan</h3>
+
+                            <p>
+                            <b>Pelapor :</b>
+                            <?= $data['nama_pelapor'] ?>
+                            </p>
+
+                            <p>
+                            <b>Laporan :</b>
+                            <?= $data['deskripsi_laporan'] ?>
+                            </p>
+
+                            <p>
+                            <b>Lokasi :</b>
+                            <?= $data['alamat_kejadian'] ?>
+                            </p>
+
+                            <form action="../../php/aksi_opd.php" method="POST" enctype="multipart/form-data">
+
+                            <input type="hidden" name="id_pengaduan" value="<?= $data['id_pengaduan'] ?>">
+
+                            <div class="form-group">
+
+                            <label>Status</label>
+
+                            <select name="status">
+
+                            <option value="diteruskan"> Diteruskan </option>
+
+                            <option value="diproses"> Diproses </option>
+
+                            <option value="selesai"> Selesai </option>
+
+                            <option value="ditolak">  Ditolak  </option>
+
+                            </select>
+
+                            </div>
+
+                            <div class="form-group">
+
+                            <label>Catatan OPD</label>
+
+                            <textarea name="catatan_opd" rows="4"></textarea>
+
+                            </div>
+
+                            <div class="form-group">
+
+                            <label>Foto Sebelum</label>
+
+                            <input
+                            type="file"
+                            name="foto_sebelum">
+
+                            </div>
+
+                            <div class="form-group">
+
+                            <label>Foto Sesudah</label>
+
+                            <input
+                            type="file"
+                            name="foto_sesudah">
+
+                            </div>
+
+                            <button
+                            type="submit"
+                            name="bupdateopd"
+                            class="btn btn-primary">
+
+                            Simpan Perubahan
+
+                            </button>
+
+                            </form>
+
+                            </div>
+
+                            </div>
+
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
