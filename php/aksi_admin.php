@@ -1,5 +1,5 @@
 <?php
-
+include "../pages/admin/kelola_laporan_admin.php";
 include "koneksi.php";
 
 if(isset($_POST['bupdate'])){
@@ -32,6 +32,42 @@ if(isset($_GET['hapus'])){
         echo "<script>alert('Data berhasil dihapus');document.location='../pages/admin/kelola_laporan_admin.php';</script>";
     } else {
         echo "<script>alert('Gagal hapus');document.location='../pages/admin/kelola_laporan_admin.php';</script>";
+    }
+}
+
+
+if(isset($_POST['bteruskan'])){
+
+    $id_pengaduan = $_POST['id_pengaduan'];
+    $id_opd = $_POST['id_opd'];
+
+    $query = mysqli_query(
+        $conn,
+        "UPDATE pengaduan
+        SET
+            id_opd='$id_opd',
+            status='diteruskan'
+        WHERE id_pengaduan='$id_pengaduan'"
+    );
+
+    if($query){
+
+        echo "
+        <script>
+        alert('Laporan berhasil diteruskan');
+        location='../pages/admin/kelola_laporan_admin.php';
+        </script>
+        ";
+
+    }else{
+
+        echo "
+        <script>
+        alert('Gagal meneruskan laporan');
+        history.back();
+        </script>
+        ";
+
     }
 }
 ?>
