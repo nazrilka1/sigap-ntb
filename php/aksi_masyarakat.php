@@ -10,7 +10,8 @@ if(isset($_POST['submit'])){
     $alamat_kejadian = $_POST['alamat_kejadian'];
     $deskripsi = $_POST['deskripsi'];
     $latitude = $_POST['lat'];
-    $longitude = $_POST['lng'];
+    $longitude = $_POST['lng'];;
+    $kode_laporan = '#NTB-'.date('Y').'-'.rand(1000,1999);
 
     $folder = 'uploads/';
 
@@ -27,9 +28,9 @@ if(isset($_POST['submit'])){
 
     $query = mysqli_query($conn,
         "INSERT INTO pengaduan 
-        (nama_pelapor,nik,alamat,jenis_laporan,alamat_kejadian,deskripsi_laporan,bukti_file,latitude,longitude)
+        (nama_pelapor,nik,alamat,jenis_laporan,alamat_kejadian,deskripsi_laporan,bukti_file,latitude,longitude,kode_laporan,tanggal_laporan)
         VALUES
-        ('$nama','$nik','$alamat','$jenis_laporan','$alamat_kejadian','$deskripsi','$nama_file','$latitude','$longitude')"
+        ('$nama','$nik','$alamat','$jenis_laporan','$alamat_kejadian','$deskripsi','$nama_file','$latitude','$longitude','$kode_laporan',NOW())"
     );
 
     if($query){
