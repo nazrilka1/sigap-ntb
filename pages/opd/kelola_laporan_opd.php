@@ -3,9 +3,6 @@
 include "../../php/koneksi.php";
 
 session_start();
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
 
 if(!isset($_SESSION['username'])){
     header("location: ../../pages/login.php");
@@ -104,27 +101,48 @@ $id_opd = $_SESSION['id_opd'];
                     </div>
                 </div>
             </header>
+            <?php
+                
+                $query_statistik = mysqli_query($conn,"
+                    SELECT
+                        COUNT(*) AS total_laporan,
+                        SUM(CASE WHEN progress_opd = 'dikerjakan' THEN 1 ELSE 0 END) AS dikerjakan,
+                        SUM(CASE WHEN progress_opd = 'menunggu konfirmasi' THEN 1 ELSE 0 END) AS menunggu_konfirmasi,
+                        SUM(CASE WHEN progress_opd = 'selesai' THEN 1 ELSE 0 END) AS selesai
+                    FROM pengaduan
+                ");
+
+                $statistik = mysqli_fetch_assoc($query_statistik);
+
+                $total_laporan = $statistik['total_laporan'];
+                $dikerjakan = $statistik['dikerjakan'];
+                $menunggu_konfirmasi = $statistik['menunggu_konfirmasi'];
+                $selesai = $statistik['selesai'];
+
+            
+            
+            ?>
 
             <section class="summary-cards">
                 <div class="card">
                     <div class="card-icon icon-blue"><i class="fas fa-folder-open"></i></div>
                     <div class="card-label">TOTAL LAPORAN</div>
-                    <div class="card-value">1,284</div>
+                    <div class="card-value"><?=$statistik['total_laporan'] ?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-red"><i class="fas fa-clock"></i></div>
-                    <div class="card-label">PENDING</div>
-                    <div class="card-value">145</div>
+                    <div class="card-label">DIKERJAKAN</div>
+                    <div class="card-value"><?=$statistik['dikerjakan'] ?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-yellow"><i class="fas fa-spinner"></i></div>
-                    <div class="card-label">DIPROSES</div>
-                    <div class="card-value">220</div>
+                    <div class="card-label">MENUNGGU KONFIRMASI</div>
+                    <div class="card-value"><?=$statistik['menunggu_konfirmasi'] ?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-green"><i class="fas fa-check-circle"></i></div>
                     <div class="card-label">SELESAI</div>
-                    <div class="card-value">919</div>
+                    <div class="card-value"><?=$statistik['total_laporan'] ?></div>
                 </div>
             </section>
 
@@ -133,28 +151,39 @@ $id_opd = $_SESSION['id_opd'];
                     <div class="table-header-top">
                         <h2>Daftar Semua Laporan</h2>
                     </div>
-                    
+                <form method='post'>
                     <div class="filter-bar">
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="searchInput" placeholder="Cari ID, Judul, atau Nama...">
+                            <input type="text" id="searchInput" placeholder="Cari ID, Judul, atau Nama..." name='fnama'
+                             value="<?= isset($_POST['fnama']) ? $_POST['fnama'] : '' ?>">
                         </div>
-                        <select class="filter-select" id="statusFilter">
+                        <select class="filter-select" id="statusFilter" name='fprogress'>
                             <option value="">Semua Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="diproses">Diproses</option>
+                            <option value="dikerjakan">Dikerjakan</option>
+                            <option value="menunggu konfirmasi">Menunggu Konfirmasi</option>
                             <option value="selesai">Selesai</option>
-                            <option value="ditolak">Ditolak</option>
+                           
                         </select>
-                        <select class="filter-select" id="kategoriFilter">
-                            <option value="">Semua Kategori</option>
-                            <option value="infrastruktur">Infrastruktur</option>
-                            <option value="kesehatan">Kesehatan</option>
-                            <option value="kamtibmas">Kamtibmas</option>
-                            <option value="lingkungan">Lingkungan</option>
+                        <select class="filter-select" id="kategoriFilter" name='fkategori'>
+                            <option value="">Semua Jenis Laporan</option>
+                            <option value="pengaduan">Pengaduan</option>
+                            <option value="pengajuan">Pengajuan</option>
+                            
                         </select>
-                        <input type="date" class="filter-date" id="dateFilter">
+                        <input type="date" class="filter-date" id="dateFilter" name='ftanggal'>
+                          <button
+                            type="submit"
+                            name="fupdate"
+                            class="btn btn-primary">
+                            Filter Pencarian
+                        </button>
+
+                        <a href="kelola_laporan_admin.php" class="btn btn-secondary">
+                            Reset
+                        </a>
                     </div>
+                </form>
                 </div>
 
                 <div class="table-responsive">
@@ -164,7 +193,7 @@ $id_opd = $_SESSION['id_opd'];
                                 <th>ID</th>
                                 <th>PELAPOR</th>
                                 <th>JUDUL LAPORAN</th>
-                                <th>KATEGORI</th>
+                                <th>JENIS</th>
                                 <th>LOKASI</th>
                                 <th>TANGGAL</th>
                                 <th>STATUS</th>
@@ -174,14 +203,27 @@ $id_opd = $_SESSION['id_opd'];
                         <tbody>
 
                             <?php
+                            $nama     = isset($_POST['fnama']) ? mysqli_real_escape_string($conn, $_POST['fnama']) : '';
+                            $progress   = isset($_POST['fprogress']) ? mysqli_real_escape_string($conn, $_POST['fprogress']) : '';
+                            $kategori = isset($_POST['fkategori']) ? mysqli_real_escape_string($conn, $_POST['fkategori']) : '';
+                            $tanggal  = isset($_POST['ftanggal']) ? mysqli_real_escape_string($conn, $_POST['ftanggal']) : '';
 
-                            $tampilkan = mysqli_query(
-                                $conn,
-                                "SELECT *
+                            $tampilkan = mysqli_query($conn,"
+                                SELECT *
                                 FROM pengaduan
-                                WHERE id_opd='$id_opd'
-                                ORDER BY id_pengaduan DESC"
-                            );
+                                WHERE
+                                    ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
+                                AND
+                                    ('$progress' = '' OR progress_opd = '$progress')
+                                AND
+                                    ('$kategori' = '' OR jenis_laporan = '$kategori')
+                                AND
+                                    ('$tanggal' = '' OR tanggal_laporan = '$tanggal')
+                                ORDER BY id_pengaduan ASC
+                            ");
+
+
+                           
 
                             while($data = mysqli_fetch_assoc($tampilkan)){
                             ?>
@@ -189,7 +231,7 @@ $id_opd = $_SESSION['id_opd'];
                             <tr>
 
                                 <td>
-                                    <?= $data['id_pengaduan'] ?>
+                                    <?= $data['kode_laporan'] ?>
                                 </td>
 
                                 <td>
@@ -197,7 +239,7 @@ $id_opd = $_SESSION['id_opd'];
                                 </td>
 
                                 <td>
-                                    <?= $data['deskripsi_laporan'] ?>
+                                    <?= $data['judul_laporan'] ?>
                                 </td>
 
                                 <td>
