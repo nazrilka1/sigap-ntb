@@ -153,11 +153,10 @@ if($_SESSION['role'] != 'admin'){
                         </select>
 
                         <select class="filter-select" name="fkategori">
-                            <option value="">Semua Kategori</option>
-                            <option value="infrastruktur">Infrastruktur</option>
-                            <option value="kesehatan">Kesehatan</option>
-                            <option value="kamtibmas">Kamtibmas</option>
-                            <option value="lingkungan">Lingkungan</option>
+                            <option value="">Semua Jenis Laporan</option>
+                            <option value="pengaduan">Pengaduan</option>
+                            <option value="pengajuan">Pengajuan</option>
+                            
                         </select>
 
                         <input
@@ -185,7 +184,7 @@ if($_SESSION['role'] != 'admin'){
                                 <th>ID</th>
                                 <th>PELAPOR</th>
                                 <th>JUDUL LAPORAN</th>
-                                <th>KATEGORI</th>
+                                <th>JENIS</th>
                                 <th>LOKASI</th>
                                 <th>TANGGAL</th>
                                 <th>STATUS</th>
@@ -204,14 +203,7 @@ if($_SESSION['role'] != 'admin'){
                             $tanggal  = isset($_POST['ftanggal']) ? mysqli_real_escape_string($conn, $_POST['ftanggal']) : '';
 
                             $tampilkan = mysqli_query($conn,"
-                                SELECT
-                                    id_pengaduan,
-                                    nama_pelapor,
-                                    deskripsi_laporan,
-                                    jenis_laporan,
-                                    alamat_kejadian,
-                                    tanggal_laporan,
-                                    status
+                                SELECT *
                                 FROM pengaduan
                                 WHERE
                                     ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
@@ -230,9 +222,9 @@ if($_SESSION['role'] != 'admin'){
                         ?>
 
                             <tr>
-                                <td><?= $data['id_pengaduan'] ?></td>
+                                <td><?= $data['kode_laporan'] ?></td>
                                 <td><?= $data['nama_pelapor'] ?></td>
-                                <td><?= $data['deskripsi_laporan'] ?></td>
+                                <td><?= $data['judul_laporan'] ?></td>
 
                                 <td>
                                     <span class="badge badge-blue">
@@ -317,7 +309,7 @@ if($_SESSION['role'] != 'admin'){
                                             <textarea
                                                 name="ujudul"
                                                 rows="4"
-                                                required><?= htmlspecialchars($data['deskripsi_laporan']) ?></textarea>
+                                                required><?= htmlspecialchars($data['judul_laporan']) ?></textarea>
                                         </div>
 
                                         <div class="form-group">
