@@ -11,7 +11,7 @@ if(isset($_POST['bupdate'])){
 
     $ubah = mysqli_query($conn, "UPDATE pengaduan SET 
                                    nama_pelapor='$nama',
-                                   deskripsi_laporan='$judul',
+                                   judul_laporan='$judul',
                                    jenis_laporan='$kategori'
                                    WHERE id_pengaduan='$id'");
 
