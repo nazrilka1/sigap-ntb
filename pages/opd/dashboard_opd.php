@@ -4,15 +4,15 @@ session_start();
 include "../../php/koneksi.php";
 
 if(!isset($_SESSION['username'])){
-    header('location: ../../login.php');
+    header('location: ../../pages/login.php');
     exit();
 }
 
 if($_SESSION['role'] != 'opd'){
-    header('location: ../../login.php');
+    header('location: ../../pages/login.php');
     exit();
 }
-
+$id_opd = $_SESSION['id_opd'];
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +50,7 @@ if($_SESSION['role'] != 'opd'){
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="kelola_laporan_opd.html" class="nav-link">
+                        <a href="kelola_laporan_opd.php" class="nav-link">
                             <i class="far fa-file-alt"></i>
                             <span>Kelola Laporan</span>
                         </a>
@@ -98,20 +98,41 @@ if($_SESSION['role'] != 'opd'){
                         <p class="opd-desc">Fokus pada penyelesaian laporan masyarakat secara cepat, transparan, dan akuntabel untuk NTB yang Gemilang.</p>
                     </div>
                 </div>
+                 <?php
+                
+                        $query_statistik = mysqli_query($conn,"
+                            SELECT
+                                COUNT(*) AS total_laporan,
+                                SUM(CASE WHEN progress_opd = 'dikerjakan' THEN 1 ELSE 0 END) AS dikerjakan,
+                                SUM(CASE WHEN progress_opd = 'menunggu konfirmasi' THEN 1 ELSE 0 END) AS menunggu_konfirmasi,
+                                SUM(CASE WHEN progress_opd = 'selesai' THEN 1 ELSE 0 END) AS selesai
+                            FROM pengaduan
+                        ");
+
+                        $statistik = mysqli_fetch_assoc($query_statistik);
+
+                        $total_laporan = $statistik['total_laporan'];
+                        $dikerjakan = $statistik['dikerjakan'];
+                        $menunggu_konfirmasi = $statistik['menunggu_konfirmasi'];
+                        $selesai = $statistik['selesai'];
+
+                    
+                    
+                    ?>
 
                 <div class="opd-stats-area">
                     <div class="stat-badge stat-blue">
                         <div class="stat-icon-wrap"><i class="far fa-calendar-alt"></i></div>
                         <div class="stat-text-wrap">
                             <span class="stat-label">MENUNGGU</span>
-                            <span class="stat-number">12</span>
+                            <span class="stat-number"><?=$statistik['menunggu_konfirmasi']?> </span>
                         </div>
                     </div>
                     <div class="stat-badge stat-green">
                         <div class="stat-icon-wrap"><i class="far fa-check-circle"></i></div>
                         <div class="stat-text-wrap">
                             <span class="stat-label">SELESAI</span>
-                            <span class="stat-number">48</span>
+                            <span class="stat-number"><?=$statistik['selesai']?></span>
                         </div>
                     </div>
                 </div>
@@ -125,98 +146,48 @@ if($_SESSION['role'] != 'opd'){
             </div>
 
             <div class="opd-report-list">
+                <?php
+
+                $tampilkan = mysqli_query($conn, "SELECT * FROM pengaduan WHERE id_opd = '$id_opd'");
+                while($data = mysqli_fetch_assoc($tampilkan)){
+
+
+                ?>
                 
                 <div class="opd-report-card card-hover-effect">
                     <div class="report-content-left">
                         <div class="report-tags">
-                            <span class="badge badge-red">URGENT</span>
-                            <span class="report-id">ID: #NTB-8821</span>
-                            <span class="report-time">• 2 Jam yang lalu</span>
+                            <span class="badge badge-red"><?= $data['jenis_laporan']?></span>
+                            <span class="report-id">ID:<?= $data['kode_laporan']?></span>
+                            <span class="report-time"><?= $data['tanggal_laporan']?></span>
                         </div>
-                        <h3 class="report-heading">Kerusakan Lampu Jalan di Jalur Bypass BIL</h3>
-                        <p class="report-paragraph">Lampu jalan sepanjang 200 meter mati total di sekitar KM 12. Sangat membahayakan pengendara di malam hari karena minim penerangan tambahan.</p>
+                        <h3 class="report-heading"><?= $data['judul_laporan']?></h3>
+                        <p class="report-paragraph"><?= $data['deskripsi_laporan']?></p>
                         <div class="report-meta">
-                            <span><i class="far fa-map"></i> Lombok Tengah</span>
-                            <span><i class="far fa-user"></i> M. Ikhsan</span>
+                            <span><i class="far fa-map"></i> <?= $data['alamat_kejadian']?></span>
+                            <span><i class="far fa-user"></i> <?= $data['nama_pelapor']?></span>
                         </div>
                     </div>
                     <div class="report-action-right">
                         <div class="form-group-light">
+                        <form action="../../php/aksi_opd.php" method ='post'>
+                         <input type="hidden" name="id_pengaduan" value="<?= $data['id_pengaduan'] ?>">
                             <label>GANTI STATUS</label>
-                            <select class="form-control form-light">
-                                <option>Sedang Dikerjakan</option>
-                                <option>Menunggu Konfirmasi</option>
-                                <option>Selesai</option>
+                            <select class="form-control form-light" name = 'dprogress'>
+                                <option value="sedang dikerjakan" <?= $data['progress_opd']=='sedang dikerjakan' ? 'selected' : "" ?>>Sedang Dikerjakan</option>
+                                <option value="menunggu konfirmasi" <?= $data['progress_opd']=='menunggu konfirmasi' ? 'selected' : "" ?>>Menunggu Konfirmasi</option>
+                                <option value="selesai" <?= $data['progress_opd']=='selesai' ? 'selected' : "" ?>>Selesai</option>
                             </select>
                         </div>
                         <div class="form-group-light">
                             <label>KETERANGAN PROGRESS</label>
-                            <textarea class="form-control form-light" rows="3" placeholder="Masukkan update penanganan..."></textarea>
+                            <textarea class="form-control form-light" rows="3" placeholder="Masukkan update penanganan..." name='dketerangan'></textarea>
                         </div>
-                        <button class="btn-action btn-green w-100 btn-update" onclick="window.showToast()">Update Progress</button>
+                        <button class="btn-action btn-green w-100 btn-update" onclick="window.showToast()" name='dupdate'>Update Progress</button>
+                        </form>
                     </div>
                 </div>
-
-                <div class="opd-report-card card-hover-effect">
-                    <div class="report-content-left">
-                        <div class="report-tags">
-                            <span class="badge badge-green">NORMAL</span>
-                            <span class="report-id">ID: #NTB-8795</span>
-                            <span class="report-time">• 5 Jam yang lalu</span>
-                        </div>
-                        <h3 class="report-heading">Usulan Marka Jalan di Simpang Empat Pagutan</h3>
-                        <p class="report-paragraph">Marka jalan sudah mulai pudar sehingga pengendara seringkali tidak tertib saat berhenti di lampu merah. Mohon dilakukan pengecatan ulang.</p>
-                        <div class="report-meta">
-                            <span><i class="far fa-map"></i> Kota Mataram</span>
-                            <span><i class="far fa-user"></i> Siti Aminah</span>
-                        </div>
-                    </div>
-                    <div class="report-action-right">
-                        <div class="form-group-light">
-                            <label>GANTI STATUS</label>
-                            <select class="form-control form-light">
-                                <option>Menunggu Konfirmasi</option>
-                                <option>Sedang Dikerjakan</option>
-                                <option>Selesai</option>
-                            </select>
-                        </div>
-                        <div class="form-group-light">
-                            <label>KETERANGAN PROGRESS</label>
-                            <textarea class="form-control form-light" rows="3" placeholder="Masukkan update penanganan..."></textarea>
-                        </div>
-                        <button class="btn-action btn-green w-100 btn-update" onclick="window.showToast()">Update Progress</button>
-                    </div>
-                </div>
-
-                <div class="opd-report-card card-hover-effect">
-                    <div class="report-content-left">
-                        <div class="report-tags">
-                            <span class="badge badge-darkblue">INFO</span>
-                            <span class="report-id">ID: #NTB-8750</span>
-                            <span class="report-time">• 1 Hari yang lalu</span>
-                        </div>
-                        <h3 class="report-heading">Penertiban Parkir Liar di Area Senggigi</h3>
-                        <p class="report-paragraph">Banyak kendaraan parkir di bahu jalan utama Senggigi yang menghambat arus lalu lintas wisatawan saat akhir pekan.</p>
-                        <div class="report-meta">
-                            <span><i class="far fa-map"></i> Lombok Barat</span>
-                            <span><i class="far fa-user"></i> Budiman</span>
-                        </div>
-                    </div>
-                    <div class="report-action-right">
-                        <div class="form-group-light">
-                            <label>GANTI STATUS</label>
-                            <select class="form-control form-light">
-                                <option>Sedang Dikerjakan</option>
-                                <option>Selesai</option>
-                            </select>
-                        </div>
-                        <div class="form-group-light">
-                            <label>KETERANGAN PROGRESS</label>
-                            <textarea class="form-control form-light" rows="3">Tim patroli sudah diturunkan untuk memberikan himbauan dan penertiban berkala.</textarea>
-                        </div>
-                        <button class="btn-action btn-green w-100 btn-update" onclick="window.showToast()">Update Progress</button>
-                    </div>
-                </div>
+                <?php } ?>
 
             </div>
 
