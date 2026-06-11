@@ -1,3 +1,9 @@
+<?php
+include "koneksi.php";
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -25,14 +31,14 @@
             </a>
             
             <ul class="nav-links" id="navLinks">
-                <li><a href="../index.html">Beranda</a></li>
-                <li><a href="pengaduan.html">Pengaduan</a></li>
-                <li><a href="status.html" class="active">Status Pengaduan</a></li>
-                <li><a href="riwayat.html">Riwayat Pengaduan</a></li>
+                <li><a href="../index.php">Beranda</a></li>
+                <li><a href="pengaduan.php">Pengaduan</a></li>
+                <li><a href="status.php" class="active">Status Pengaduan</a></li>
+                <li><a href="riwayat.php">Riwayat Pengaduan</a></li>
             </ul>
 
             <div class="nav-actions">
-                <a href="../pages/login.php" class="btn btn-login">Login</a>
+                <a href="../pages/login.html" class="btn btn-login">Login</a>
 
                 <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">
                     ☰
@@ -75,25 +81,26 @@
                         </div>
                     </div>
 
-                    <div class="status-form-group">
+                     <div class="status-form-group">
                         <label for="wilayah">Wilayah / Kabupaten</label>
 
                         <select id="wilayah" name="wilayah">
                             <option value="">Semua Wilayah</option>
-                            <option value="mataram">Kota Mataram</option>
-                            <option value="lombok-barat">Kab. Lombok Barat</option>
-                            <option value="lombok-tengah">Kab. Lombok Tengah</option>
-                            <option value="lombok-timur">Kab. Lombok Timur</option>
-                            <option value="lombok-utara">Kab. Lombok Utara</option>
-                            <option value="sumbawa">Kab. Sumbawa</option>
-                            <option value="sumbawa-barat">Kab. Sumbawa Barat</option>
-                            <option value="dompu">Kab. Dompu</option>
-                            <option value="bima">Kab. Bima</option>
-                            <option value="kota-bima">Kota Bima</option>
+                            <option value="kota mataram">Kota Mataram</option>
+                            <option value="kab. lombok barat">Kab. Lombok Barat</option>
+                            <option value="kab. lombok tengah">Kab. Lombok Tengah</option>
+                            <option value="kab. lombok timur">Kab. Lombok Timur</option>
+                            <option value="kab. lombok utara">Kab. Lombok Utara</option>
+                            <option value="kab. sumbawa">Kab. Sumbawa</option>
+                            <option value="kab. sumbawa barat">Kab. Sumbawa Barat</option>
+                            <option value="kab. dompu">Kab. Dompu</option>
+                            <option value="kab. bima">Kab. Bima</option>
+                            <option value="kota bima">Kota Bima</option>
                         </select>
                     </div>
 
-                    <button type="submit" class="status-search-btn">
+
+                    <button type="submit" class="status-search-btn" name=cari_laporan>
                         Cari Laporan
                     </button>
                 </form>
@@ -121,64 +128,45 @@
                                     <th>Wilayah</th>
                                     <th>Tanggal</th>
                                     <th>Status</th>
-                                    <th class="text-center">Aksi</th>
+    
                                 </tr>
                             </thead>
 
                             <tbody>
+                            <?php
+                        
+
+                                $kode     = isset($_POST['kode_laporan']) ? mysqli_real_escape_string($conn, $_POST['kode_laporan']) : '';
+                                $wilayah   = isset($_POST['wilayah']) ? mysqli_real_escape_string($conn, $_POST['wilayah']) : '';
+                               
+                                $tampilkan = mysqli_query($conn,"
+                                    SELECT *
+                                    FROM pengaduan
+                                    WHERE
+                                        ('$kode' = '' OR kode_laporan ='$kode')
+                                    AND
+                                        ('$wilayah' = '' OR wilayah = '$wilayah')
+                                    ORDER BY id_pengaduan ASC
+                                ");
+
+
+
+                            while($data = mysqli_fetch_assoc($tampilkan)){
+                            ?>
                                 <tr>
-                                    <td class="report-code">#NTB-2024-001</td>
-                                    <td>Infrastruktur</td>
-                                    <td>Lombok Barat</td>
-                                    <td class="text-muted">15 Jan 2024</td>
+                                    <td class="report-code"><?= $data['kode_laporan']?></td>
+                                    <td><?= $data['jenis_laporan']?></td>
+                                    <td><?= $data['wilayah']?></td>
+                                    <td class="text-muted"><?= $data['tanggal_laporan']?></td>
                                     <td>
                                         <span class="status-pill status-process">
-                                            Diproses
+                                           <?= $data['status']?>
                                         </span>
                                     </td>
-                                    <td class="text-center">
-                                        <a href="#" class="detail-link">
-                                            Lihat Detail
-                                            <span class="material-symbols-outlined">arrow_forward</span>
-                                        </a>
-                                    </td>
+                                    
                                 </tr>
 
-                                <tr>
-                                    <td class="report-code">#NTB-2024-002</td>
-                                    <td>Kesehatan</td>
-                                    <td>Kota Mataram</td>
-                                    <td class="text-muted">14 Jan 2024</td>
-                                    <td>
-                                        <span class="status-pill status-done">
-                                            Selesai
-                                        </span>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" class="detail-link">
-                                            Lihat Detail
-                                            <span class="material-symbols-outlined">arrow_forward</span>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="report-code">#NTB-2024-003</td>
-                                    <td>Pendidikan</td>
-                                    <td>Lombok Tengah</td>
-                                    <td class="text-muted">13 Jan 2024</td>
-                                    <td>
-                                        <span class="status-pill status-pending">
-                                            Menunggu
-                                        </span>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" class="detail-link">
-                                            Lihat Detail
-                                            <span class="material-symbols-outlined">arrow_forward</span>
-                                        </a>
-                                    </td>
-                                </tr>
+                               <?php } ?>
                             </tbody>
                         </table>
                     </div>
