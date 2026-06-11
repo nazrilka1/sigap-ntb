@@ -6,6 +6,7 @@ if(isset($_POST['submit'])){
     $nama = $_POST['nama'];
     $nik = $_POST['nik'];
     $alamat = $_POST['alamat'];
+    $wilayah = $_POST['wilayah'];
     $jenis_laporan = $_POST['jenis'];
     $alamat_kejadian = $_POST['alamat_kejadian'];
     $deskripsi = $_POST['deskripsi'];
@@ -28,9 +29,9 @@ if(isset($_POST['submit'])){
 
     $query = mysqli_query($conn,
         "INSERT INTO pengaduan 
-        (nama_pelapor,nik,alamat,jenis_laporan,alamat_kejadian,deskripsi_laporan,bukti_file,latitude,longitude,kode_laporan,tanggal_laporan)
+        (nama_pelapor,nik,alamat,jenis_laporan,alamat_kejadian,deskripsi_laporan,bukti_file,latitude,longitude,kode_laporan,tanggal_laporan,wilayah)
         VALUES
-        ('$nama','$nik','$alamat','$jenis_laporan','$alamat_kejadian','$deskripsi','$nama_file','$latitude','$longitude','$kode_laporan',NOW())"
+        ('$nama','$nik','$alamat','$jenis_laporan','$alamat_kejadian','$deskripsi','$nama_file','$latitude','$longitude','$kode_laporan',NOW(),'$wilayah')"
     );
 
     if($query){
