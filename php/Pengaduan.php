@@ -25,14 +25,14 @@
             </a>
             
             <ul class="nav-links" id="navLinks">
-                <li><a href="../index.html">Beranda</a></li>
-                <li><a href="pengaduan.html" class="active">Pengaduan</a></li>
-                <li><a href="status.html">Status Pengaduan</a></li>
-                <li><a href="riwayat.html">Riwayat Pengaduan</a></li>
+                <li><a href="../index.php">Beranda</a></li>
+                <li><a href="pengaduan.php" class="active">Pengaduan</a></li>
+                <li><a href="status.php">Status Pengaduan</a></li>
+                <li><a href="riwayat.php">Riwayat Pengaduan</a></li>
             </ul>
 
             <div class="nav-actions">
-                <a href="../pages/login.html" class="btn btn-login">Login</a>
+                <a href="../pages/login.php" class="btn btn-login">Login</a>
 
                 <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">
                     ☰
@@ -109,6 +109,25 @@
                         ></textarea>
                     </div>
 
+                    <div class="status-form-group">
+                        <label for="wilayah">Wilayah / Kabupaten</label>
+
+                        <select id="wilayah" name="wilayah">
+                            <option value="">Semua Wilayah</option>
+                            <option value="kota mataram">Kota Mataram</option>
+                            <option value="kab. lombok barat">Kab. Lombok Barat</option>
+                            <option value="kab. lombok tengah">Kab. Lombok Tengah</option>
+                            <option value="kab. lombok timur">Kab. Lombok Timur</option>
+                            <option value="kab. lombok utara">Kab. Lombok Utara</option>
+                            <option value="kab. sumbawa">Kab. Sumbawa</option>
+                            <option value="kab. sumbawa barat">Kab. Sumbawa Barat</option>
+                            <option value="kab. dompu">Kab. Dompu</option>
+                            <option value="kab. bima">Kab. Bima</option>
+                            <option value="kota bima">Kota Bima</option>
+                        </select>
+                    </div>
+
+
                     <div class="input-group">
                         <label for="deskripsi">Deskripsi Laporan</label>
                         <textarea 
@@ -120,20 +139,20 @@
                     </div>
 
                     <div class="input-group">
-    <label for="foto_bukti">Upload Foto Bukti</label>
+                    <label for="foto_bukti">Upload Foto Bukti</label>
 
-    <input 
-        type="file" 
-        id="foto_bukti" 
-        name="foto_bukti" 
-        class="file-upload"
-        accept="image/png, image/jpeg, image/jpg, image/webp"
-    >
+                    <input 
+                        type="file" 
+                        id="foto_bukti" 
+                        name="foto_bukti" 
+                        class="file-upload"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                    >
 
-    <small class="upload-note">
-        Format: JPG, JPEG, PNG, WEBP. Maksimal 2MB.
-    </small>
-</div>
+                    <small class="upload-note">
+                        Format: JPG, JPEG, PNG, WEBP. Maksimal 2MB.
+                    </small>
+                </div>
 
 
                     <div class="input-group">
