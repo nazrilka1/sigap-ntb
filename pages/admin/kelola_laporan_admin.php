@@ -62,7 +62,7 @@ if($_SESSION['role'] != 'admin'){
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pengaturan_admin.html" class="nav-link">
+                        <a href="pengaturan_admin.php" class="nav-link">
                             <i class="far fa-user-circle"></i>
                             <span>Pengaturan</span>
                         </a>
@@ -104,27 +104,41 @@ if($_SESSION['role'] != 'admin'){
                     </div>
                 </div>
             </header>
+            <?php
+                
+                $query_statistik = mysqli_query($conn,"
+                    SELECT
+                        COUNT(*) AS total_laporan,
+                        SUM(CASE WHEN status = 'menunggu' THEN 1 ELSE 0 END) AS menunggu,
+                        SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending,
+                        SUM(CASE WHEN status = 'diproses' THEN 1 ELSE 0 END) AS diproses,
+                        SUM(CASE WHEN status = 'selesai' THEN 1 ELSE 0 END) AS selesai
+                    FROM pengaduan
+                ");
 
+                $statistik = mysqli_fetch_assoc($query_statistik);
+
+            ?>
             <section class="summary-cards">
                 <div class="card">
                     <div class="card-icon icon-blue"><i class="fas fa-folder-open"></i></div>
                     <div class="card-label">TOTAL LAPORAN</div>
-                    <div class="card-value">1,284</div>
+                    <div class="card-value"><?= $statistik['total_laporan']?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-red"><i class="fas fa-clock"></i></div>
                     <div class="card-label">PENDING</div>
-                    <div class="card-value">145</div>
+                    <div class="card-value"><?= $statistik['pending']?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-yellow"><i class="fas fa-spinner"></i></div>
                     <div class="card-label">DIPROSES</div>
-                    <div class="card-value">220</div>
+                    <div class="card-value"><?= $statistik['diproses']?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-green"><i class="fas fa-check-circle"></i></div>
                     <div class="card-label">SELESAI</div>
-                    <div class="card-value">919</div>
+                    <div class="card-value"><?= $statistik['selesai']?></div>
                 </div>
             </section>
 
@@ -167,11 +181,12 @@ if($_SESSION['role'] != 'admin'){
                         <button
                             type="submit"
                             name="fupdate"
-                            class="btn btn-primary">
+                            class="btn-green"
+                            >
                             Filter Pencarian
                         </button>
 
-                        <a href="kelola_laporan_admin.php" class="btn btn-secondary">
+                        <a href="kelola_laporan_admin.php" class="btn-green" >
                             Reset
                         </a>
                     </div>
@@ -245,7 +260,7 @@ if($_SESSION['role'] != 'admin'){
                                 <td class="text-right">
                                     <div class="action-flex">
 
-                                        <button class="action-btn action-blue">
+                                        <button class="action-btn action-blue" onclick="openModal('detail<?= $data['id_pengaduan'] ?>')">
                                             <i class="fas fa-eye"></i>
                                         </button>
 
@@ -274,7 +289,84 @@ if($_SESSION['role'] != 'admin'){
                                     </div>
                                 </td>
                             </tr>
+                          <div class="modal" id="detail<?= $data['id_pengaduan'] ?>">
+                                <div class="modal-content detail-modal">
 
+                                    <span class="close"
+                                        onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
+                                        &times;
+                                    </span>
+
+                                    <div class="detail-header">
+                                        <i class="fas fa-file-alt"></i>
+                                        <h2>Detail Laporan</h2>
+                                    </div>
+
+                                    <div class="detail-grid">
+
+                                        <div class="detail-item">
+                                            <span class="label">Kode Laporan</span>
+                                            <span class="value"><?= $data['kode_laporan'] ?></span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Nama Pelapor</span>
+                                            <span class="value"><?= $data['nama_pelapor'] ?></span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Judul Laporan</span>
+                                            <span class="value"><?= $data['judul_laporan'] ?></span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Jenis Laporan</span>
+                                            <span class="badge badge-blue">
+                                                <?= $data['jenis_laporan'] ?>
+                                            </span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Lokasi</span>
+                                            <span class="value"><?= $data['alamat_kejadian'] ?></span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Tanggal</span>
+                                            <span class="value"><?= $data['tanggal_laporan'] ?></span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Status</span>
+                                            <span class="badge badge-status">
+                                                <?= $data['status'] ?>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="description-section">
+
+                                        <h4>Deskripsi Laporan</h4>
+
+                                        <div class="description-box">
+                                            <?= nl2br(htmlspecialchars($data['deskripsi_laporan'])) ?>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button
+                                            class="btn-detail-close"
+                                            onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
+
+                                            Tutup
+
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
                             <div class="modal" id="edit<?= $data['id_pengaduan'] ?>">
                                 <div class="modal-content">
 
@@ -442,6 +534,7 @@ if($_SESSION['role'] != 'admin'){
             document.getElementById(id).classList.remove('show');
         }
     </script>
+    
 </body>
 </html>
 </body>
