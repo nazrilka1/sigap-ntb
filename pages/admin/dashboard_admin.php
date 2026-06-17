@@ -1,14 +1,14 @@
 <?php
-
+include "../../php/koneksi.php";
 session_start();
 
 if(!isset($_SESSION['username'])){
-    header('location: ../../login.php');
+    header('location: ../../pages/login.php');
     exit();
 }
 
 if($_SESSION['role'] != 'admin'){
-    header('location: ../../login.php');
+    header('location: ../../pages/login.php');
     exit();
 }
 
@@ -144,6 +144,21 @@ if($_SESSION['role'] != 'admin'){
             </div>
 
         </header>
+         <?php
+                
+                $query_statistik = mysqli_query($conn,"
+                    SELECT
+                        COUNT(*) AS total_laporan,
+                        SUM(CASE WHEN status = 'menunggu' THEN 1 ELSE 0 END) AS menunggu,
+                        SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending,
+                        SUM(CASE WHEN status = 'diproses' THEN 1 ELSE 0 END) AS diproses,
+                        SUM(CASE WHEN status = 'selesai' THEN 1 ELSE 0 END) AS selesai
+                    FROM pengaduan
+                ");
+
+                $statistik = mysqli_fetch_assoc($query_statistik);
+
+            ?>
 
         <!-- CARD -->
         <section class="summary-cards">
@@ -159,12 +174,11 @@ if($_SESSION['role'] != 'admin'){
                 </div>
 
                 <div class="card-value">
-                    1,284
+                    <?= $statistik['total_laporan']?>
                 </div>
 
                 <div class="card-status status-up">
-                    <i class="fas fa-arrow-up"></i>
-                    +12% dari bulan lalu
+                    dari berbagai penjuru NTB
                 </div>
 
             </div>
@@ -180,7 +194,7 @@ if($_SESSION['role'] != 'admin'){
                 </div>
 
                 <div class="card-value">
-                    42
+                     <?= $statistik['menunggu']?>
                 </div>
 
                 <div class="card-status status-alert">
@@ -201,7 +215,7 @@ if($_SESSION['role'] != 'admin'){
                 </div>
 
                 <div class="card-value">
-                    912
+                     <?= $statistik['selesai']?>
                 </div>
 
                 <div class="card-status status-good">
@@ -211,26 +225,6 @@ if($_SESSION['role'] != 'admin'){
 
             </div>
 
-            <div class="card">
-
-                <div class="card-icon icon-blue">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-
-                <div class="card-label">
-                    RESPON RATA-RATA
-                </div>
-
-                <div class="card-value">
-                    2.4 Hari
-                </div>
-
-                <div class="card-status status-good">
-                    <i class="fas fa-bolt"></i>
-                    Lebih cepat dari target
-                </div>
-
-            </div>
 
         </section>
 
@@ -248,99 +242,72 @@ if($_SESSION['role'] != 'admin'){
                     <input
                     type="text"
                     id="searchInput"
-                    placeholder="Cari laporan...">
+                    placeholder="Cari laporan..."
+                    name="fnama"
+                    value="<?= isset($_POST['fnama']) ? $_POST['fnama'] : '' ?>">
 
                 </div>
 
             </div>
+             <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>PELAPOR</th>
+                                <th>JUDUL LAPORAN</th>
+                                <th>JENIS</th>
+                                <th>LOKASI</th>
+                                <th>TANGGAL</th>
+                                <th>STATUS</th>
+                                <th class="text-right">AKSI</th>
+                            </tr>
+                        </thead>
 
-            <div class="table-responsive">
+                        <tbody>
+                        <?php
+                        
 
-                <table class="data-table">
+                            $nama     = isset($_POST['fnama']) ? mysqli_real_escape_string($conn, $_POST['fnama']) : '';
+                           
+                            $tampilkan = mysqli_query($conn,"
+                                SELECT *
+                                FROM pengaduan
+                                WHERE
+                                    ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
+                               
+                                ORDER BY id_pengaduan ASC
+                            ");
 
-                    <thead>
 
-                        <tr>
-                            <th>ID</th>
-                            <th>NAMA</th>
-                            <th>JENIS</th>
-                            <th>TANGGAL</th>
-                            <th>STATUS</th>
-                            <th>AKSI</th>
-                        </tr>
 
-                    </thead>
+                        while($data = mysqli_fetch_assoc($tampilkan)){
+                        ?>
 
-                    <tbody>
+                            <tr>
+                                <td><?= $data['kode_laporan'] ?></td>
+                                <td><?= $data['nama_pelapor'] ?></td>
+                                <td><?= $data['judul_laporan'] ?></td>
 
-                        <tr>
+                                <td>
+                                    <span class="badge badge-blue">
+                                        <?= $data['jenis_laporan'] ?>
+                                    </span>
+                                </td>
 
-                            <td>#NTB001</td>
-                            <td>Ahmad Hidayat</td>
-                            <td>Infrastruktur</td>
-                            <td>21 Mei 2026</td>
+                                <td><?= $data['alamat_kejadian'] ?></td>
 
-                            <td>
-                                <span class="badge badge-yellow-light">
-                                    Diproses
-                                </span>
-                            </td>
+                                <td><?= $data['tanggal_laporan'] ?></td>
 
-                            <td>
-
-                                <button class="action-btn">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-
-                                <button class="action-btn action-green">
-                                    <i class="fas fa-check"></i>
-                                </button>
-
-                                <button class="action-btn action-yellow">
-                                    <i class="fas fa-history"></i>
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>#NTB002</td>
-                            <td>Siti Aminah</td>
-                            <td>Kesehatan</td>
-                            <td>20 Mei 2026</td>
-
-                            <td>
-                                <span class="badge badge-green-light">
-                                    Selesai
-                                </span>
-                            </td>
-
-                            <td>
-
-                                <button class="action-btn">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-
-                                <button class="action-btn action-green">
-                                    <i class="fas fa-check"></i>
-                                </button>
-
-                                <button class="action-btn action-yellow">
-                                    <i class="fas fa-history"></i>
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
+                                <td>
+                                    <span class="badge badge-yellow-light">
+                                        <?= $data['status'] ?>
+                                    </span>
+                                </td>
+                                <?php } ?>
+                            </tr> 
+                        </tbody> 
+                    </table>
         </section>
 
     </main>
