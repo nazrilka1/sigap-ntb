@@ -38,7 +38,7 @@ include "koneksi.php";
             </ul>
 
             <div class="nav-actions">
-                <a href="../pages/login.html" class="btn btn-login">Login</a>
+                <a href="../pages/login.php" class="btn btn-login">Login</a>
 
                 <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu">
                     ☰
@@ -75,9 +75,9 @@ include "koneksi.php";
                             <input 
                                 type="text" 
                                 id="kode_laporan" 
-                                name="kode_laporan" 
-                                placeholder="Contoh: NTB-2024-XXXX"
-                            >
+                                name="kode_laporan"
+                                value="<?= isset($_GET['kode_laporan']) ? htmlspecialchars($_GET['kode_laporan']) : '' ?>"
+                                placeholder="Contoh: NTB-2024-XXXX">
                         </div>
                     </div>
 
@@ -85,17 +85,62 @@ include "koneksi.php";
                         <label for="wilayah">Wilayah / Kabupaten</label>
 
                         <select id="wilayah" name="wilayah">
-                            <option value="">Semua Wilayah</option>
-                            <option value="kota mataram">Kota Mataram</option>
-                            <option value="kab. lombok barat">Kab. Lombok Barat</option>
-                            <option value="kab. lombok tengah">Kab. Lombok Tengah</option>
-                            <option value="kab. lombok timur">Kab. Lombok Timur</option>
-                            <option value="kab. lombok utara">Kab. Lombok Utara</option>
-                            <option value="kab. sumbawa">Kab. Sumbawa</option>
-                            <option value="kab. sumbawa barat">Kab. Sumbawa Barat</option>
-                            <option value="kab. dompu">Kab. Dompu</option>
-                            <option value="kab. bima">Kab. Bima</option>
-                            <option value="kota bima">Kota Bima</option>
+
+                            <option value=""
+                            <?= (!isset($_GET['wilayah']) || $_GET['wilayah']=="") ? "selected" : "" ?>>
+                                Semua Wilayah
+                            </option>
+
+                            <option value="kota mataram"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kota mataram") ? "selected" : "" ?>>
+                                Kota Mataram
+                            </option>
+
+                            <option value="kab. lombok barat"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kab. lombok barat") ? "selected" : "" ?>>
+                                Kab. Lombok Barat
+                            </option>
+
+                            <option value="kab. lombok tengah"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kab. lombok tengah") ? "selected" : "" ?>>
+                                Kab. Lombok Tengah
+                            </option>
+
+                            <option value="kab. lombok timur"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kab. lombok timur") ? "selected" : "" ?>>
+                                Kab. Lombok Timur
+                            </option>
+
+                            <option value="kab. lombok utara"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kab. lombok utara") ? "selected" : "" ?>>
+                                Kab. Lombok Utara
+                            </option>
+
+                            <option value="kab. sumbawa"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kab. sumbawa") ? "selected" : "" ?>>
+                                Kab. Sumbawa
+                            </option>
+
+                            <option value="kab. sumbawa barat"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kab. sumbawa barat") ? "selected" : "" ?>>
+                                Kab. Sumbawa Barat
+                            </option>
+
+                            <option value="kab. dompu"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kab. dompu") ? "selected" : "" ?>>
+                                Kab. Dompu
+                            </option>
+
+                            <option value="kab. bima"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kab. bima") ? "selected" : "" ?>>
+                                Kab. Bima
+                            </option>
+
+                            <option value="kota bima"
+                            <?= (isset($_GET['wilayah']) && $_GET['wilayah']=="kota bima") ? "selected" : "" ?>>
+                                Kota Bima
+                            </option>
+
                         </select>
                     </div>
 
@@ -136,17 +181,20 @@ include "koneksi.php";
                             <?php
                         
 
-                                $kode     = isset($_POST['kode_laporan']) ? mysqli_real_escape_string($conn, $_POST['kode_laporan']) : '';
-                                $wilayah   = isset($_POST['wilayah']) ? mysqli_real_escape_string($conn, $_POST['wilayah']) : '';
-                               
+                                $kode     = isset($_GET['kode_laporan']) ? mysqli_real_escape_string($conn, $_GET['kode_laporan']) : '';
+                                $wilayah  = isset($_GET['wilayah']) ? mysqli_real_escape_string($conn, $_GET['wilayah']) : '';
+
+                                $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+
                                 $tampilkan = mysqli_query($conn,"
                                     SELECT *
                                     FROM pengaduan
                                     WHERE
-                                        ('$kode' = '' OR kode_laporan ='$kode')
+                                        ('$kode' = '' OR kode_laporan = '$kode')
                                     AND
                                         ('$wilayah' = '' OR wilayah = '$wilayah')
-                                    ORDER BY id_pengaduan ASC
+                                    ORDER BY id_pengaduan DESC
+                                    LIMIT $limit
                                 ");
 
 
@@ -159,24 +207,57 @@ include "koneksi.php";
                                     <td><?= $data['wilayah']?></td>
                                     <td class="text-muted"><?= $data['tanggal_laporan']?></td>
                                     <td>
-                                        <span class="status-pill status-process">
-                                           <?= $data['status']?>
+                                        <?php
+
+                                        $class = "status-process";
+
+                                        if($data['status']=="selesai"){
+                                            $class = "status-completed";
+                                        }
+                                        elseif($data['status']=="menunggu"){
+                                            $class = "status-pending";
+                                        }
+                                        elseif($data['status']=="ditolak"){
+                                            $class = "status-rejected";
+                                        }
+
+                                        ?>
+
+                                        <span class="status-pill <?= $class ?>">
+                                            <?= ucfirst($data['status']) ?>
                                         </span>
-                                    </td>
+                                                                            </td>
                                     
                                 </tr>
 
-                               <?php } ?>
+                               <?php } $total = mysqli_query($conn,"
+                                    SELECT COUNT(*) AS jumlah
+                                    FROM pengaduan
+                                    WHERE
+                                        ('$kode' = '' OR kode_laporan = '$kode')
+                                    AND
+                                        ('$wilayah' = '' OR wilayah = '$wilayah')
+                                ");
+
+                                $total_data = mysqli_fetch_assoc($total);?>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="status-pagination">
-                    <button type="button" class="status-load-btn">
-                        Tampilkan Lebih Banyak
-                    </button>
-                </div>
+                <?php
+                if($limit < $total_data['jumlah']){
+                ?>
+
+                <a
+                    class="status-load-btn"
+                    href="?kode_laporan=<?= urlencode($kode) ?>&wilayah=<?= urlencode($wilayah) ?>&limit=<?= $limit + 10 ?>">
+
+                    Tampilkan Lebih Banyak
+
+                </a>
+
+                <?php } ?>
             </div>
         </section>
 
