@@ -1,3 +1,76 @@
+<?php
+include "../../php/koneksi.php";
+
+session_start();
+
+if(!isset($_SESSION['username'])){
+    header("location: ../../pages/login.php");
+    exit();
+}
+
+if($_SESSION['role'] != 'admin'){
+    header("location: ../../pages/login.php");
+    exit();
+}
+
+// PROSES UBAH PASSWORD
+if(isset($_POST['ubahPassword'])){
+
+    $passwordLama = $_POST['oldPassword'];
+    $passwordBaru = $_POST['newPassword'];
+    $konfirmasi   = $_POST['confirmPassword'];
+
+    $username = $_SESSION['username'];
+
+    $cek = mysqli_query($conn,"
+        SELECT password
+        FROM operator
+        WHERE username='$username'
+    ");
+
+    $dataUser = mysqli_fetch_assoc($cek);
+
+    if($passwordLama != $dataUser['password']){
+
+        echo "<script>alert('Password lama salah!');</script>";
+
+    }elseif($passwordBaru != $konfirmasi){
+
+        echo "<script>alert('Konfirmasi password tidak sama!');</script>";
+
+    }elseif(empty($passwordBaru)){
+
+        echo "<script>alert('Password baru tidak boleh kosong!');</script>";
+
+    }elseif(strlen($passwordBaru) < 8){
+
+        echo "<script>alert('Password minimal 8 karakter!');</script>";
+
+    }else{
+
+        mysqli_query($conn,"
+            UPDATE operator
+            SET password='$passwordBaru'
+            WHERE username='$username'
+        ");
+
+        echo "<script>alert('Password berhasil diubah!');</script>";
+    }
+}
+
+// AMBIL DATA USER
+$username = $_SESSION['username'];
+
+$tampilkan = mysqli_query(
+    $conn,
+    "SELECT * FROM operator WHERE username='$username'"
+);
+
+$data = mysqli_fetch_assoc($tampilkan);
+
+?>
+<!DOCTYPE html>
+<html>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -29,19 +102,19 @@
             <nav class="sidebar-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="dashboard_admin.html" class="nav-link">
+                        <a href="dashboard_admin.php" class="nav-link">
                             <i class="fas fa-th-large"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="kelola_laporan_admin.html" class="nav-link">
+                        <a href="kelola_laporan_admin.php" class="nav-link">
                             <i class="far fa-file-alt"></i>
                             <span>Kelola Laporan</span>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a href="pengaturan_admin.html" class="nav-link">
+                        <a href="pengaturan_admin.php" class="nav-link">
                             <i class="far fa-user-circle"></i>
                             <span>Pengaturan</span>
                         </a>
@@ -50,7 +123,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <a href="login.html" class="nav-link logout-btn">
+                <a href="../../php/logout.php" class="nav-link logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -84,6 +157,7 @@
                     </div>
                 </div>
             </header>
+            
 
             <form id="formUpdateProfil" class="profile-wrapper">
                 <!-- Kiri: Foto & Info Singkat -->
@@ -91,9 +165,9 @@
                     <div class="card profile-pic-card">
                         <div class="profile-pic-container">
                             <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Profile" class="profile-pic-preview" id="profilePicPreview">
-                            <h3 class="profile-fullname">Administrator Utama</h3>
-                            <p class="profile-badge"><span class="badge badge-blue">Super Admin</span></p>
-                            <p class="profile-id">ID: ADM-NTB-001</p>
+                            <h3 class="profile-fullname"><?=$data['nama_lengkap']?></h3>
+                            
+                            <p class="profile-id"><?=$data['id']?></p>
                             
                             <label for="uploadFoto" class="btn-action btn-outline btn-upload">
                                 <i class="fas fa-camera"></i> Ganti Foto
@@ -107,15 +181,12 @@
                         <ul class="account-info-list">
                             <li>
                                 <span class="info-label">Role Akun</span>
-                                <span class="info-value">Administrator</span>
+                                <span class="info-value"><?=$data['id']?></span>
                             </li>
-                            <li>
-                                <span class="info-label">Tgl Dibuat</span>
-                                <span class="info-value">12 Jan 2023</span>
-                            </li>
+                            
                             <li>
                                 <span class="info-label">Login Terakhir</span>
-                                <span class="info-value">Hari ini, 08:45 WITA</span>
+                                <span class="info-value"><?= date('d M Y, H:i', strtotime($data['login_terakhir'])) ?> WITA</span>
                             </li>
                             <li>
                                 <span class="info-label">Status</span>
@@ -132,20 +203,20 @@
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="namaLengkap">Nama Lengkap</label>
-                                <input type="text" id="namaLengkap" class="form-control" value="Administrator Utama" required>
+                                <input type="text" id="namaLengkap" class="form-control" value="<?=$data['nama_lengkap']?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" id="username" class="form-control" value="admin_ntb" required>
+                                <input type="text" id="username" class="form-control" value="<?=$data['username']?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control" value="admin@ntbprov.go.id" required>
+                                <input type="email" id="email" class="form-control" value="<?=$data['email']?>" required>
                                 <small class="error-text" id="emailError">Format email tidak valid.</small>
                             </div>
                             <div class="form-group">
                                 <label for="noTelp">Nomor Telepon</label>
-                                <input type="tel" id="noTelp" class="form-control" value="081234567890">
+                                <input type="tel" id="noTelp" class="form-control" value="<?=$data['nomor_telpon']?>">
                             </div>
                             <div class="form-group form-full">
                                 <label for="alamat">Alamat Kantor (Opsional)</label>
@@ -157,18 +228,19 @@
                     <div class="card">
                         <h3 class="card-title"><i class="fas fa-lock"></i> Ubah Password</h3>
                         <p class="form-subtitle">Biarkan kosong jika tidak ingin mengubah password.</p>
+                        <form method="POST">
                         <div class="form-grid">
                             <div class="form-group form-full">
                                 <label for="oldPassword">Password Lama</label>
                                 <div class="input-icon-wrap">
-                                    <input type="password" id="oldPassword" class="form-control">
+                                    <input type="password" id="oldPassword" name="oldPassword" class="form-control">
                                     <i class="far fa-eye toggle-password" data-target="oldPassword"></i>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="newPassword">Password Baru</label>
                                 <div class="input-icon-wrap">
-                                    <input type="password" id="newPassword" class="form-control">
+                                    <input type="password" id="newPassword" name="newPassword" class="form-control">
                                     <i class="far fa-eye toggle-password" data-target="newPassword"></i>
                                 </div>
                                 <small class="error-text" id="passLengthError">Minimal 8 karakter.</small>
@@ -176,17 +248,24 @@
                             <div class="form-group">
                                 <label for="confirmPassword">Konfirmasi Password</label>
                                 <div class="input-icon-wrap">
-                                    <input type="password" id="confirmPassword" class="form-control">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control">
                                     <i class="far fa-eye toggle-password" data-target="confirmPassword"></i>
                                 </div>
                                 <small class="error-text" id="passMatchError">Password tidak sama.</small>
                             </div>
                         </div>
+                        </form>
                     </div>
 
                     <div class="profile-actions">
                         <button type="reset" class="btn-action btn-outline">Reset Form</button>
-                        <button type="submit" class="btn-action btn-green"><i class="fas fa-save"></i> Simpan Perubahan</button>
+                        <button
+                            type="submit"
+                            name="ubahPassword"
+                            class="btn-action btn-green">
+                            <i class="fas fa-save"></i>
+                            Simpan Perubahan
+                        </button>
                     </div>
                 </div>
             </form>
