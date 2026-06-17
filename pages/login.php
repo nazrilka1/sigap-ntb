@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Login SIGAP NTB</title>
 
-    
     <link rel="stylesheet" href="../CSS/login.css">
 
-   
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
 
@@ -29,7 +26,7 @@
             <h3>SIGAP NTB</h3>
         </div>
 
-        <form id="loginForm">
+        <form id="loginForm" action="/project/sigap-ntb/php/masuk.php" method="POST">
 
             <label>Username</label>
 
@@ -42,6 +39,7 @@
                     name="userlogin"
                     id="userlogin"
                     class="text-input"
+                    required
                 >
             </div>
 
@@ -56,22 +54,20 @@
                     name="passlogin"
                     id="passlogin"
                     class="text-input"
+                    required
                 >
-            </div><br>
+            </div>
 
-           
+            <br>
 
-            <button type="submit" id="btn-login">
+            <button type="submit" id="btn-login" name="login">
                 Login
             </button>
-
-          
 
         </form>
 
     </div>
 
-    <script src="login.js"></script>
 
 </body>
 </html>
