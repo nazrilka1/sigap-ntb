@@ -23,8 +23,18 @@ if(isset($_POST['login'])){
         $_SESSION['username'] = $data['username'];
         $_SESSION['id'] = $data['id'];
         $_SESSION['role'] = $data['role'];
+        $_SESSION['id_opd'] = $data['id_opd'];
+        date_default_timezone_set('Asia/Makassar');
 
-        // Redirect sesuai role
+        $waktu = date('Y-m-d H:i:s');
+
+        mysqli_query($conn,"
+            UPDATE operator
+            SET login_terakhir = '$waktu'
+            WHERE username = '$username'
+        ");
+
+        
         if($data['role'] == 'admin'){
 
             header("Location: ../pages/admin/dashboard_admin.php");
