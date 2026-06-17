@@ -280,97 +280,96 @@ $id_opd = $_SESSION['id_opd'];
 
                             </tr>
 
-                            <div class="modal"
-                            id="detail<?= $data['id_pengaduan'] ?>">
+                            <div class="modal" id="detail<?= $data['id_pengaduan'] ?>">
+                                <div class="modal-content modal-detail">
 
-                            <div class="modal-content">
+                                    <span class="close"
+                                        onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
+                                        &times;
+                                    </span>
 
-                            <span class="close" onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
+                                    <h2>Detail Laporan</h2>
 
-                            &times;
+                                    <div class="detail-grid">
 
-                            </span>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Kode Laporan</span>
+                                            <span class="detail-value"><?= $data['kode_laporan'] ?></span>
+                                        </div>
 
-                            <h3>Detail Laporan</h3>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Nama Pelapor</span>
+                                            <span class="detail-value"><?= $data['nama_pelapor'] ?></span>
+                                        </div>
 
-                            <p>
-                            <b>Pelapor :</b>
-                            <?= $data['nama_pelapor'] ?>
-                            </p>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Judul Laporan</span>
+                                            <span class="detail-value"><?= $data['judul_laporan'] ?></span>
+                                        </div>
 
-                            <p>
-                            <b>Laporan :</b>
-                            <?= $data['deskripsi_laporan'] ?>
-                            </p>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Jenis Laporan</span>
+                                            <span class="badge badge-blue">
+                                                <?= $data['jenis_laporan'] ?>
+                                            </span>
+                                        </div>
 
-                            <p>
-                            <b>Lokasi :</b>
-                            <?= $data['alamat_kejadian'] ?>
-                            </p>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Lokasi</span>
+                                            <span class="detail-value"><?= $data['alamat_kejadian'] ?></span>
+                                        </div>
 
-                            <form action="../../php/aksi_opd.php" method="POST" enctype="multipart/form-data">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Tanggal</span>
+                                            <span class="detail-value"><?= $data['tanggal_laporan'] ?></span>
+                                        </div>
 
-                            <input type="hidden" name="id_pengaduan" value="<?= $data['id_pengaduan'] ?>">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Status</span>
 
-                            <div class="form-group">
+                                            <?php
+                                            $warna = "badge-gray";
 
-                            <label>Status</label>
+                                            if($data['status']=="menunggu"){
+                                                $warna = "badge-yellow";
+                                            }elseif($data['status']=="diproses"){
+                                                $warna = "badge-blue";
+                                            }elseif($data['status']=="selesai"){
+                                                $warna = "badge-green";
+                                            }elseif($data['status']=="ditolak"){
+                                                $warna = "badge-red";
+                                            }
+                                            ?>
 
-                            <select name="status">
+                                            <span class="badge <?= $warna ?>">
+                                                <?= ucfirst($data['status']) ?>
+                                            </span>
+                                        </div>
 
-                            <option value="diteruskan"> Diteruskan </option>
+                                    </div>
 
-                            <option value="diproses"> Diproses </option>
+                                    <div class="detail-description">
 
-                            <option value="selesai"> Selesai </option>
+                                        <h4>Deskripsi Laporan</h4>
 
-                            <option value="ditolak">  Ditolak  </option>
+                                        <div class="description-box">
+                                            <?= nl2br(htmlspecialchars($data['deskripsi_laporan'])) ?>
+                                        </div>
 
-                            </select>
+                                    </div>
 
-                            </div>
+                                    <div class="modal-footer">
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
 
-                            <div class="form-group">
+                                            Tutup
 
-                            <label>Catatan OPD</label>
+                                        </button>
+                                    </div>
 
-                            <textarea name="catatan_opd" rows="4"></textarea>
-
-                            </div>
-
-                            <div class="form-group">
-
-                            <label>Foto Sebelum</label>
-
-                            <input
-                            type="file"
-                            name="foto_sebelum">
-
-                            </div>
-
-                            <div class="form-group">
-
-                            <label>Foto Sesudah</label>
-
-                            <input
-                            type="file"
-                            name="foto_sesudah">
-
-                            </div>
-
-                            <button
-                            type="submit"
-                            name="bupdateopd"
-                            class="btn btn-primary">
-
-                            Simpan Perubahan
-
-                            </button>
-
-                            </form>
-
-                            </div>
-
+                                </div>
                             </div>
 
                             <?php } ?>
@@ -498,6 +497,15 @@ $id_opd = $_SESSION['id_opd'];
     <script src="../js/components/sidebar.js"></script>
     <script src="../js/components/utils.js"></script>
     <script src="../js/components/modal.js"></script>
+    <script>
+        function openModal(id){
+            document.getElementById(id).classList.add('show');
+        }
+
+        function closeModal(id){
+            document.getElementById(id).classList.remove('show');
+        }
+    </script>
     
     <!-- Panggil Laporan JS -->
     <script src="../js/pages/laporan.js"></script>
