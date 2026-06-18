@@ -26,7 +26,7 @@
             <h3>SIGAP NTB</h3>
         </div>
 
-        <form id="loginForm" action="/project/sigap-ntb/php/masuk.php" method="POST">
+        <form id="loginForm" action="../php/masuk.php" method="POST">
 
             <label>Username</label>
 

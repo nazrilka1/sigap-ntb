@@ -30,6 +30,7 @@ if($_SESSION['role'] != 'admin'){
     <link rel="stylesheet" href="../../CSS/components/card.css">
     <link rel="stylesheet" href="../../CSS/components/table.css">
     <link rel="stylesheet" href="../../CSS/components/button.css">
+    <link rel="stylesheet" href="../../CSS/components/chart.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
@@ -83,7 +84,7 @@ if($_SESSION['role'] != 'admin'){
 
         <div class="sidebar-footer">
 
-            <a href="/project/sigap-ntb/php/logout.php" class="nav-link logout-btn">
+            <a href="../../php/logout.php" class="nav-link logout-btn">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Keluar</span>
             </a>
@@ -228,97 +229,34 @@ if($_SESSION['role'] != 'admin'){
 
         </section>
 
-        <!-- TABLE -->
-        <section class="table-section">
-
-            <div class="table-header">
-
-                <h2>Daftar Laporan Terkini</h2>
-
-                <div class="search-box">
-
-                    <i class="fas fa-search"></i>
-
-                    <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Cari laporan..."
-                    name="fnama"
-                    value="<?= isset($_POST['fnama']) ? $_POST['fnama'] : '' ?>">
-
-                </div>
-
+        <section class="charts-section" id="chartsContainer"
+            data-total="<?= $statistik['total_laporan'] ? $statistik['total_laporan'] : 0 ?>"
+            data-menunggu="<?= $statistik['menunggu'] ? $statistik['menunggu'] : 0 ?>"
+            data-selesai="<?= $statistik['selesai'] ? $statistik['selesai'] : 0 ?>">
+            
+            <div class="chart-card">
+                <h3>Grafik Batang</h3>
+                <canvas id="barChart"></canvas>
             </div>
-             <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>PELAPOR</th>
-                                <th>JUDUL LAPORAN</th>
-                                <th>JENIS</th>
-                                <th>LOKASI</th>
-                                <th>TANGGAL</th>
-                                <th>STATUS</th>
-                                <th class="text-right">AKSI</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
-                        <?php
-                        
+            <div class="chart-card">
+                <h3>Grafik Lingkaran</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
 
-                            $nama     = isset($_POST['fnama']) ? mysqli_real_escape_string($conn, $_POST['fnama']) : '';
-                           
-                            $tampilkan = mysqli_query($conn,"
-                                SELECT *
-                                FROM pengaduan
-                                WHERE
-                                    ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
-                               
-                                ORDER BY id_pengaduan ASC
-                            ");
+            <div class="chart-card">
+                <h3>Grafik Garis</h3>
+                <canvas id="lineChart"></canvas>
+            </div>
 
-
-
-                        while($data = mysqli_fetch_assoc($tampilkan)){
-                        ?>
-
-                            <tr>
-                                <td><?= $data['kode_laporan'] ?></td>
-                                <td><?= $data['nama_pelapor'] ?></td>
-                                <td><?= $data['judul_laporan'] ?></td>
-
-                                <td>
-                                    <span class="badge badge-blue">
-                                        <?= $data['jenis_laporan'] ?>
-                                    </span>
-                                </td>
-
-                                <td><?= $data['alamat_kejadian'] ?></td>
-
-                                <td><?= $data['tanggal_laporan'] ?></td>
-
-                                <td>
-                                    <span class="badge badge-yellow-light">
-                                        <?= $data['status'] ?>
-                                    </span>
-                                </td>
-                                <?php } ?>
-                            </tr> 
-                        </tbody> 
-                    </table>
         </section>
 
-    </main>
-
-</div>
-
-<!-- JS -->
-<script src="../../js/components/sidebar.js"></script>
-<script src="../../js/components/utils.js"></script>
-<script src="../../js/components/modal.js"></script>
-<script src="../../js/pages/laporan.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <script src="../../JS/components/sidebar.js"></script>
+<script src="../../JS/components/utils.js"></script>
+<script src="../../JS/components/modal.js"></script>
+<script src="../../JS/pages/laporan.js"></script>
+<script src="../../JS/pages/dashboard_admin.js"></script> </body>
+</html>
 
 </body>
 </html>
