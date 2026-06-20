@@ -102,7 +102,7 @@ $data = mysqli_fetch_assoc($tampilkan);
             <nav class="sidebar-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="dashboard_admin.php" class="nav-link">
+                        <a href="dashboard_opd.php" class="nav-link">
                             <i class="fas fa-th-large"></i>
                             <span>Dashboard</span>
                         </a>

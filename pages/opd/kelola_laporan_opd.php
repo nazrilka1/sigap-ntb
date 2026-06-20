@@ -1,22 +1,21 @@
-
 <?php
 include "../../php/koneksi.php";
 
 session_start();
 
 if(!isset($_SESSION['username'])){
-    header("location: ../../pages/login.php");
+    header('location: ../../pages/login.php');
     exit();
 }
 
 if($_SESSION['role'] != 'opd'){
-    header("location: ../../pages/login.php");
+    header('location: ../../pages/login.php');
     exit();
 }
 
 $id_opd = $_SESSION['id_opd'];
-
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -59,7 +58,7 @@ $id_opd = $_SESSION['id_opd'];
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pengaturan_opd.html" class="nav-link">
+                        <a href="pengaturan_opd.php" class="nav-link">
                             <i class="far fa-user-circle"></i>
                             <span>Pengaturan</span>
                         </a>
@@ -68,7 +67,7 @@ $id_opd = $_SESSION['id_opd'];
             </nav>
 
             <div class="sidebar-footer">
-                <a href="login.html" class="nav-link logout-btn">
+                <a href="../../php/logout.php" class="nav-link logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -83,108 +82,97 @@ $id_opd = $_SESSION['id_opd'];
                     </button>
                     <div>
                         <h1>Kelola Laporan</h1>
-                        <p>Manajemen data pengaduan dan aspirasi masyarakat.</p>
+                        <p>Manajemen data tindak lanjut laporan masyarakat.</p>
                     </div>
                 </div>
                 
                 <div class="header-actions">
-                    <button class="notification-btn">
-                        <i class="far fa-bell"></i>
-                        <span class="badge-dot"></span>
-                    </button>
                     <div class="header-profile">
-                        <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img">
+                        <img src="https://ui-avatars.com/api/?name=OPD&background=random" alt="OPD Profile" class="profile-img">
                         <div class="profile-info">
-                            <span class="profile-name">Administrator Utama</span>
+                            <span class="profile-name">Operator Dinas PUPR</span>
                             <span class="profile-role">Pemprov NTB</span>
                         </div>
                     </div>
                 </div>
             </header>
+
             <?php
-                
+                // Statistik Khusus OPD yang login
                 $query_statistik = mysqli_query($conn,"
                     SELECT
                         COUNT(*) AS total_laporan,
-                        SUM(CASE WHEN progress_opd = 'dikerjakan' THEN 1 ELSE 0 END) AS dikerjakan,
-                        SUM(CASE WHEN progress_opd = 'menunggu konfirmasi' THEN 1 ELSE 0 END) AS menunggu_konfirmasi,
+                        SUM(CASE WHEN progress_opd = 'menunggu konfirmasi' THEN 1 ELSE 0 END) AS menunggu,
                         SUM(CASE WHEN progress_opd = 'selesai' THEN 1 ELSE 0 END) AS selesai
                     FROM pengaduan
+                    WHERE id_opd = '$id_opd'
                 ");
 
                 $statistik = mysqli_fetch_assoc($query_statistik);
-
-                $total_laporan = $statistik['total_laporan'];
-                $dikerjakan = $statistik['dikerjakan'];
-                $menunggu_konfirmasi = $statistik['menunggu_konfirmasi'];
-                $selesai = $statistik['selesai'];
-
-            
-            
             ?>
 
             <section class="summary-cards">
                 <div class="card">
                     <div class="card-icon icon-blue"><i class="fas fa-folder-open"></i></div>
                     <div class="card-label">TOTAL LAPORAN</div>
-                    <div class="card-value"><?=$statistik['total_laporan'] ?></div>
+                    <div class="card-value"><?= $statistik['total_laporan'] ? $statistik['total_laporan'] : 0 ?></div>
                 </div>
                 <div class="card">
-                    <div class="card-icon icon-red"><i class="fas fa-clock"></i></div>
-                    <div class="card-label">DIKERJAKAN</div>
-                    <div class="card-value"><?=$statistik['dikerjakan'] ?></div>
-                </div>
-                <div class="card">
-                    <div class="card-icon icon-yellow"><i class="fas fa-spinner"></i></div>
-                    <div class="card-label">MENUNGGU KONFIRMASI</div>
-                    <div class="card-value"><?=$statistik['menunggu_konfirmasi'] ?></div>
+                    <div class="card-icon icon-yellow"><i class="fas fa-clock"></i></div>
+                    <div class="card-label">MENUNGGU VERIFIKASI</div>
+                    <div class="card-value"><?= $statistik['menunggu'] ? $statistik['menunggu'] : 0 ?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-green"><i class="fas fa-check-circle"></i></div>
-                    <div class="card-label">SELESAI</div>
-                    <div class="card-value"><?=$statistik['total_laporan'] ?></div>
+                    <div class="card-label">LAPORAN DISETUJUI</div>
+                    <div class="card-value"><?= $statistik['selesai'] ? $statistik['selesai'] : 0 ?></div>
                 </div>
             </section>
 
             <section class="table-section">
                 <div class="table-header flex-column">
                     <div class="table-header-top">
-                        <h2>Daftar Semua Laporan</h2>
+                        <h2>Daftar Tugas Laporan OPD</h2>
                     </div>
-                <form method='post'>
+                <form method="POST">
                     <div class="filter-bar">
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="searchInput" placeholder="Cari ID, Judul, atau Nama..." name='fnama'
-                             value="<?= isset($_POST['fnama']) ? $_POST['fnama'] : '' ?>">
+                            <input
+                                type="text"
+                                placeholder="Cari Nama Pelapor..."
+                                name="fnama"
+                                value="<?= isset($_POST['fnama']) ? htmlspecialchars($_POST['fnama']) : '' ?>">
                         </div>
-                        <select class="filter-select" id="statusFilter" name='fprogress'>
-                            <option value="">Semua Status</option>
-                            <option value="dikerjakan">Dikerjakan</option>
-                            <option value="menunggu konfirmasi">Menunggu Konfirmasi</option>
-                            <option value="selesai">Selesai</option>
-                           
+
+                        <select class="filter-select" name="fstatus">
+                            <option value="">Semua Progres</option>
+                            <option value="menunggu konfirmasi" <?= (isset($_POST['fstatus']) && $_POST['fstatus'] == 'menunggu konfirmasi') ? 'selected' : '' ?>>Menunggu</option>
+                            <option value="selesai" <?= (isset($_POST['fstatus']) && $_POST['fstatus'] == 'selesai') ? 'selected' : '' ?>>Disetujui</option>
                         </select>
-                        <select class="filter-select" id="kategoriFilter" name='fkategori'>
+
+                        <select class="filter-select" name="fkategori">
                             <option value="">Semua Jenis Laporan</option>
-                            <option value="pengaduan">Pengaduan</option>
-                            <option value="pengajuan">Pengajuan</option>
-                            
+                            <option value="pengaduan" <?= (isset($_POST['fkategori']) && $_POST['fkategori'] == 'pengaduan') ? 'selected' : '' ?>>Pengaduan</option>
+                            <option value="pengajuan" <?= (isset($_POST['fkategori']) && $_POST['fkategori'] == 'pengajuan') ? 'selected' : '' ?>>Pengajuan</option>
                         </select>
-                        <input type="date" class="filter-date" id="dateFilter" name='ftanggal'>
-                          <button
-                            type="submit"
-                            name="fupdate"
-                            class="btn btn-primary">
+
+                        <input
+                            type="date"
+                            class="filter-date"
+                            name="ftanggal"
+                            value="<?= isset($_POST['ftanggal']) ? htmlspecialchars($_POST['ftanggal']) : '' ?>">
+
+                        <button type="submit" name="fupdate" class="btn-action btn-green">
                             Filter Pencarian
                         </button>
 
-                        <a href="kelola_laporan_admin.php" class="btn btn-secondary">
+                        <a href="kelola_laporan_opd.php" class="btn-action btn-outline">
                             Reset
                         </a>
                     </div>
                 </form>
-                </div>
+                 </div>
 
                 <div class="table-responsive">
                     <table class="data-table">
@@ -196,52 +184,38 @@ $id_opd = $_SESSION['id_opd'];
                                 <th>JENIS</th>
                                 <th>LOKASI</th>
                                 <th>TANGGAL</th>
-                                <th>STATUS</th>
+                                <th>PROGRES OPD</th>
                                 <th class="text-right">AKSI</th>
                             </tr>
                         </thead>
+
                         <tbody>
 
-                            <?php
+                        <?php
                             $nama     = isset($_POST['fnama']) ? mysqli_real_escape_string($conn, $_POST['fnama']) : '';
-                            $progress   = isset($_POST['fprogress']) ? mysqli_real_escape_string($conn, $_POST['fprogress']) : '';
+                            $status   = isset($_POST['fstatus']) ? mysqli_real_escape_string($conn, $_POST['fstatus']) : '';
                             $kategori = isset($_POST['fkategori']) ? mysqli_real_escape_string($conn, $_POST['fkategori']) : '';
                             $tanggal  = isset($_POST['ftanggal']) ? mysqli_real_escape_string($conn, $_POST['ftanggal']) : '';
 
+                            // Tampilkan data hanya untuk OPD yang bersangkutan
                             $tampilkan = mysqli_query($conn,"
                                 SELECT *
                                 FROM pengaduan
-                                WHERE
-                                    
-                                    ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
-                                AND
-                                    ('$progress' = '' OR progress_opd = '$progress')
-                                AND
-                                    ('$kategori' = '' OR jenis_laporan = '$kategori')
-                                AND
-                                    ('$tanggal' = '' OR tanggal_laporan = '$tanggal')
+                                WHERE id_opd = '$id_opd'
+                                AND ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
+                                AND ('$status' = '' OR progress_opd = '$status')
+                                AND ('$kategori' = '' OR jenis_laporan = '$kategori')
+                                AND ('$tanggal' = '' OR tanggal_laporan = '$tanggal')
                                 ORDER BY id_pengaduan ASC
                             ");
 
-
-                           
-
-                            while($data = mysqli_fetch_assoc($tampilkan)){
-                            ?>
+                        while($data = mysqli_fetch_assoc($tampilkan)){
+                        ?>
 
                             <tr>
-
-                                <td>
-                                    <?= $data['kode_laporan'] ?>
-                                </td>
-
-                                <td>
-                                    <?= $data['nama_pelapor'] ?>
-                                </td>
-
-                                <td>
-                                    <?= $data['judul_laporan'] ?>
-                                </td>
+                                <td><?= $data['kode_laporan'] ?></td>
+                                <td><?= $data['nama_pelapor'] ?></td>
+                                <td><?= $data['judul_laporan'] ?></td>
 
                                 <td>
                                     <span class="badge badge-blue">
@@ -249,256 +223,197 @@ $id_opd = $_SESSION['id_opd'];
                                     </span>
                                 </td>
 
-                                <td>
-                                    <?= $data['alamat_kejadian'] ?>
-                                </td>
+                                <td><?= $data['alamat_kejadian'] ?></td>
+                                <td><?= $data['tanggal_laporan'] ?></td>
 
-                                <td>
-                                    <?= $data['tanggal_laporan'] ?>
-                                </td>
+                                <?php
+                                    // Warna dinamis berdasarkan progress_opd
+                                    $warna_bg = '';
+                                    $warna_teks = '';
+                                    $label_progres = '';
 
+                                    if ($data['progress_opd'] == 'menunggu konfirmasi') {
+                                        $warna_bg = '#fef08a'; // Kuning
+                                        $warna_teks = '#854d0e';
+                                        $label_progres = 'Menunggu';
+                                    } elseif ($data['progress_opd'] == 'selesai') {
+                                        $warna_bg = '#bbf7d0'; // Hijau
+                                        $warna_teks = '#166534';
+                                        $label_progres = 'Disetujui';
+                                    } else {
+                                        $warna_bg = '#e2e8f0'; // Abu-abu default jika kosong
+                                        $warna_teks = '#475569';
+                                        $label_progres = 'Belum Diproses';
+                                    }
+                                ?>
                                 <td>
-                                    <span class="badge badge-yellow-light">
-                                        <?= $data['progress_opd'] ?>
+                                    <span class="badge" style="background-color: <?= $warna_bg ?>; color: <?= $warna_teks ?>;">
+                                        <?= $label_progres ?>
                                     </span>
                                 </td>
 
                                 <td class="text-right">
-
                                     <div class="action-flex">
-
-                                        <button
-                                            class="action-btn action-blue"
-                                            onclick="openModal('detail<?= $data['id_pengaduan'] ?>')">
-
+                                        <button type="button" class="action-btn" title="Lihat Detail" onclick="openModal('detail<?= $data['id_pengaduan'] ?>')">
                                             <i class="fas fa-eye"></i>
-
                                         </button>
 
+                                        <button type="button" class="action-btn" title="Update Progres" onclick="openModal('edit<?= $data['id_pengaduan'] ?>')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
                                     </div>
-
                                 </td>
-
                             </tr>
-
+                            
                             <div class="modal" id="detail<?= $data['id_pengaduan'] ?>">
-                                <div class="modal-content modal-detail">
+                                <div class="modal-content detail-modal">
+                                    <span class="close" onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">&times;</span>
 
-                                    <span class="close"
-                                        onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
-                                        &times;
-                                    </span>
-
-                                    <h2>Detail Laporan</h2>
+                                    <div class="detail-header">
+                                        <i class="fas fa-file-alt"></i>
+                                        <h2>Detail Laporan</h2>
+                                    </div>
 
                                     <div class="detail-grid">
-
                                         <div class="detail-item">
-                                            <span class="detail-label">Kode Laporan</span>
-                                            <span class="detail-value"><?= $data['kode_laporan'] ?></span>
+                                            <span class="label">Kode Laporan</span>
+                                            <span class="value"><?= $data['kode_laporan'] ?></span>
                                         </div>
 
                                         <div class="detail-item">
-                                            <span class="detail-label">Nama Pelapor</span>
-                                            <span class="detail-value"><?= $data['nama_pelapor'] ?></span>
+                                            <span class="label">Nama Pelapor</span>
+                                            <span class="value"><?= $data['nama_pelapor'] ?></span>
                                         </div>
 
                                         <div class="detail-item">
-                                            <span class="detail-label">Judul Laporan</span>
-                                            <span class="detail-value"><?= $data['judul_laporan'] ?></span>
+                                            <span class="label">Judul Laporan</span>
+                                            <span class="value"><?= $data['judul_laporan'] ?></span>
                                         </div>
 
                                         <div class="detail-item">
-                                            <span class="detail-label">Jenis Laporan</span>
-                                            <span class="badge badge-blue">
-                                                <?= $data['jenis_laporan'] ?>
+                                            <span class="label">Jenis Laporan</span>
+                                            <span class="badge badge-blue"><?= $data['jenis_laporan'] ?></span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Lokasi</span>
+                                            <span class="value"><?= $data['alamat_kejadian'] ?></span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Tanggal</span>
+                                            <span class="value"><?= $data['tanggal_laporan'] ?></span>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <span class="label">Progres OPD</span>
+                                            <span class="badge" style="background-color: <?= $warna_bg ?>; color: <?= $warna_teks ?>;">
+                                                <?= $label_progres ?>
                                             </span>
                                         </div>
 
-                                        <div class="detail-item">
-                                            <span class="detail-label">Lokasi</span>
-                                            <span class="detail-value"><?= $data['alamat_kejadian'] ?></span>
-                                        </div>
-
-                                        <div class="detail-item">
-                                            <span class="detail-label">Tanggal</span>
-                                            <span class="detail-value"><?= $data['tanggal_laporan'] ?></span>
-                                        </div>
-
-                                        <div class="detail-item">
-                                            <span class="detail-label">Status</span>
-
+                                        <div class="detail-item detail-item-full">
+                                            <span class="label">Foto Bukti Laporan</span>
                                             <?php
-                                            $warna = "badge-gray";
-
-                                            if($data['status']=="menunggu"){
-                                                $warna = "badge-yellow";
-                                            }elseif($data['status']=="diproses"){
-                                                $warna = "badge-blue";
-                                            }elseif($data['status']=="selesai"){
-                                                $warna = "badge-green";
-                                            }elseif($data['status']=="ditolak"){
-                                                $warna = "badge-red";
-                                            }
+                                            $folder_upload = "../../php/uploads/";
+                                            $file_foto     = $data['bukti_file'];
+                                            $path_lengkap  = $folder_upload . $file_foto;
                                             ?>
-
-                                            <span class="badge <?= $warna ?>">
-                                                <?= ucfirst($data['status']) ?>
-                                            </span>
+                                            <?php if(!empty($file_foto) && file_exists($path_lengkap)): ?>
+                                                <div class="foto-bukti-box">
+                                                    <img
+                                                        src="<?= $folder_upload . htmlspecialchars($file_foto) ?>"
+                                                        alt="Bukti Laporan"
+                                                        class="foto-bukti-img"
+                                                        onclick="bukaLightbox('<?= $folder_upload . htmlspecialchars($file_foto) ?>')">
+                                                    <a href="<?= $folder_upload . htmlspecialchars($file_foto) ?>" download="<?= htmlspecialchars($file_foto) ?>" class="btn btn-secondary btn-sm">
+                                                        <i class="fas fa-download"></i> Download Foto
+                                                    </a>
+                                                </div>
+                                            <?php else: ?>
+                                                <span class="value text-muted">Tidak ada foto</span>
+                                            <?php endif; ?>
                                         </div>
-
                                     </div>
 
-                                    <div class="detail-description">
-
+                                    <div class="description-section">
                                         <h4>Deskripsi Laporan</h4>
-
                                         <div class="description-box">
                                             <?= nl2br(htmlspecialchars($data['deskripsi_laporan'])) ?>
                                         </div>
-
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button
-                                            type="button"
-                                            class="btn-close"
-                                            onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
-
+                                        <button class="btn-detail-close" onclick="closeModal('detail<?= $data['id_pengaduan'] ?>')">
                                             Tutup
-
                                         </button>
                                     </div>
+                                </div>
+                            </div>
+                            
+                            <div class="modal" id="edit<?= $data['id_pengaduan'] ?>">
+                                <div class="modal-content">
+                                    <span class="close" onclick="closeModal('edit<?= $data['id_pengaduan'] ?>')">&times;</span>
 
+                                    <h3>Update Progres Tindak Lanjut</h3>
+
+                                    <form action="../../php/aksi_opd.php" method="post">
+                                        <input type="hidden" name="uid" value="<?= $data['id_pengaduan'] ?>">
+
+                                        <div class="form-group">
+                                            <label>Nama Pelapor</label>
+                                            <input type="text" value="<?= htmlspecialchars($data['nama_pelapor']) ?>" disabled>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Judul Laporan</label>
+                                            <textarea rows="3" disabled><?= htmlspecialchars($data['judul_laporan']) ?></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Pilih Status Progres Kerja</label>
+                                            <select name="uprogress">
+                                                <option value="menunggu konfirmasi" <?= $data['progress_opd']=="menunggu konfirmasi" ? "selected" : "" ?>>Menunggu</option>
+                                                <option value="selesai" <?= $data['progress_opd']=="selesai" ? "selected" : "" ?>>Disetujui</option>
+                                            </select>
+                                        </div>
+
+                                        <button type="submit" name="bupdate_opd" class="btn btn-primary">
+                                            Simpan Perubahan
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
 
-                            <?php } ?>
+                        <?php } ?>
+
                         </tbody>
                     </table>
                 </div>
-
             </section>
         </main>
     </div>
 
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h2>Detail Laporan <span id="modalReportId">#NTB-001</span></h2>
-                <button class="btn-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-            </div>
-            
-            <div class="modal-body">
-                <div class="modal-left">
-                    <div class="report-image-box">
-                        <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80" alt="Bukti Laporan" class="report-main-img">
-                    </div>
-                    
-                    <div class="report-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Pelapor:</span>
-                            <span class="meta-value">Ahmad Hidayat</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Lokasi:</span>
-                            <span class="meta-value">Jl. Majapahit, Mataram</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Tanggal:</span>
-                            <span class="meta-value">24 Okt 2023, 14:30 WITA</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Status:</span>
-                            <span class="badge badge-yellow-light">DIPROSES</span>
-                        </div>
-                    </div>
-
-                    <div class="report-desc">
-                        <h3>Isi Laporan:</h3>
-                        <p>Terdapat lubang besar di tengah jalan Majapahit dekat perempatan. Sangat membahayakan pengendara motor terutama saat malam hari karena minim penerangan. Mohon segera diperbaiki.</p>
-                    </div>
-
-                    <div class="report-desc">
-                        <h3>Catatan Admin:</h3>
-                        <textarea class="admin-note" placeholder="Tambahkan catatan internal..."></textarea>
-                    </div>
-                </div>
-
-                <div class="modal-right">
-                    
-                    <div class="timeline-container">
-                        <h3>Progress Laporan</h3>
-                        <div class="timeline">
-                            <div class="timeline-item done">
-                                <div class="timeline-dot"><i class="fas fa-check"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Laporan Masuk</h4>
-                                    <p>24 Okt 2023, 14:30</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item done">
-                                <div class="timeline-dot"><i class="fas fa-check"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Diverifikasi</h4>
-                                    <p>24 Okt 2023, 15:00</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item active">
-                                <div class="timeline-dot"><i class="fas fa-spinner"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Diproses OPD</h4>
-                                    <p>Dinas PUPR - Sedang dikerjakan</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>Selesai</h4>
-                                    <p>Menunggu penyelesaian</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="docs-container">
-                        <h3>Dokumentasi Penanganan</h3>
-                        <div class="upload-grid">
-                            <label class="upload-zone" id="dropZoneBefore">
-                                <input type="file" hidden accept="image/*" onchange="previewImage(this, 'previewBefore')">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <span>Foto Sebelum</span>
-                                <img id="previewBefore" class="upload-preview">
-                            </label>
-                            
-                            <label class="upload-zone" id="dropZoneAfter">
-                                <input type="file" hidden accept="image/*" onchange="previewImage(this, 'previewAfter')">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <span>Foto Sesudah</span>
-                                <img id="previewAfter" class="upload-preview">
-                            </label>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn-action btn-red" onclick="closeModal()">Tolak</button>
-                <div class="footer-right">
-                    <button class="btn-action btn-outline">Terima Laporan</button>
-                    <button class="btn-action btn-yellow">Proses</button>
-                    <button class="btn-action btn-green">Selesaikan</button>
-                </div>
-            </div>
-        </div>
+    <div class="lightbox-overlay" id="lightboxFoto">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightboxImg" class="lightbox-img" src="" alt="Foto Bukti">
     </div>
 
-    <!-- ... kode lainnya ... -->
-    <script src="../js/components/sidebar.js"></script>
-    <script src="../js/components/utils.js"></script>
-    <script src="../js/components/modal.js"></script>
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/components/utils.js"></script>
+    <script src="../../js/components/modal.js"></script>
+    
     <script>
+        function bukaLightbox(src){
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightboxFoto').classList.add('show');
+        }
+
+        function closeLightbox(){
+            document.getElementById('lightboxFoto').classList.remove('show');
+            document.getElementById('lightboxImg').src = '';
+        }
+
         function openModal(id){
             document.getElementById(id).classList.add('show');
         }
@@ -507,10 +422,5 @@ $id_opd = $_SESSION['id_opd'];
             document.getElementById(id).classList.remove('show');
         }
     </script>
-    
-    <!-- Panggil Laporan JS -->
-    <script src="../js/pages/laporan.js"></script>
-</body>
-</html>
 </body>
 </html>

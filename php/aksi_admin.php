@@ -41,29 +41,36 @@ if(isset($_POST['bteruskan'])){
     $id_pengaduan = $_POST['id_pengaduan'];
     $id_opd = $_POST['id_opd'];
 
+    // PERBAIKAN: Jangan ubah 'status' menjadi 'diteruskan' karena akan error ENUM.
+    // Biarkan status tetap 'selesai' (Disetujui) di sisi admin,
+    // dan kita set 'progress_opd' untuk memicu antrean di dashboard OPD.
     $query = mysqli_query(
         $conn,
         "UPDATE pengaduan
         SET
             id_opd='$id_opd',
-            status='diteruskan'
+            progress_opd='menunggu konfirmasi'
         WHERE id_pengaduan='$id_pengaduan'"
     );
 
     if($query){
+
         echo "
         <script>
-        alert('Laporan berhasil diteruskan');
+        alert('Laporan berhasil diteruskan ke OPD terkait');
         location='../pages/admin/kelola_laporan_admin.php';
         </script>
         ";
+
     }else{
+
         echo "
         <script>
         alert('Gagal meneruskan laporan');
         history.back();
         </script>
         ";
+
     }
 }
 ?>

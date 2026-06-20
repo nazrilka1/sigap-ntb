@@ -115,10 +115,6 @@ if($_SESSION['role'] != 'admin'){
             </div>
 
             <div class="header-actions">
-                <button class="notification-btn">
-                    <i class="far fa-bell"></i>
-                    <span class="badge-dot"></span>
-                </button>
                 <div class="header-profile">
                     <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img">
                     <div class="profile-info">
