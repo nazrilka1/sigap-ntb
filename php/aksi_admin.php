@@ -46,7 +46,7 @@ if(isset($_POST['bteruskan'])){
         "UPDATE pengaduan
         SET
             id_opd='$id_opd',
-            status='diteruskan'
+            status='selesai'
         WHERE id_pengaduan='$id_pengaduan'"
     );
 
