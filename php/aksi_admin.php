@@ -1,5 +1,5 @@
 <?php
-include "../pages/admin/kelola_laporan_admin.php";
+// Baris include kelola_laporan_admin.php DIHAPUS. Hanya panggil koneksi.
 include "koneksi.php";
 
 if(isset($_POST['bupdate'])){
@@ -9,10 +9,12 @@ if(isset($_POST['bupdate'])){
     $kategori = $_POST['ukategori'];
     $status = $_POST['ustatus'];
 
+    // Perbaikan: Menambahkan status='$status' ke dalam query UPDATE
     $ubah = mysqli_query($conn, "UPDATE pengaduan SET 
                                    nama_pelapor='$nama',
                                    judul_laporan='$judul',
-                                   jenis_laporan='$kategori'
+                                   jenis_laporan='$kategori',
+                                   status='$status'
                                    WHERE id_pengaduan='$id'");
 
     if($ubah){
@@ -21,7 +23,6 @@ if(isset($_POST['bupdate'])){
         echo "<script>alert('Gagal update');document.location='../pages/admin/kelola_laporan_admin.php';</script>";
     }
 }
-
 
 if(isset($_GET['hapus'])){
     $id = $_GET['hapus'];
@@ -34,7 +35,6 @@ if(isset($_GET['hapus'])){
         echo "<script>alert('Gagal hapus');document.location='../pages/admin/kelola_laporan_admin.php';</script>";
     }
 }
-
 
 if(isset($_POST['bteruskan'])){
 
@@ -51,23 +51,19 @@ if(isset($_POST['bteruskan'])){
     );
 
     if($query){
-
         echo "
         <script>
         alert('Laporan berhasil diteruskan');
         location='../pages/admin/kelola_laporan_admin.php';
         </script>
         ";
-
     }else{
-
         echo "
         <script>
         alert('Gagal meneruskan laporan');
         history.back();
         </script>
         ";
-
     }
 }
 ?>

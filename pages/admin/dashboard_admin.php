@@ -115,33 +115,17 @@ if($_SESSION['role'] != 'admin'){
             </div>
 
             <div class="header-actions">
-
                 <button class="notification-btn">
                     <i class="far fa-bell"></i>
                     <span class="badge-dot"></span>
                 </button>
-
                 <div class="header-profile">
-
-                    <img
-                    src="https://ui-avatars.com/api/?name=<?php echo $_SESSION['username']; ?>&background=random"
-                    alt="Profile"
-                    class="profile-img">
-
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img">
                     <div class="profile-info">
-
-                        <span class="profile-name">
-                            <?php echo $_SESSION['username']; ?>
-                        </span>
-
-                        <span class="profile-role">
-                            <?php echo $_SESSION['role']; ?>
-                        </span>
-
+                        <span class="profile-name">Administrator Utama</span>
+                        <span class="profile-role">Pemprov NTB</span>
                     </div>
-
                 </div>
-
             </div>
 
         </header>
@@ -166,8 +150,8 @@ if($_SESSION['role'] != 'admin'){
 
             <div class="card">
 
-                <div class="card-icon">
-                    <i class="fas fa-inbox"></i>
+                <div class="card-icon icon-blue">
+                    <i class="fas fa-folder-open"></i>
                 </div>
 
                 <div class="card-label">
@@ -176,10 +160,6 @@ if($_SESSION['role'] != 'admin'){
 
                 <div class="card-value">
                     <?= $statistik['total_laporan']?>
-                </div>
-
-                <div class="card-status status-up">
-                    dari berbagai penjuru NTB
                 </div>
 
             </div>
@@ -198,11 +178,6 @@ if($_SESSION['role'] != 'admin'){
                      <?= $statistik['menunggu']?>
                 </div>
 
-                <div class="card-status status-alert">
-                    <i class="fas fa-exclamation-circle"></i>
-                    Perlu tindakan segera
-                </div>
-
             </div>
 
             <div class="card">
@@ -219,13 +194,7 @@ if($_SESSION['role'] != 'admin'){
                      <?= $statistik['selesai']?>
                 </div>
 
-                <div class="card-status status-good">
-                    <i class="fas fa-check"></i>
-                    Tingkat penyelesaian tinggi
-                </div>
-
             </div>
-
 
         </section>
 
@@ -251,7 +220,8 @@ if($_SESSION['role'] != 'admin'){
 
         </section>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <script src="../../JS/components/sidebar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+<script src="../../JS/components/sidebar.js"></script>
 <script src="../../JS/components/utils.js"></script>
 <script src="../../JS/components/modal.js"></script>
 <script src="../../JS/pages/laporan.js"></script>

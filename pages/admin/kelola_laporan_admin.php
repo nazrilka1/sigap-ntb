@@ -15,10 +15,6 @@ if($_SESSION['role'] != 'admin'){
 
 ?>
 
-
-
-
-
 <!DOCTYPE html>
 
 <html lang="id">
@@ -126,18 +122,18 @@ if($_SESSION['role'] != 'admin'){
                     <div class="card-value"><?= $statistik['total_laporan']?></div>
                 </div>
                 <div class="card">
-                    <div class="card-icon icon-red"><i class="fas fa-clock"></i></div>
-                    <div class="card-label">PENDING</div>
+                    <div class="card-icon icon-yellow"><i class="fas fa-clock"></i></div>
+                    <div class="card-label">MENUNGGU VERIFIKASI</div>
                     <div class="card-value"><?= $statistik['pending']?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-yellow"><i class="fas fa-spinner"></i></div>
-                    <div class="card-label">DIPROSES</div>
+                    <div class="card-label">SEDANG DIPROSES</div>
                     <div class="card-value"><?= $statistik['diproses']?></div>
                 </div>
                 <div class="card">
                     <div class="card-icon icon-green"><i class="fas fa-check-circle"></i></div>
-                    <div class="card-label">SELESAI</div>
+                    <div class="card-label">LAPORAN SELESAI</div>
                     <div class="card-value"><?= $statistik['selesai']?></div>
                 </div>
             </section>

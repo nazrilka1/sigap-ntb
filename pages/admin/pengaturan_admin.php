@@ -143,21 +143,7 @@ $data = mysqli_fetch_assoc($tampilkan);
                     </div>
                 </div>
                 
-                <div class="header-actions">
-                    <button class="notification-btn">
-                        <i class="far fa-bell"></i>
-                        <span class="badge-dot"></span>
-                    </button>
-                    <div class="header-profile">
-                        <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img" id="headerProfilePic">
-                        <div class="profile-info">
-                            <span class="profile-name">Administrator Utama</span>
-                            <span class="profile-role">Pemprov NTB</span>
-                        </div>
-                    </div>
-                </div>
             </header>
-            
 
             <form id="formUpdateProfil" class="profile-wrapper">
                 <!-- Kiri: Foto & Info Singkat -->
@@ -166,8 +152,6 @@ $data = mysqli_fetch_assoc($tampilkan);
                         <div class="profile-pic-container">
                             <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Profile" class="profile-pic-preview" id="profilePicPreview">
                             <h3 class="profile-fullname"><?=$data['nama_lengkap']?></h3>
-                            
-                            <p class="profile-id"><?=$data['id']?></p>
                             
                             <label for="uploadFoto" class="btn-action btn-outline btn-upload">
                                 <i class="fas fa-camera"></i> Ganti Foto
