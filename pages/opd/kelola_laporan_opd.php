@@ -212,6 +212,7 @@ $id_opd = $_SESSION['id_opd'];
                                 SELECT *
                                 FROM pengaduan
                                 WHERE
+                                    
                                     ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
                                 AND
                                     ('$progress' = '' OR progress_opd = '$progress')

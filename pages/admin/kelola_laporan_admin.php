@@ -332,13 +332,33 @@ if($_SESSION['role'] != 'admin'){
                                             <span class="value"><?= $data['tanggal_laporan'] ?></span>
                                         </div>
 
-                                        <div class="detail-item">
-                                            <span class="label">Status</span>
-                                            <span class="badge badge-status">
-                                                <?= $data['status'] ?>
-                                            </span>
-                                        </div>
+                                        <div class="detail-item detail-item-full">
+                                        <span class="label">Foto Bukti Laporan</span>
 
+                                        <?php
+                                        $folder_upload = "../../php/uploads/";
+                                        $file_foto     = $data['bukti_file'];
+                                        $path_lengkap  = $folder_upload . $file_foto;
+                                        ?>
+
+                                        <?php if(!empty($file_foto) && file_exists($path_lengkap)): ?>
+
+                                            <div class="foto-bukti-box">
+                                                <img
+                                                    src="<?= $folder_upload . htmlspecialchars($file_foto) ?>"
+                                                    alt="Bukti Laporan"
+                                                    class="foto-bukti-img"
+                                                    onclick="bukaLightbox('<?= $folder_upload . htmlspecialchars($file_foto) ?>')">
+
+                                                
+                                                    <a href="<?= $folder_upload . htmlspecialchars($file_foto) ?>" download="<?= htmlspecialchars($file_foto) ?>" class="btn btn-secondary btn-sm">
+                                                    <i class="fas fa-download"></i> Download Foto
+                                                </a>
+                                            </div>
+                                        <?php else: ?>
+                                            <span class="value text-muted">Tidak ada foto</span>
+                                        <?php endif; ?>
+                                    </div>
                                     </div>
 
                                     <div class="description-section">
@@ -512,16 +532,30 @@ if($_SESSION['role'] != 'admin'){
         </main>
     </div>
 
-    
+     <div class="lightbox-overlay" id="lightboxFoto">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightboxImg" class="lightbox-img" src="" alt="Foto Bukti">
+    </div>
 
     <!-- ... kode lainnya ... -->
     <script src="../js/components/sidebar.js"></script>
     <script src="../js/components/utils.js"></script>
     <script src="../js/components/modal.js"></script>
+
+    
     
     <!-- Panggil Laporan JS -->
     <script src="../js/pages/laporan.js"></script>
     <script>
+        function bukaLightbox(src){
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightboxFoto').classList.add('show');
+    }
+
+    function closeLightbox(){
+        document.getElementById('lightboxFoto').classList.remove('show');
+        document.getElementById('lightboxImg').src = '';
+    }
         function openModal(id){
             document.getElementById(id).classList.add('show');
         }
