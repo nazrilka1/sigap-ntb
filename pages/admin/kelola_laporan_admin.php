@@ -12,7 +12,7 @@ if($_SESSION['role'] != 'admin'){
     header('location: ../../pages/login.php');
     exit();
 }
-
+$name_user = $_SESSION['nama_lengkap'];
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +89,7 @@ if($_SESSION['role'] != 'admin'){
                     <div class="header-profile">
                         <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img">
                         <div class="profile-info">
-                            <span class="profile-name">Administrator Utama</span>
+                            <span class="profile-name"><?= $name_user ?></span>
                             <span class="profile-role">Pemprov NTB</span>
                         </div>
                     </div>
@@ -101,7 +101,7 @@ if($_SESSION['role'] != 'admin'){
                     SELECT
                         COUNT(*) AS total_laporan,
                         SUM(CASE WHEN status = 'menunggu' THEN 1 ELSE 0 END) AS menunggu,
-                        SUM(CASE WHEN status = 'selesai' THEN 1 ELSE 0 END) AS selesai
+                        SUM(CASE WHEN status = 'disetujui' THEN 1 ELSE 0 END) AS selesai
                     FROM pengaduan
                 ");
 
@@ -232,7 +232,7 @@ if($_SESSION['role'] != 'admin'){
                                     if ($data['status'] == 'menunggu') {
                                         $warna_bg = '#fef08a';
                                         $warna_teks = '#854d0e';
-                                    } elseif ($data['status'] == 'selesai') {
+                                    } elseif ($data['status'] == 'disetujui') {
                                         $warna_bg = '#bbf7d0';
                                         $warna_teks = '#166534';
                                     } elseif ($data['status'] == 'ditolak') {
@@ -242,7 +242,7 @@ if($_SESSION['role'] != 'admin'){
                                 ?>
                                 <td>
                                     <span class="badge" style="background-color: <?= $warna_bg ?>; color: <?= $warna_teks ?>;">
-                                        <?= $data['status'] == 'selesai' ? 'Disetujui' : ucfirst($data['status']) ?>
+                                        <?= $data['status'] == 'disetujui' ? 'Disetujui' : ucfirst($data['status']) ?>
                                     </span>
                                 </td>
 
@@ -264,7 +264,7 @@ if($_SESSION['role'] != 'admin'){
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                         
-                                        <?php if($data['status'] == 'selesai'): ?>
+                                        <?php if($data['status'] == 'disetujui'): ?>
                                             <button type="button" class="action-btn" title="Teruskan ke OPD" onclick="openModal('teruskan<?= $data['id_pengaduan'] ?>')">
                                                 <i class="fas fa-share-square"></i>
                                             </button>
@@ -400,7 +400,7 @@ if($_SESSION['role'] != 'admin'){
                                             <label>Status</label>
                                             <select name="ustatus">
                                                 <option value="menunggu" <?= $data['status']=="menunggu" ? "selected" : "" ?>>Menunggu</option>
-                                                <option value="selesai" <?= $data['status']=="selesai" ? "selected" : "" ?>>Disetujui</option>
+                                                <option value="disetujui" <?= $data['status']=="disetujui" ? "selected" : "" ?>>Disetujui</option>
                                                 <option value="ditolak" <?= $data['status']=="ditolak" ? "selected" : "" ?>>Ditolak</option>
                                             </select>
                                         </div>

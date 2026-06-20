@@ -462,3 +462,36 @@
     border-bottom: 1px solid #ddd;
     text-align: left;
 }
+.foto-bukti-box {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* jarak foto dan tombol */
+}
+
+.foto-bukti-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.foto-bukti-box a {
+    white-space: nowrap;
+}
+.detail-table td {
+    min-width: 300px;
+}
+.foto-bukti-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+.download-btn {
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}

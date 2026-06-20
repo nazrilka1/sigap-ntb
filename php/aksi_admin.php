@@ -46,13 +46,12 @@ if(isset($_POST['bteruskan'])){
     // dan kita set 'progress_opd' untuk memicu antrean di dashboard OPD.
     $query = mysqli_query(
         $conn,
-        "UPDATE pengaduan
-        SET
+        "UPDATE pengaduan SET
             id_opd='$id_opd',
 
-            status='selesai'
+            status='disetujui',
 
-            progress_opd='menunggu konfirmasi'
+            progress_opd='menunggu'
 
         WHERE id_pengaduan='$id_pengaduan'"
     );

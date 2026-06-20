@@ -11,7 +11,7 @@ if($_SESSION['role'] != 'admin'){
     header('location: ../../pages/login.php');
     exit();
 }
-
+$name_user = $_SESSION['nama_lengkap'];
 ?>
 
 <!DOCTYPE html>
@@ -118,7 +118,7 @@ if($_SESSION['role'] != 'admin'){
                 <div class="header-profile">
                     <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img">
                     <div class="profile-info">
-                        <span class="profile-name">Administrator Utama</span>
+                        <span class="profile-name"><?= $name_user ?></span>
                         <span class="profile-role">Pemprov NTB</span>
                     </div>
                 </div>

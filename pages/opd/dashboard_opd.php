@@ -13,6 +13,7 @@ if($_SESSION['role'] != 'opd'){
 }
 
 $id_opd = $_SESSION['id_opd'];
+$name_user = $_SESSION['nama_lengkap'];
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +82,7 @@ $id_opd = $_SESSION['id_opd'];
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <h1>Dinas PUPR NTB</h1>
+                    <h1><?= $name_user; ?></h1>
                     <p>
                         Fokus pada penyelesaian laporan masyarakat secara cepat, transparan, dan akuntabel untuk NTB yang Gemilang.
                     </p>
@@ -92,7 +93,7 @@ $id_opd = $_SESSION['id_opd'];
                 <div class="header-profile">
                     <img src="https://ui-avatars.com/api/?name=OPD&background=random" alt="OPD Profile" class="profile-img">
                     <div class="profile-info">
-                        <span class="profile-name">Operator Dinas PUPR</span>
+                        <span class="profile-name"><?=$name_user;?></span>
                         <span class="profile-role">Pemprov NTB</span>
                     </div>
                 </div>

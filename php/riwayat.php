@@ -90,9 +90,9 @@
                             sedang dikerjakan
                             </option>
 
-                            <option value="menunggu konfirmasi"
-                            <?= ($progress=="menunggu konfirmasi") ? "selected" : "" ?>>
-                            menunggu konfirmasi
+                            <option value="menunggu"
+                            <?= ($progress=="menunggu") ? "selected" : "" ?>>
+                            menunggu
                             </option>
 
                             <option value="selesai"
@@ -137,7 +137,7 @@
                             $total_data_query = mysqli_query($conn,"
                                 SELECT COUNT(*) as total
                                 FROM pengaduan  WHERE
-                                    ('$nama'='' OR nama_pelapor LIKE '%$nama%')
+                                    ('$nama'='' OR nama_pelapor LIKE '%$nama%' OR kode_laporan LIKE '%$nama%')
                                 AND
                                     ('$progress'='' OR progress_opd='$progress')
                                 AND
@@ -155,7 +155,7 @@
                                 SELECT *
                                 FROM pengaduan
                                 WHERE
-                                    ('$nama' = '' OR nama_pelapor LIKE '%$nama%')
+                                    ('$nama' = '' OR nama_pelapor LIKE '%$nama%' OR kode_laporan LIKE '%$nama%')
                                 AND
                                     ('$progress' = '' OR progress_opd = '$progress')
                                 AND
@@ -186,7 +186,7 @@
                                 elseif($data['progress_opd'] == "sedang dikerjakan"){
                                     $badge = "badge-process";
                                 }
-                                elseif($data['progress_opd'] == "menunggu konfirmasi"){
+                                elseif($data['progress_opd'] == "menunggu"){
                                     $badge = "badge-pending";
                                 }
 
@@ -265,6 +265,32 @@
                                 <th>Deskripsi</th>
                                 <td><?= $data['deskripsi_laporan'] ?></td>
                             </tr>
+                            <tr>
+                                <th>Foto Progress Pekerjaan</th>
+                                <td>
+                                    <?php
+                                    $folder_upload = "uploads/";   // saya jelaskan path ini di bawah
+                                    $file_foto     = $data['foto_sesudah'];
+                                    $path_lengkap  = $folder_upload . $file_foto;
+                                    ?>
+
+                                    <?php if(!empty($file_foto) && file_exists($path_lengkap)): ?>
+                                        <div class="foto-bukti-box">
+                                            <img
+                                                src="<?= $folder_upload . htmlspecialchars($file_foto) ?>"
+                                                alt="Bukti Laporan"
+                                                class="foto-bukti-img"
+                                                onclick="bukaLightbox('<?= $folder_upload . htmlspecialchars($file_foto) ?>')">
+
+                                            <a href="<?= $folder_upload . htmlspecialchars($file_foto) ?>" download="<?= htmlspecialchars($file_foto) ?>" class="btn btn-secondary btn-sm">
+                                                <i class="fas fa-download"></i> Download Foto
+                                            </a>
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="value text-muted">Tidak ada foto</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
 
                         </table>
 
@@ -279,37 +305,36 @@
             </section>
            
 
-            <div class="pagination">
+           <div class="pagination">
 
-            <?php if($halaman > 1){ ?>
-                <a class="page-nav"
-                href="?page=<?= $halaman-1 ?>">
-                ←
-                </a>
-            <?php } ?>
+                <?php if($halaman > 1){ ?>
+                    <a class="page-nav"
+                    href="?page=<?= $halaman-1 ?>&search_laporan=<?= urlencode($nama) ?>&filter_status=<?= urlencode($progress) ?>&filter_tanggal=<?= urlencode($tanggal) ?>">
+                        ←
+                    </a>
+                <?php } ?>
 
-            <?php for($i=1;$i<=$total_halaman;$i++){ ?>
+                <?php for($i = 1; $i <= $total_halaman; $i++){ ?>
+                    
+                        <a href="?page=<?= $i ?>&search_laporan=<?= urlencode($nama) ?>&filter_status=<?= urlencode($progress) ?>&filter_tanggal=<?= urlencode($tanggal) ?>"
+                        class="page-num <?= ($i==$halaman) ? 'active' : '' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php } ?>
 
-                <a
-                    href="?page=<?= $halaman-1 ?>&search_laporan=<?= urlencode($nama) ?>&filter_status=<?= urlencode($progress) ?>&filter_tanggal=<?= urlencode($tanggal) ?>"
-                    class="page-num <?= ($i==$halaman)?'active':'' ?>">
+                <?php if($halaman < $total_halaman){ ?>
+                    <a class="page-nav"
+                    href="?page=<?= $halaman+1 ?>&search_laporan=<?= urlencode($nama) ?>&filter_status=<?= urlencode($progress) ?>&filter_tanggal=<?= urlencode($tanggal) ?>">
+                        →
+                    </a>
+                <?php } ?>
 
-                    <?= $i ?>
-
-                </a>
-
-            <?php } ?>
-
-            <?php if($halaman < $total_halaman){ ?>
-                <a class="page-nav"
-                href="?page=<?= $halaman+1 ?>">
-                →
-                </a>
-            <?php } ?>
-
-        </div>
+            </div>
     </main>
-
+    <div class="lightbox-overlay" id="lightboxFoto">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightboxImg" class="lightbox-img" src="" alt="Foto Bukti">
+    </div>
 
     <footer class="footer">
         <div class="container footer-container">
@@ -332,6 +357,15 @@
     </footer>
 
     <script>
+        function bukaLightbox(src){
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightboxFoto').classList.add('show');
+    }
+
+    function closeLightbox(){
+        document.getElementById('lightboxFoto').classList.remove('show');
+        document.getElementById('lightboxImg').src = '';
+}
 console.log("JS Berjalan");
 
 function openModal(id){

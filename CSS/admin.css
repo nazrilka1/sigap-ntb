@@ -861,3 +861,34 @@ ul {
 .lightbox-close:hover {
     color: #ccc;
 }
+
+.file-upload {
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: var(--text-white);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #333;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.file-upload:hover {
+    border-color: var(--primary-green);
+    background-color: #f8fafc;
+}
+
+.file-upload:focus {
+    border-color: var(--primary-green);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(20, 128, 60, 0.08);
+}
+
+.upload-note {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #666;
+}

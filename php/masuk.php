@@ -21,6 +21,7 @@ if(isset($_POST['login'])){
         $data = mysqli_fetch_assoc($query);
 
         $_SESSION['username'] = $data['username'];
+        $_SESSION['nama_lengkap'] = $data['nama_lengkap'];
         $_SESSION['id'] = $data['id'];
         $_SESSION['role'] = $data['role'];
         $_SESSION['id_opd'] = $data['id_opd'];

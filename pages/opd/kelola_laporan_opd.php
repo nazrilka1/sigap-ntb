@@ -14,6 +14,7 @@ if($_SESSION['role'] != 'opd'){
 }
 
 $id_opd = $_SESSION['id_opd'];
+$name_user = $_SESSION['nama_lengkap'];
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +91,7 @@ $id_opd = $_SESSION['id_opd'];
                     <div class="header-profile">
                         <img src="https://ui-avatars.com/api/?name=OPD&background=random" alt="OPD Profile" class="profile-img">
                         <div class="profile-info">
-                            <span class="profile-name">Operator Dinas PUPR</span>
+                            <span class="profile-name"><?= $name_user; ?></span>
                             <span class="profile-role">Pemprov NTB</span>
                         </div>
                     </div>
@@ -232,18 +233,18 @@ $id_opd = $_SESSION['id_opd'];
                                     $warna_teks = '';
                                     $label_progres = '';
 
-                                    if ($data['progress_opd'] == 'menunggu konfirmasi') {
+                                    if ($data['progress_opd'] == 'menunggu') {
                                         $warna_bg = '#fef08a'; // Kuning
                                         $warna_teks = '#854d0e';
                                         $label_progres = 'Menunggu';
                                     } elseif ($data['progress_opd'] == 'selesai') {
                                         $warna_bg = '#bbf7d0'; // Hijau
                                         $warna_teks = '#166534';
-                                        $label_progres = 'Disetujui';
+                                        $label_progres = 'selesai';
                                     } else {
                                         $warna_bg = '#e2e8f0'; // Abu-abu default jika kosong
                                         $warna_teks = '#475569';
-                                        $label_progres = 'Belum Diproses';
+                                        $label_progres = 'sedang dikerjakan';
                                     }
                                 ?>
                                 <td>
@@ -357,28 +358,46 @@ $id_opd = $_SESSION['id_opd'];
 
                                     <h3>Update Progres Tindak Lanjut</h3>
 
-                                    <form action="../../php/aksi_opd.php" method="post">
+                                    <form action="../../php/aksi_opd.php" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="uid" value="<?= $data['id_pengaduan'] ?>">
 
                                         <div class="form-group">
                                             <label>Nama Pelapor</label>
-                                            <input type="text" value="<?= htmlspecialchars($data['nama_pelapor']) ?>" disabled>
+                                            <input type="text" value="<?= htmlspecialchars($data['nama_pelapor']) ?>" require>
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Judul Laporan</label>
-                                            <textarea rows="3" disabled><?= htmlspecialchars($data['judul_laporan']) ?></textarea>
+                                            <label>Deskripsi Laporan</label>
+                                            <textarea rows="3" name="dketerangan" require><?= htmlspecialchars($data['judul_laporan']) ?></textarea>
+                                           
                                         </div>
 
                                         <div class="form-group">
                                             <label>Pilih Status Progres Kerja</label>
-                                            <select name="uprogress">
-                                                <option value="menunggu konfirmasi" <?= $data['progress_opd']=="menunggu konfirmasi" ? "selected" : "" ?>>Menunggu</option>
-                                                <option value="selesai" <?= $data['progress_opd']=="selesai" ? "selected" : "" ?>>Disetujui</option>
+                                            <select name="dprogress">
+                                                <option value="menunggu" <?= $data['progress_opd']=="menunggu" ? "selected" : "" ?>>Menunggu</option>
+                                                <option value="sedang dikerjakan" <?= $data['progress_opd']=="sedang dikerjakan" ? "selected" : "" ?>>Sedang Dikerjakan</option>
+                                                <option value="selesai" <?= $data['progress_opd']=="selesai" ? "selected" : "" ?>>Selesai</option>
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Foto Progress</label>
+                                            <input 
+                                                type="file" 
+                                                id="foto_bukti" 
+                                                name="dfoto" 
+                                                class="file-upload"
+                                                accept="image/png, image/jpeg, image/jpg, image/webp"
+                                            >
 
-                                        <button type="submit" name="bupdate_opd" class="btn btn-primary">
+                                            <small class="upload-note">
+                                                Format: JPG, JPEG, PNG, WEBP. Maksimal 2MB.
+                                            </small>
+                                                                    
+                                           
+                                        </div>
+
+                                        <button type="submit" name="dupdate" class="btn btn-primary">
                                             Simpan Perubahan
                                         </button>
                                     </form>
