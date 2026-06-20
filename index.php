@@ -20,9 +20,9 @@
             
             <ul class="nav-links">
                 <li><a href="#" class="active">Beranda</a></li>
-                <li><a href="sigap-ntb/php/pengaduan.php">Pengaduan</a></li>
-                <li><a href="sigap-ntb/php/status.php">Status Pengaduan</a></li>
-                <li><a href="sigap-ntb/php/riwayat.php">Riwayat Pengaduan</a></li>
+                <li><a href="php/pengaduan.php">Pengaduan</a></li>
+                <li><a href="php/status.php">Status Pengaduan</a></li>
+                <li><a href="php/riwayat.php">Riwayat Pengaduan</a></li>
             </ul>
 
             <div class="nav-actions">

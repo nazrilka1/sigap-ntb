@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="../CSS/riwayat.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -106,17 +107,16 @@
                         <label for="filter_tanggal">Tanggal</label>
                         <input type="date" id="filter_tanggal" name="filter_tanggal" value="<?= $tanggal ?>">
                     </div>
-                    <button
-                            type="submit"
-                            name="filter"
-                            class="btn btn-primary">
+                    
+                    <div style="display: flex; gap: 10px; align-items: flex-end;">
+                        <button type="submit" name="filter" class="btn-action btn-green" style="height: 42px;">
                             Filter Pencarian
-                    </button>
+                        </button>
 
-                    <button type="button" class="btn-reset" onclick="window.location='riwayat.php'">
-                        <span class="material-symbols-outlined">filter_alt_off</span>
-                        Reset
-                    </button>
+                        <a href="riwayat.php" class="btn-action btn-outline" style="height: 42px; box-sizing: border-box;">
+                            Reset
+                        </a>
+                    </div>
                 </div>
              </form>
             </section>
@@ -147,7 +147,7 @@
                             $total_data = mysqli_fetch_assoc($total_data_query)['total'];
 
                             $total_halaman = ceil($total_data / $limit);
-                                                    
+                                                            
 
                            
 
@@ -172,7 +172,7 @@
                         ?>
 
                 <article class="report-card">
-                    <div class="card-body">
+                    <div class="card-body" style="display: block;">
                         <div class="card-main">
                             <div class="card-meta">
                                 <?php
@@ -191,42 +191,42 @@
                                 }
 
                                 ?>
-                                <span class="badge <?= $badge ?> "><?=$data['progress_opd']?></span>
+                                <span class="badge <?= $badge ?> "><?= ucfirst($data['progress_opd']) ?></span>
                                 <span class="separator">|</span>
                                 <span class="report-id"><?=$data['kode_laporan']?></span>
                             </div>
 
-                            <h3 class="report-title"><?=$data['judul_laporan']?></h3>
-
-                            <div class="report-info">
+                            <div class="report-info" style="margin-bottom: 8px;">
                                 <div class="info-item">
-                                    <span class="material-symbols-outlined">jenis laporan</span>
+                                    <span>Jenis Laporan:</span> 
                                     <span><?=$data['jenis_laporan']?></span>
                                 </div>
-
                                 <div class="info-item">
-                                    <span class="material-symbols-outlined">calendar_today</span>
+                                    <span>Tanggal:</span>
                                     <span><?=$data['tanggal_laporan']?></span>
                                 </div>
                             </div>
 
-                            <div class="alert-box alert-error">
-                                <p class="alert-label">Keterangan:</p>
-                                <p class="alert-text">
-                                   <?=$data['keterangan_progress']?>
+                            <h3 class="report-title" style="margin-bottom: 12px; font-size: 16px;">
+                                Judul Laporan: <?=$data['judul_laporan']?>
+                            </h3>
+
+                            <div class="alert-box" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+                                <p class="alert-label" style="color: #475569; margin: 0; font-weight: 600;">Keterangan:</p>
+                                <p class="alert-text-biru">
+                                   <?= nl2br(htmlspecialchars($data['keterangan_progress'])) ?>
                                 </p>
                             </div>
                         </div>
 
-                        <div class="card-side">
-                            <button type="button" class="btn-view" onclick="openModal('detail<?= $data['id_pengaduan'] ?>')">
-                                <span class="material-symbols-outlined">visibility</span>
+                        <div class="action-bottom">
+                            <button type="button" class="btn-lihat-detail" onclick="openModal('detail<?= $data['id_pengaduan'] ?>')">
                                 Lihat Detail
                             </button>
                         </div>
                     </div>
                 </article>
-                <!-- MODAL -->
+
                 <div class="modal" id="detail<?= $data['id_pengaduan'] ?>">
 
                     <div class="modal-content">
@@ -258,18 +258,18 @@
 
                             <tr>
                                 <th>Status</th>
-                                <td><?= $data['progress_opd'] ?></td>
+                                <td><?= ucfirst($data['progress_opd']) ?></td>
                             </tr>
 
                             <tr>
                                 <th>Deskripsi</th>
-                                <td><?= $data['deskripsi_laporan'] ?></td>
+                                <td><?= nl2br(htmlspecialchars($data['deskripsi_laporan'])) ?></td>
                             </tr>
                             <tr>
                                 <th>Foto Progress Pekerjaan</th>
                                 <td>
                                     <?php
-                                    $folder_upload = "uploads/";   // saya jelaskan path ini di bawah
+                                    $folder_upload = "uploads/";   
                                     $file_foto     = $data['foto_sesudah'];
                                     $path_lengkap  = $folder_upload . $file_foto;
                                     ?>
@@ -282,7 +282,7 @@
                                                 class="foto-bukti-img"
                                                 onclick="bukaLightbox('<?= $folder_upload . htmlspecialchars($file_foto) ?>')">
 
-                                            <a href="<?= $folder_upload . htmlspecialchars($file_foto) ?>" download="<?= htmlspecialchars($file_foto) ?>" class="btn btn-secondary btn-sm">
+                                            <a href="<?= $folder_upload . htmlspecialchars($file_foto) ?>" download="<?= htmlspecialchars($file_foto) ?>" class="btn-action btn-outline">
                                                 <i class="fas fa-download"></i> Download Foto
                                             </a>
                                         </div>
@@ -310,7 +310,7 @@
                 <?php if($halaman > 1){ ?>
                     <a class="page-nav"
                     href="?page=<?= $halaman-1 ?>&search_laporan=<?= urlencode($nama) ?>&filter_status=<?= urlencode($progress) ?>&filter_tanggal=<?= urlencode($tanggal) ?>">
-                        ←
+                        &larr;
                     </a>
                 <?php } ?>
 
@@ -325,7 +325,7 @@
                 <?php if($halaman < $total_halaman){ ?>
                     <a class="page-nav"
                     href="?page=<?= $halaman+1 ?>&search_laporan=<?= urlencode($nama) ?>&filter_status=<?= urlencode($progress) ?>&filter_tanggal=<?= urlencode($tanggal) ?>">
-                        →
+                        &rarr;
                     </a>
                 <?php } ?>
 
