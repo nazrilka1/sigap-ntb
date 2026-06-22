@@ -347,3 +347,18 @@
         flex-wrap: wrap;
     }
 }
+
+/* Box Modal */
+.modal-content{
+    width: 90%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    animation: zoomIn .25s ease;
+    position: relative;
+    /* === TAMBAHAN UNTUK FIX SCROLL === */
+    max-height: 85vh; /* Membatasi tinggi maksimal 85% layar */
+    overflow-y: auto; /* Memunculkan fungsi scroll otomatis */
+}

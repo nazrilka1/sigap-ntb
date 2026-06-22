@@ -12,7 +12,7 @@ if($_SESSION['role'] != 'admin'){
     header("location: ../../pages/login.php");
     exit();
 }
-SES UBAH PASSWORD
+
 if(isset($_POST['ubahPassword'])){
 
     $passwordLama = $_POST['oldPassword'];
@@ -73,7 +73,6 @@ $data = mysqli_fetch_assoc($tampilkan);
     <link rel="stylesheet" href="../../CSS/components/sidebar.css">
     <link rel="stylesheet" href="../../CSS/components/topbar.css">
     <link rel="stylesheet" href="../../CSS/components/card.css">
-    <link rel="stylesheet" href="../../CSS/components/pengaturan.css">
     <link rel="stylesheet" href="../../CSS/components/toast.css">
     <link rel="stylesheet" href="../../CSS/components/button.css">
     

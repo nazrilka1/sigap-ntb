@@ -82,8 +82,8 @@ if(isset($_POST['submit'])){
     // ===== 4. Insert pakai prepared statement =====
     $stmt = mysqli_prepare($conn,
         "INSERT INTO pengaduan 
-        (nama_pelapor, nik, alamat, jenis_laporan, alamat_kejadian, deskripsi_laporan, bukti_file, latitude, longitude, kode_laporan, tanggal_laporan, wilayah)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)"
+        (nama_pelapor, nik, alamat, jenis_laporan, alamat_kejadian, deskripsi_laporan, bukti_file, latitude, longitude, kode_laporan, tanggal_laporan, wilayah, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, 'menunggu')"
     );
 
     mysqli_stmt_bind_param(

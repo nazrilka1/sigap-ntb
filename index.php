@@ -26,7 +26,7 @@
             </ul>
 
             <div class="nav-actions">
-                <a href="sigap-ntb/pages/login.php" class="btn btn-login">Login</a>
+                <a href="pages/login.php" class="btn btn-login">Login</a>
                 <button class="menu-toggle" id="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>

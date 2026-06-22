@@ -7,6 +7,8 @@
 
     <link rel="stylesheet" href="../CSS/global.css">
     <link rel="stylesheet" href="../CSS/pengaduan.css">
+    <link rel="stylesheet" href="../CSS/components/button.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
@@ -112,7 +114,7 @@
                     <div class="status-form-group">
                         <label for="wilayah">Wilayah / Kabupaten</label>
 
-                        <select id="wilayah" name="wilayah">
+                        <select id="wilayah" name="wilayah" class= "form-select">
                             <option value="">Semua Wilayah</option>
                             <option value="kota mataram">Kota Mataram</option>
                             <option value="kab. lombok barat">Kab. Lombok Barat</option>

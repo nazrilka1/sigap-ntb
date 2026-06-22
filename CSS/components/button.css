@@ -50,7 +50,7 @@
 
 .btn-outline:hover { 
     background-color: var(--color-primary); 
-    color: #fff; 
+    color: #ffffff; 
 }
 
 /* Varian Outline Border Tipis (dipakai di panel OPD) */
@@ -83,3 +83,25 @@
 .action-yellow:hover { color: #d97706; } 
 .action-red:hover { color: #dc2626; } 
 .action-blue:hover { color: #2563eb; }
+
+/* Style button pada pengaduan.php */
+.submit-btn {
+    background: var(--primary-green);
+    color: var(--text-white);
+    border: none;
+
+    padding: 15px 40px;
+    border-radius: 10px;
+
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+.submit-btn:hover {
+    background: var(--hover-green);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(20, 128, 60, 0.3);
+}

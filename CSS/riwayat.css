@@ -94,41 +94,6 @@
     box-shadow: 0 0 0 4px rgba(20, 128, 60, 0.08);
 }
 
-/* Style Button Filter & Reset (Sesuai Kelola Laporan) */
-.btn-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 24px;
-    height: 56px; /* Disamakan dengan tinggi input */
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: none;
-    text-decoration: none;
-}
-.btn-green {
-    background-color: #10b981;
-    color: white;
-}
-.btn-green:hover {
-    background-color: #059669;
-    transform: translateY(-2px);
-}
-.btn-outline {
-    background-color: transparent;
-    border: 1px solid #cbd5e1;
-    color: #475569;
-}
-.btn-outline:hover {
-    background-color: #f8fafc;
-    color: #0f172a;
-    transform: translateY(-2px);
-}
-
 /* ================= Report Cards ================= */
 .reports-list {
     display: flex;

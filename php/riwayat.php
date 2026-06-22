@@ -15,6 +15,8 @@
 
     <link rel="stylesheet" href="../CSS/global.css">
     <link rel="stylesheet" href="../CSS/riwayat.css">
+    <link rel="stylesheet" href="../CSS/components/button.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     
@@ -108,12 +110,12 @@
                         <input type="date" id="filter_tanggal" name="filter_tanggal" value="<?= $tanggal ?>">
                     </div>
                     
-                    <div style="display: flex; gap: 10px; align-items: flex-end;">
-                        <button type="submit" name="filter" class="btn-action btn-green" style="height: 42px;">
+                    <div>
+                        <button type="submit" name="filter" class="btn-action btn-green">
                             Filter Pencarian
                         </button>
-
-                        <a href="riwayat.php" class="btn-action btn-outline" style="height: 42px; box-sizing: border-box;">
+                        
+                        <a href="riwayat.php" class="btn-action btn-outline">
                             Reset
                         </a>
                     </div>

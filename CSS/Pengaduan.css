@@ -170,27 +170,6 @@ textarea {
     color: #666;
 }
 
-.submit-btn {
-    background: var(--primary-green);
-    color: var(--text-white);
-    border: none;
-
-    padding: 15px 40px;
-    border-radius: 10px;
-
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-
-    transition: var(--transition);
-}
-
-.submit-btn:hover {
-    background: var(--hover-green);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(20, 128, 60, 0.3);
-}
-
 /* ================= Sidebar Boxes ================= */
 .side-box {
     display: flex;
@@ -236,6 +215,55 @@ textarea {
     font-size: 0.95rem;
     opacity: 0.8;
     margin: 0;
+}
+
+.status-form-group label{
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* ================= Form Select ================= */
+.form-select {
+    width: 100%;
+    height: 56px;
+    padding: 0 40px 0 16px; /* Padding kanan dilebihkan untuk ruang panah */
+    border-radius: 10px; /* Disamakan dengan .submit-btn */
+    border: 1.5px solid #cbd5e1;
+    background-color: #f8fafc;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #334155;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 10px;
+    
+    /* Menghilangkan panah bawaan browser asli */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Mengganti dengan panah SVG kustom yang rapi */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    
+    transition: all 0.3s ease;
+}
+
+/* Efek saat dropdown diklik / fokus */
+.form-select:focus {
+    border-color: #10b981; /* Warna hijau fokus (atau ganti dengan var(--primary-green)) */
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); /* Efek ring halus */
+}
+
+/* Mengatur warna pilihan di dalam dropdown */
+.form-select option {
+    color: #334155;
+    background-color: #ffffff;
+    padding: 12px;
 }
 
 /* ================= Responsive Design ================= */
