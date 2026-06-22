@@ -892,3 +892,14 @@ ul {
     font-size: 0.8rem;
     color: #666;
 }
+
+/* ================= Hide All Scrollbars ================= */
+/* Menyembunyikan scrollbar pada body DAN semua elemen/container di dalamnya */
+* {
+    -ms-overflow-style: none;  /* IE dan Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+*::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, dan Opera */
+}
