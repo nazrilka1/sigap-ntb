@@ -20,7 +20,6 @@ if(isset($_POST['login'])){
         $data = mysqli_fetch_assoc($query);
 
         if(!password_verify($password, $data['password'])){
-            /
             echo "<script>
                 alert('Username atau password salah!');
                 window.history.back();
