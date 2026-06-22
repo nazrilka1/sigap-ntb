@@ -12,45 +12,51 @@ if($_SESSION['role'] != 'opd'){
     header("location: ../../pages/login.php");
     exit();
 }
+if(isset($_POST['ubahProfil'])){
+    $namaLengkap = mysqli_real_escape_string($conn, $_POST['namaLengkap']);
+    $email       = mysqli_real_escape_string($conn, $_POST['email']);
+    $noTelp      = mysqli_real_escape_string($conn, $_POST['noTelp']);
+    $username    = $_SESSION['username'];
 
-// PROSES UBAH PASSWORD
+    mysqli_query($conn,"
+        UPDATE operator
+        SET nama_lengkap='$namaLengkap', email='$email', nomor_telpon='$noTelp'
+        WHERE username='$username'
+    ");
+
+    echo "<script>alert('Data diri berhasil diperbarui!');</script>";
+}
+
 if(isset($_POST['ubahPassword'])){
 
     $passwordLama = $_POST['oldPassword'];
     $passwordBaru = $_POST['newPassword'];
     $konfirmasi   = $_POST['confirmPassword'];
+    $username     = $_SESSION['username'];
 
-    $username = $_SESSION['username'];
-
-    $cek = mysqli_query($conn,"
-        SELECT password
-        FROM operator
-        WHERE username='$username'
-    ");
-
+    $cek = mysqli_query($conn,"SELECT password FROM operator WHERE username='$username'");
     $dataUser = mysqli_fetch_assoc($cek);
 
-    if($passwordLama != $dataUser['password']){
-
+   
+    if(!password_verify($passwordLama, $dataUser['password'])){
         echo "<script>alert('Password lama salah!');</script>";
 
-    }elseif($passwordBaru != $konfirmasi){
-
-        echo "<script>alert('Konfirmasi password tidak sama!');</script>";
-
     }elseif(empty($passwordBaru)){
-
         echo "<script>alert('Password baru tidak boleh kosong!');</script>";
 
     }elseif(strlen($passwordBaru) < 8){
-
         echo "<script>alert('Password minimal 8 karakter!');</script>";
 
+    }elseif($passwordBaru != $konfirmasi){
+        echo "<script>alert('Konfirmasi password tidak sama!');</script>";
+
     }else{
+   
+        $passwordHash = password_hash($passwordBaru, PASSWORD_DEFAULT);
 
         mysqli_query($conn,"
             UPDATE operator
-            SET password='$passwordBaru'
+            SET password='$passwordHash'
             WHERE username='$username'
         ");
 
@@ -58,7 +64,7 @@ if(isset($_POST['ubahPassword'])){
     }
 }
 
-// AMBIL DATA USER
+
 $username = $_SESSION['username'];
 
 $tampilkan = mysqli_query(
@@ -159,7 +165,7 @@ $data = mysqli_fetch_assoc($tampilkan);
             </header>
             
 
-            <form id="formUpdateProfil" class="profile-wrapper">
+            <div class="profile-wrapper">
                 <!-- Kiri: Foto & Info Singkat -->
                 <div class="profile-left">
                     <div class="card profile-pic-card">
@@ -169,10 +175,7 @@ $data = mysqli_fetch_assoc($tampilkan);
                             
                             <p class="profile-id"><?=$data['id']?></p>
                             
-                            <label for="uploadFoto" class="btn-action btn-outline btn-upload">
-                                <i class="fas fa-camera"></i> Ganti Foto
-                            </label>
-                            <input type="file" id="uploadFoto" hidden accept="image/*">
+                            
                         </div>
                     </div>
 
@@ -198,77 +201,85 @@ $data = mysqli_fetch_assoc($tampilkan);
 
                 <!-- Kanan: Form Data & Password -->
                 <div class="profile-right">
-                    <div class="card">
-                        <h3 class="card-title"><i class="far fa-id-card"></i> Data Diri</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="namaLengkap">Nama Lengkap</label>
-                                <input type="text" id="namaLengkap" class="form-control" value="<?=$data['nama_lengkap']?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" id="username" class="form-control" value="<?=$data['username']?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control" value="<?=$data['email']?>" required>
-                                <small class="error-text" id="emailError">Format email tidak valid.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="noTelp">Nomor Telepon</label>
-                                <input type="tel" id="noTelp" class="form-control" value="<?=$data['nomor_telpon']?>">
-                            </div>
-                            <div class="form-group form-full">
-                                <label for="alamat">Alamat Kantor (Opsional)</label>
-                                <textarea id="alamat" class="form-control textarea" rows="3">Jl. Pejanggik No.12, Kota Mataram, Nusa Tenggara Barat</textarea>
+                     <!-- Form 1: Data Diri -->
+                    <form method="POST">
+                        <div class="card">
+                            <h3 class="card-title"><i class="far fa-id-card"></i> Data Diri</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="namaLengkap">Nama Lengkap</label>
+                                    <input type="text" id="namaLengkap" name="namaLengkap" 
+                                        class="form-control" value="<?=$data['nama_lengkap']?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" class="form-control" 
+                                        value="<?=$data['username']?>" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <!-- ✅ Tambah name="email" -->
+                                    <input type="email" id="email" name="email" 
+                                        class="form-control" value="<?=$data['email']?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="noTelp">Nomor Telepon</label>
+                                    <input type="tel" id="noTelp" name="noTelp" 
+                                        class="form-control" value="<?=$data['nomor_telpon']?>">
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="profile-actions">
+                            <button type="reset" class="btn-action btn-outline">Reset Form</button>
+                            <!-- ✅ Typo diperbaiki: ubahProfil -->
+                            <button type="submit" name="ubahProfil" class="btn-action btn-green">
+                                <i class="fas fa-save"></i> Update Profil
+                            </button>
+                        </div>
+                    </form>
 
-                    <div class="card">
-                        <h3 class="card-title"><i class="fas fa-lock"></i> Ubah Password</h3>
-                        <p class="form-subtitle">Biarkan kosong jika tidak ingin mengubah password.</p>
-                        <form method="POST">
-                        <div class="form-grid">
-                            <div class="form-group form-full">
-                                <label for="oldPassword">Password Lama</label>
-                                <div class="input-icon-wrap">
-                                    <input type="password" id="oldPassword" name="oldPassword" class="form-control">
-                                    <i class="far fa-eye toggle-password" data-target="oldPassword"></i>
+                    <!-- Form 2: Ubah Password -->
+                    <form method="POST">
+                        <div class="card">
+                            <h3 class="card-title"><i class="fas fa-lock"></i> Ubah Password</h3>
+                            <p class="form-subtitle">Biarkan kosong jika tidak ingin mengubah password.</p>
+                            <div class="form-grid">
+                                <div class="form-group form-full">
+                                    <label for="oldPassword">Password Lama</label>
+                                    <div class="input-icon-wrap">
+                                        <input type="password" id="oldPassword" name="oldPassword" class="form-control">
+                                        <i class="far fa-eye toggle-password" data-target="oldPassword"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="newPassword">Password Baru</label>
-                                <div class="input-icon-wrap">
-                                    <input type="password" id="newPassword" name="newPassword" class="form-control">
-                                    <i class="far fa-eye toggle-password" data-target="newPassword"></i>
+                                <div class="form-group">
+                                    <label for="newPassword">Password Baru</label>
+                                    <div class="input-icon-wrap">
+                                        <input type="password" id="newPassword" name="newPassword" class="form-control">
+                                        <i class="far fa-eye toggle-password" data-target="newPassword"></i>
+                                    </div>
                                 </div>
-                                <small class="error-text" id="passLengthError">Minimal 8 karakter.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirmPassword">Konfirmasi Password</label>
-                                <div class="input-icon-wrap">
-                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control">
-                                    <i class="far fa-eye toggle-password" data-target="confirmPassword"></i>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Konfirmasi Password</label>
+                                    <div class="input-icon-wrap">
+                                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control">
+                                        <i class="far fa-eye toggle-password" data-target="confirmPassword"></i>
+                                    </div>
                                 </div>
-                                <small class="error-text" id="passMatchError">Password tidak sama.</small>
                             </div>
                         </div>
-                        </form>
-                    </div>
-
-                    <div class="profile-actions">
-                        <button type="reset" class="btn-action btn-outline">Reset Form</button>
-                        <button
-                            type="submit"
-                            name="ubahPassword"
-                            class="btn-action btn-green">
-                            <i class="fas fa-save"></i>
-                            Simpan Perubahan
-                        </button>
-                    </div>
+                        <div class="profile-actions">
+                            <button type="reset" class="btn-action btn-outline">Reset Form</button>
+                            <button type="submit" name="ubahPassword" class="btn-action btn-green">
+                                <i class="fas fa-key"></i> Ubah Password
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
+
+                    
+               
+            
 
             <!-- Notifikasi Toast -->
             <div class="toast-notification" id="toastNotif">
