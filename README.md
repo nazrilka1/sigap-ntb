@@ -10,6 +10,15 @@ SIGAP NTB adalah sebuah platform digital berbasis web yang berfungsi sebagai sis
 
 ---
 
+## 🎯 Project Goals
+* **Mempermudah Masyarakat:** Memfasilitasi warga NTB dalam membuat pengaduan dan pengajuan perbaikan fasilitas umum tanpa hambatan birokrasi atau kewajiban login.
+* **Meningkatkan Transparansi:** Memberikan akses terbuka bagi masyarakat untuk memantau status, respons, dan riwayat penyelesaian laporan secara *real-time*.
+* **Efisiensi Kerja Admin:** Menyediakan sistem manajemen yang sistematis bagi admin untuk memvalidasi, menyaring, dan meneruskan laporan secara instan.
+* **Otomatisasi & Optimalisasi OPD:** Memudahkan Organisasi Perangkat Daerah (OPD) dalam menerima, mengelola, dan memperbarui progres penanganan laporan yang menjadi tanggung jawabnya.
+* **Sinergi Tepat Sasaran:** Meningkatkan koordinasi antar-lembaga sehingga penanganan keluhan publik menjadi lebih cepat dan terukur.
+
+---
+
 # Team Members & Responsibilities
 
 | Nama | NIM | Role | Responsibilities |
@@ -22,25 +31,29 @@ SIGAP NTB adalah sebuah platform digital berbasis web yang berfungsi sebagai sis
 
 # Website Users / Actors
 
-## 1. Masyarakat
-### Fitur
-- Membuat laporan/pengaduan tanpa login dengan melampirkan foto dan deskripsi masalah.
-- Melihat status laporan sendiri dan laporan masyarakat lain secara transparan.
-- Melihat riwayat laporan yang sudah selesai sebagai bentuk akuntabilitas.  
+### 1. Masyarakat (Public / Guest)
+Aktor publik yang dapat mengakses sistem secara langsung tanpa perlu melakukan proses registrasi atau login untuk menjaga fleksibilitas dan kecepatan pelaporan.
+* **Sitemap / Menu:**
+  * 🏠 `/` (Landing Page) : Informasi umum sistem, alur pengaduan, dan ringkasan statistik global laporan.
+  * 📝 `/buat-laporan` : Form pengaduan masyarakat (Input: NIK, Nama, Alamat, Judul, Kategori, Deskripsi, Koordinat Lokasi, Wilayah, & Upload Foto Bukti).
+  * 🔍 `/cek-status` : Fitur pencarian dan pelacakan status pengaduan yang sedang berjalan menggunakan kode laporan secara transparan.
+  * 📜 `/cek-riwayat` : Halaman yang memuat daftar riwayat seluruh laporan masyarakat yang telah selesai ditangani sebagai bentuk akuntabilitas publik.
 
-## 2. Admin
-### Fitur
-- Login untuk mengakses dashboard pengelolaan laporan.
-- Melihat statistik laporan berdasarkan status (menunggu verifikasi, terverifikasi, diteruskan ke OPD, selesai).
-- Mengelola laporan dengan melihat detail, mengubah status, dan menghapus laporan yang tidak valid.
-- Meneruskan laporan yang sudah terverifikasi ke OPD terkait.  
+### 2. Admin (Superuser)
+Aktor internal yang bertanggung jawab penuh atas validasi awal laporan masyarakat sebelum diteruskan ke instansi OPD terkait.
+* **Sitemap / Menu:**
+  * 🔐 `/login` : Gerbang masuk autentikasi petugas (*role*: admin).
+  * 📊 `/admin/dashboard` : Panel statistik utama menampilkan metrik ringkasan jumlah laporan (*Menunggu, Disetujui, Ditolak*).
+  * 📋 `/admin/kelola-laporan` : Halaman manajemen berkas masuk dengan hak akses untuk melakukan **edit**, **hapus**, serta **meneruskan** laporan yang valid ke OPD terkait (mengubah status laporan hingga tahap *terverifikasi* / diteruskan).
+  * ⚙️ `/admin/pengaturan-akun` : Halaman khusus bagi Admin untuk memperbarui data profil personal dan kata sandi login.
 
-## 3. OPD (Organisasi Perangkat Daerah)
-### Fitur
-- Login untuk mengakses dashboard khusus OPD.  
-- Menerima laporan yang diteruskan oleh admin.  -
-- Memperbarui status laporan dari antrian, sedang dikerjakan, hingga selesai.  
-- Memberikan pembaruan kepada admin dan masyarakat terkait progres penanganan. 
+  ### 3. OPD (Organisasi Perangkat Daerah)
+Aktor instansi teknis (seperti Dinas PUPR, Dinas Kesehatan, dll.) yang mengeksekusi penanganan masalah langsung di lapangan sesuai wilayah kerjanya.
+* **Sitemap / Menu:**
+  * 🔐 `/login` : Gerbang masuk autentikasi petugas (*role*: opd).
+  * 📊 `/opd/dashboard` : Ringkasan performa penyelesaian tugas khusus untuk instansi terkait.
+  * ⚙️ `/opd/kelola-laporan` : Halaman untuk mengelola disposisi laporan dari admin, melakukan **edit** data pengerjaan, serta memperbarui status perkembangan laporan secara berkala hingga tahap **Selesai** (disertai unggahan foto bukti setelah perbaikan).
+  * 👤 `/opd/pengaturan-akun` : Halaman bagi petugas OPD untuk memperbarui data profil instansi dan kata sandi login.
 
 ---
 
@@ -62,9 +75,40 @@ SIGAP NTB adalah sebuah platform digital berbasis web yang berfungsi sebagai sis
 - XAMPP
 - GitHub
 
-# Project Goals
-- Mempermudah masyarakat dalam membuat pengaduan dan pengajuan fasilitas umum tanpa hambatan akses login.  
-- Meningkatkan transparansi dengan memberikan akses bagi masyarakat untuk memantau status dan riwayat laporan.  
-- Memberikan alat yang efektif bagi admin untuk mengelola, memverifikasi, dan meneruskan laporan secara sistematis.  
-- Memudahkan OPD dalam mengelola dan memperbarui status laporan yang menjadi tanggung jawabnya.  
-- Meningkatkan koordinasi antar pihak terkait sehingga penanganan pengaduan menjadi lebih cepat dan tepat sasaran.  
+## 🗄️ DBMS: Configuration & Table Specification
+
+### 1. Database Configuration
+Koneksi database pada skrip PHP Native (`config.php` atau `koneksi.php`) dikonfigurasikan dengan parameter standar lingkungan XAMPP:
+```php
+<?php
+$host     = "localhost";
+$username = "root";
+$password = "";
+$database = "sigap_ntb";
+
+$koneksi  = mysqli_connect($host, $username, $password, $database);
+
+if (!$koneksi) {
+    die("Koneksi database gagal: " . mysqli_connect_error());
+}
+?>
+```
+
+---
+
+##  Bug Log & Troubleshooting
+
+### 1. Modul Dashboard Admin (Parse Error: Unclosed '{')
+![Parse Error Unclosed Curly Brace](Assets/buglog1.png)
+* **Alasan Eror:** Terjadi kesalahan sintaks PHP (*syntax error*) karena kurung kurawal pembuka `{` pada perulangan `while` di baris 284 belum ditutup kembali di bagian akhir blok tabel HTML.
+* **Cara Penyelesaian:** Menambahkan kurung kurawal penutup PHP `<?php } ?>` tepat di bawah tag penutup baris tabel `</tr>` atau sebelum tag penutup `</tbody>` agar perulangan data berjalan dengan benar.
+
+### 6. Modul Aksi Masyarakat (Parse Error: Unexpected Variable "$folder")
+![Parse Error Missing Semicolon](Assets/buglog2.png)
+* **Alasan Eror:** Terjadi *syntax error* karena pada baris 14 di file `aksi_masyarakat.php` lupa diberikan tanda titik koma (`;`) di akhir baris setelah fungsi `rand()`. Hal ini membuat compiler PHP membaca baris berikutnya sebagai *error*.
+* **Cara Penyelesaian:** Menambahkan tanda titik koma (`;`) tepat di ujung baris 14 menjadi `$kode_laporan = '#NTB'.date('YmD').rand(1000,1999);` agar baris kode tereksekusi dengan sempurna.
+
+### 7. Modul Kelola Laporan OPD (Warning: Undefined variable $status)
+![Warning Undefined Variable Status](Assets/buglog3.png)
+* **Alasan Eror:** Terjadi kesalahan pemanggilan data karena variabel `$status` digunakan di dalam query SQL (baris 184), namun variabel tersebut belum dideklarasikan atau dibuat di bagian atas script PHP. Variabel yang tertera di baris 173 adalah `$progress`.
+* **Cara Penyelesaian:** Mengubah nama variabel penampung di baris 173 menjadi `$status = isset($_POST['fprogress']) ? ...` atau menyamakan nama variabel yang dipanggil di dalam query SQL agar sesuai dengan variabel yang dideklarasikan di awal script.
