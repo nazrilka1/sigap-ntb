@@ -88,7 +88,6 @@ $data = mysqli_fetch_assoc($tampilkan);
     <link rel="stylesheet" href="../../CSS/components/sidebar.css">
     <link rel="stylesheet" href="../../CSS/components/topbar.css">
     <link rel="stylesheet" href="../../CSS/components/card.css">
-    <link rel="stylesheet" href="../../CSS/components/pengaturan.css">
     <link rel="stylesheet" href="../../CSS/components/toast.css">
     <link rel="stylesheet" href="../../CSS/components/button.css">
     
@@ -101,7 +100,7 @@ $data = mysqli_fetch_assoc($tampilkan);
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2>Admin<br>Panel</h2>
+                <h2>OPD<br>Panel</h2>
                 <p>Provinsi NTB</p>
             </div>
             
@@ -146,20 +145,6 @@ $data = mysqli_fetch_assoc($tampilkan);
                     <div>
                         <h1>Update Profil</h1>
                         <p>Kelola informasi akun dan pengaturan keamanan Anda.</p>
-                    </div>
-                </div>
-                
-                <div class="header-actions">
-                    <button class="notification-btn">
-                        <i class="far fa-bell"></i>
-                        <span class="badge-dot"></span>
-                    </button>
-                    <div class="header-profile">
-                        <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" class="profile-img" id="headerProfilePic">
-                        <div class="profile-info">
-                            <span class="profile-name"><?=$data['nama_lengkap']?></span>
-                            <span class="profile-role">Pemprov NTB</span>
-                        </div>
                     </div>
                 </div>
             </header>
@@ -276,10 +261,6 @@ $data = mysqli_fetch_assoc($tampilkan);
                     </form>
                 </div>
             </div>
-
-                    
-               
-            
 
             <!-- Notifikasi Toast -->
             <div class="toast-notification" id="toastNotif">
