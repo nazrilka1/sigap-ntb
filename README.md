@@ -154,7 +154,7 @@ Aktor instansi teknis (seperti Dinas PUPR, Dinas Kesehatan, dll.) yang mengeksek
 - GitHub
 
 # Penggunaan Hashing
-## 1. password_hash()
+## password_hash()
 Fungsi ini digunakan hanya sekali, yaitu saat pengguna pertama kali mendaftar atau saat Admin/OPD mengubah kata sandi mereka.
 Tujuan: Mengubah teks kata sandi yang mudah ditebak (seperti 123456) menjadi string acak yang kompleks dan tidak dapat dikembalikan ke bentuk asal.
 Keunggulan Utama: * Salt Otomatis: Fungsi ini menambahkan salt (potongan karakter acak) ke dalam password secara otomatis setiap kali dipanggil. Artinya, jika ada dua user yang sama-sama menggunakan password rahasia123, hasil hash di database akan tetap berbeda.
