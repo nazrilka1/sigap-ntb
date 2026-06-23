@@ -32,30 +32,14 @@
 
             <div class="input-box">
                 <i class="fa-solid fa-user"></i>
-
-                <input
-                    type="text"
-                    placeholder="Masukkan username"
-                    name="userlogin"
-                    id="userlogin"
-                    class="text-input"
-                    required
-                >
+                <input type="text" placeholder="Masukkan username" name="userlogin" id="userlogin" class="text-input" required>
             </div>
 
             <label>Password</label>
 
             <div class="input-box">
                 <i class="fa-solid fa-lock"></i>
-
-                <input
-                    type="password"
-                    placeholder="Masukkan password"
-                    name="passlogin"
-                    id="passlogin"
-                    class="text-input"
-                    required
-                >
+                <input type="password" placeholder="Masukkan password" name="passlogin" id="passlogin" class="text-input" required>
             </div>
 
             <br>

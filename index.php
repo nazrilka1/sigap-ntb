@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/global.css">
 </head>
 <body>
-
+    
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -42,23 +42,7 @@
                 <p>Sampaikan keluhan, aspirasi, atau pengajuan perbaikan fasilitas umum langsung ke pemerintah provinsi NTB. Kami berkomitmen untuk transparansi dan kecepatan respon demi kemajuan bersama.</p>
                 <div class="hero-buttons">
                     <a href="php/pengaduan.php" class="btn btn-primary"><i class="fas fa-edit"></i> Buat Pengaduan</a>
-                    <a href="php/status.php" class="btn btn-outline">Cek Status Laporan</a>
-                </div>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <div class="stat-icon bg-light-blue">
-                        <i class="fas fa-file-alt text-blue"></i>
-                    </div>
-                    <h2>12k+</h2>
-                    <p><b>Laporan Masuk</b></p>
-                </div>
-                <div class="stat-card stat-card-offset">
-                    <div class="stat-icon bg-light-green">
-                        <i class="fas fa-check-circle text-green"></i>
-                    </div>
-                    <h2>94%</h2>
-                    <p><b>Terselesaikan</b></p>
+                    <a href="php/status.php" class="btn  btn-outline">Cek Status Laporan</a>
                 </div>
             </div>
         </div>
