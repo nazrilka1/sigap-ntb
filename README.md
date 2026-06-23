@@ -1,5 +1,3 @@
-# SIGAP NTB — Sistem Informasi Gerakan Aspirasi Publik NTB
-
 ## Website Name
 # SIGAP NTB — Sistem Informasi Gerakan Aspirasi Publik NTB
 
@@ -111,7 +109,7 @@ SIGAP NTB adalah sebuah platform digital berbasis web yang berfungsi sebagai sis
 ![alt text](Assets/sitemap/OPD.jpeg)
 
 # Website Users / Actors
-### 1. Masyarakat (Public / Guest)
+### 1. Masyarakat 
 Aktor publik yang dapat mengakses sistem secara langsung tanpa perlu melakukan proses registrasi atau login untuk menjaga fleksibilitas dan kecepatan pelaporan.
 * **Sitemap / Menu:**
   * 🏠 `/` (Landing Page) : Informasi umum sistem, alur pengaduan, dan ringkasan statistik global laporan.
@@ -119,7 +117,7 @@ Aktor publik yang dapat mengakses sistem secara langsung tanpa perlu melakukan p
   * 🔍 `/cek-status` : Fitur pencarian dan pelacakan status pengaduan yang sedang berjalan menggunakan kode laporan secara transparan.
   * 📜 `/cek-riwayat` : Halaman yang memuat daftar riwayat seluruh laporan masyarakat yang telah selesai ditangani sebagai bentuk akuntabilitas publik.
 
-### 2. Admin (Superuser)
+### 2. Admin
 Aktor internal yang bertanggung jawab penuh atas validasi awal laporan masyarakat sebelum diteruskan ke instansi OPD terkait.
 * **Sitemap / Menu:**
   * 🔐 `/login` : Gerbang masuk autentikasi petugas (*role*: admin).
@@ -127,7 +125,7 @@ Aktor internal yang bertanggung jawab penuh atas validasi awal laporan masyaraka
   * 📋 `/admin/kelola-laporan` : Halaman manajemen berkas masuk dengan hak akses untuk melakukan **edit**, **hapus**, serta **meneruskan** laporan yang valid ke OPD terkait (mengubah status laporan hingga tahap *terverifikasi* / diteruskan).
   * ⚙️ `/admin/pengaturan-akun` : Halaman khusus bagi Admin untuk memperbarui data profil personal dan kata sandi login.
 
-  ### 3. OPD (Organisasi Perangkat Daerah)
+  ### 3. OPD/Organisasi Perangkat Daerah
 Aktor instansi teknis (seperti Dinas PUPR, Dinas Kesehatan, dll.) yang mengeksekusi penanganan masalah langsung di lapangan sesuai wilayah kerjanya.
 * **Sitemap / Menu:**
   * 🔐 `/login` : Gerbang masuk autentikasi petugas (*role*: opd).
@@ -155,7 +153,27 @@ Aktor instansi teknis (seperti Dinas PUPR, Dinas Kesehatan, dll.) yang mengeksek
 - XAMPP
 - GitHub
 
-## 🗄️ DBMS: Configuration & Table Specification
+# Penggunaan Hashing
+## 1. password_hash()
+Fungsi ini digunakan hanya sekali, yaitu saat pengguna pertama kali mendaftar atau saat Admin/OPD mengubah kata sandi mereka.
+Tujuan: Mengubah teks kata sandi yang mudah ditebak (seperti 123456) menjadi string acak yang kompleks dan tidak dapat dikembalikan ke bentuk asal.
+Keunggulan Utama: * Salt Otomatis: Fungsi ini menambahkan salt (potongan karakter acak) ke dalam password secara otomatis setiap kali dipanggil. Artinya, jika ada dua user yang sama-sama menggunakan password rahasia123, hasil hash di database akan tetap berbeda.
+Keamanan Bcrypt: Menggunakan algoritma hashing yang sangat lambat secara desain, sehingga peretas akan membutuhkan waktu ribuan tahun jika ingin melakukan brute-force password Anda.
+
+$passwordHash = password_hash($passwordBaru, PASSWORD_DEFAULT);
+// Hasilnya disimpan ke database, bukan $passwordBaru.
+
+## password_verify()
+Fungsi ini digunakan setiap kali pengguna mencoba untuk masuk (login).
+Tujuan: Memeriksa apakah password yang diketikkan di form login sesuai dengan hash yang tersimpan di database.
+Mengapa tidak membandingkan langsung ($password == $data['password'])?
+Karena password di database sudah dalam bentuk hash acak, sedangkan password dari form login masih dalam bentuk teks biasa. Anda tidak bisa membandingkan keduanya secara langsung.
+
+if(!password_verify($password, $data['password'])){
+    // Jika tidak cocok, tolak login
+}
+
+## DBMS: Configuration & Table Specification
 
 ### 1. Database Configuration
 Koneksi database pada skrip PHP Native (`config.php` atau `koneksi.php`) dikonfigurasikan dengan parameter standar lingkungan XAMPP:
