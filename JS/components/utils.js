@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// 3. Fungsi Global Menampilkan Toast Notifikasi (BARU)
+// 3. Fungsi Global Menampilkan Toast Notifikasi
 window.showToast = function(toastId = 'toastNotif') {
-    // Mencari elemen berdasarkan ID yang diberikan (default: 'toastNotif')
+    // Mencari elemen berdasarkan ID yang diberikan
     const toast = document.getElementById(toastId);
     if(toast) {
         toast.classList.add('show');

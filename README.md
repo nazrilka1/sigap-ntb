@@ -29,8 +29,88 @@ SIGAP NTB adalah sebuah platform digital berbasis web yang berfungsi sebagai sis
 
 ---
 
-# Website Users / Actors
+# Project Structure
 
+```
+├── Assets
+│   ├── images
+│   │   ├── desa.png
+│   │   ├── kecamatan.png
+│   │   ├── kota.png
+│   │   ├── lingkungan.jpeg
+│   │   ├── logo-ntb.png
+│   │   └── mataram.webp
+│   ├── buglog1.png
+│   ├── buglog2.png
+│   └── buglog3.png
+├── CSS
+│   ├── components
+│   │   ├── button.css
+│   │   ├── card.css
+│   │   ├── chart.css
+│   │   ├── modal.css
+│   │   ├── sidebar.css
+│   │   ├── table.css
+│   │   ├── toast.css
+│   │   └── topbar.css
+│   ├── admin.css
+│   ├── beranda.css
+│   ├── form.css
+│   ├── global.css
+│   ├── login.css
+│   ├── pengaduan.css
+│   ├── riwayat.css
+│   └── status.css
+├── JS
+│   ├── components
+│   │   ├── modal.js
+│   │   ├── sidebar.js
+│   │   └── utils.js
+│   ├── pages
+│   │   ├── dashboard_admin.js
+│   │   ├── laporan.js
+│   │   ├── profil.js
+│   │   └── user.js
+│   ├── beranda.js
+│   └── login.js
+├── pages
+│   ├── admin
+│   │   ├── dashboard_admin.php
+│   │   ├── kelola_laporan_admin.php
+│   │   └── pengaturan_admin.php
+│   ├── opd
+│   │   ├── dashboard_opd.php
+│   │   ├── kelola_laporan_opd.php
+│   │   └── pengaturan_opd.php
+│   └── login.php
+├── php
+│   ├── uploads
+│   │   ├── 1781924878_a0270213cedf8055.png
+│   │   ├── 1781931390_9aa0e4251bd5b6c0.png
+│   │   ├── 1781943847_6a15beffaefef30e.png
+│   │   ├── 1782148973_be9dfd3a97500ca5.jpg
+│   │   └── 1782150125_a59b519d0769a489.jpg
+│   ├── aksi_admin.php
+│   ├── aksi_masyarakat.php
+│   ├── aksi_opd.php
+│   ├── koneksi.php
+│   ├── logout.php
+│   ├── masuk.php
+│   ├── pengaduan.php
+│   ├── riwayat.php
+│   └── status.php
+├── index.php
+├── migrate_password.php
+├── README.md
+└── sigap_ntb.sql
+```
+
+# Sitemap
+![alt text](Assets/sitemap/Admin.jpeg) 
+![alt text](Assets/sitemap/Masyarakat.jpeg) 
+![alt text](Assets/sitemap/OPD.jpeg)
+
+# Website Users / Actors
 ### 1. Masyarakat (Public / Guest)
 Aktor publik yang dapat mengakses sistem secara langsung tanpa perlu melakukan proses registrasi atau login untuk menjaga fleksibilitas dan kecepatan pelaporan.
 * **Sitemap / Menu:**
@@ -112,3 +192,5 @@ if (!$koneksi) {
 ![Warning Undefined Variable Status](Assets/buglog3.png)
 * **Alasan Eror:** Terjadi kesalahan pemanggilan data karena variabel `$status` digunakan di dalam query SQL (baris 184), namun variabel tersebut belum dideklarasikan atau dibuat di bagian atas script PHP. Variabel yang tertera di baris 173 adalah `$progress`.
 * **Cara Penyelesaian:** Mengubah nama variabel penampung di baris 173 menjadi `$status = isset($_POST['fprogress']) ? ...` atau menyamakan nama variabel yang dipanggil di dalam query SQL agar sesuai dengan variabel yang dideklarasikan di awal script.
+
+

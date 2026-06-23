@@ -101,7 +101,6 @@ $name_user = $_SESSION['nama_lengkap'];
         </header>
 
         <?php
-            // Mengambil statistik berdasarkan progress OPD untuk OPD yang login
             $query_statistik = mysqli_query($conn,"
                 SELECT
                     COUNT(*) AS total_laporan,

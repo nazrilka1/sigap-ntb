@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const valuesData = [dataTotal, dataMenunggu, dataSelesai];
     const chartColors = ['#2563eb', '#d97706', '#16a34a']; 
 
-    // 1. Inisialisasi Grafik Batang
+    // 1.  Grafik Batang
     const barCanvas = document.getElementById('barChart');
     if (barCanvas) {
         new Chart(barCanvas, {
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // 2. Inisialisasi Grafik Lingkaran
+    // 2.  Grafik Lingkaran
     const pieCanvas = document.getElementById('pieChart');
     if (pieCanvas) {
         new Chart(pieCanvas, {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // 3. Inisialisasi Grafik Garis
+    // 3.  Grafik Garis
     const lineCanvas = document.getElementById('lineChart');
     if (lineCanvas) {
         new Chart(lineCanvas, {

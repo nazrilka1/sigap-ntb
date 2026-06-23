@@ -228,7 +228,6 @@ $name_user = $_SESSION['nama_lengkap'];
                                 <td><?= $data['tanggal_laporan'] ?></td>
 
                                 <?php
-                                    // Warna dinamis berdasarkan progress_opd
                                     $warna_bg = '';
                                     $warna_teks = '';
                                     $label_progres = '';
@@ -242,7 +241,7 @@ $name_user = $_SESSION['nama_lengkap'];
                                         $warna_teks = '#166534';
                                         $label_progres = 'selesai';
                                     } else {
-                                        $warna_bg = '#e2e8f0'; // Abu-abu default jika kosong
+                                        $warna_bg = '#e2e8f0'; 
                                         $warna_teks = '#475569';
                                         $label_progres = 'sedang dikerjakan';
                                     }

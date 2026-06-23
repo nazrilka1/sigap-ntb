@@ -12,6 +12,7 @@ if($_SESSION['role'] != 'opd'){
     header("location: ../../pages/login.php");
     exit();
 }
+
 if(isset($_POST['ubahProfil'])){
     $namaLengkap = mysqli_real_escape_string($conn, $_POST['namaLengkap']);
     $email       = mysqli_real_escape_string($conn, $_POST['email']);
@@ -151,7 +152,7 @@ $data = mysqli_fetch_assoc($tampilkan);
             
 
             <div class="profile-wrapper">
-                <!-- Kiri: Foto & Info Singkat -->
+                <!-- Kiri Foto & Info Singkat -->
                 <div class="profile-left">
                     <div class="card profile-pic-card">
                         <div class="profile-pic-container">
@@ -184,7 +185,7 @@ $data = mysqli_fetch_assoc($tampilkan);
                     </div>
                 </div>
 
-                <!-- Kanan: Form Data & Password -->
+                <!-- Kanan Form Data & Password -->
                 <div class="profile-right">
                      <!-- Form 1: Data Diri -->
                     <form method="POST">
@@ -203,7 +204,6 @@ $data = mysqli_fetch_assoc($tampilkan);
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <!-- ✅ Tambah name="email" -->
                                     <input type="email" id="email" name="email" 
                                         class="form-control" value="<?=$data['email']?>" required>
                                 </div>
@@ -216,7 +216,6 @@ $data = mysqli_fetch_assoc($tampilkan);
                         </div>
                         <div class="profile-actions">
                             <button type="reset" class="btn-action btn-outline">Reset Form</button>
-                            <!-- ✅ Typo diperbaiki: ubahProfil -->
                             <button type="submit" name="ubahProfil" class="btn-action btn-green">
                                 <i class="fas fa-save"></i> Update Profil
                             </button>
@@ -270,12 +269,9 @@ $data = mysqli_fetch_assoc($tampilkan);
         </main>
     </div>
 
-    <!-- ... kode lainnya ... -->
     <script src="../../js/components/sidebar.js"></script>
     <script src="../../js/components/utils.js"></script>
     <script src="../../js/components/modal.js"></script>
-    
-    <!-- Panggil User JS -->
     <script src="../../js/pages/profil.js"></script>
 </body>
 </html>
