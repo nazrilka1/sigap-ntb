@@ -212,3 +212,13 @@ if (!$koneksi) {
 * **Cara Penyelesaian:** Mengubah nama variabel penampung di baris 173 menjadi `$status = isset($_POST['fprogress']) ? ...` atau menyamakan nama variabel yang dipanggil di dalam query SQL agar sesuai dengan variabel yang dideklarasikan di awal script.
 
 
+##  Tampilan web
+![Parse Error Unclosed Curly Brace](Assets/tampilansigap3.png)
+* UI website SIGAP Nusa Tenggara Barat pada halaman Formulir Pengaduan dirancang dengan tampilan sederhana, rapi, dan mudah dipahami. Bagian atas terdapat navbar berisi menu Beranda, Pengaduan, Status Pengaduan, Riwayat Pengaduan, serta tombol Login. Di bagian utama, form pengaduan disusun secara terstruktur dengan input data seperti nama lengkap, NIK, alamat, jenis laporan, alamat kejadian, wilayah, deskripsi laporan, dan unggahan foto bukti. Tersedia peta interaktif untuk menandai lokasi pengaduan agar lebih akurat. Di sisi kanan terdapat panel informasi petunjuk lokasi dan keamanan data yang membantu pengguna memahami proses pengaduan dengan jelas dan aman.
+
+![Parse Error Unclosed Curly Brace](Assets/tampilansigap2.png)
+* Antarmuka pengguna (UI) halaman admin SIGAP Nusa Tenggara Barat pada menu Kelola Laporan dirancang dengan tampilan modern, sederhana, dan terstruktur untuk memudahkan pengelolaan data pengaduan. Di sisi kiri terdapat sidebar navigasi yang berisi menu Dashboard, Kelola Laporan, Pengaturan, dan Logout. Bagian utama menampilkan ringkasan statistik laporan seperti total laporan, laporan menunggu verifikasi, dan laporan yang disetujui dalam bentuk kartu informasi. Di bawahnya terdapat tabel daftar laporan yang dilengkapi fitur pencarian dan filter berdasarkan status, jenis laporan, serta tanggal. Setiap data laporan menampilkan informasi lengkap beserta tombol aksi untuk melihat, mengedit, atau mengelola laporan secara efisien.
+
+![Parse Error Unclosed Curly Brace](Assets/tampilansigap3.png)
+* Antarmuka pengguna (UI) halaman Status Pengaduan pada website SIGAP Nusa Tenggara Barat dirancang dengan tampilan modern, informatif, dan mudah digunakan. Pada bagian atas terdapat navbar yang berisi menu Beranda, Pengaduan, Status Pengaduan, Riwayat Pengaduan, serta tombol Login. Bagian hero menampilkan judul utama “Cek Status Laporan” beserta deskripsi singkat mengenai transparansi pelaporan. Di bawahnya tersedia fitur pencarian berdasarkan kode laporan dan filter wilayah/kabupaten untuk memudahkan pengguna melacak laporan. Selanjutnya, terdapat tabel daftar laporan terbaru yang menampilkan kode laporan, jenis laporan, wilayah, tanggal, dan status laporan, sehingga informasi perkembangan pengaduan dapat diakses secara jelas dan real-time.
+
